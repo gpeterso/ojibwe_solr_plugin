@@ -1,7 +1,7 @@
 package edu.umn.dls.ojibwe;
 
 import java.io.Reader;
-import org.apache.lucene.analysis.CharTokenizer;
+import org.apache.lucene.analysis.util.CharTokenizer;
 
 public class OjibweTokenizer extends CharTokenizer
 {

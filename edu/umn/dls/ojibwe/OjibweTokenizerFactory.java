@@ -4,10 +4,10 @@ import java.io.Reader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.solr.analysis.BaseTokenizerFactory;
+import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.solr.common.ResourceLoader;
 
-public class OjibweTokenizerFactory extends BaseTokenizerFactory
+public class OjibweTokenizerFactory extends TokenizerFactory
 {
     private Boolean acceptHyphens = Boolean.valueOf(false);
 

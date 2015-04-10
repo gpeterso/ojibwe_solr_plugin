@@ -1,9 +1,9 @@
 package edu.umn.dls.ojibwe;
 
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.solr.analysis.BaseTokenFilterFactory;
+import org.apache.lucene.analysis.util.TokenFilterFactory;
 
-public class OjibweHyphenizationFilterFactory extends BaseTokenFilterFactory
+public class OjibweHyphenizationFilterFactory extends TokenFilterFactory
 {
     public OjibweHyphenizationFilter create(TokenStream input)
     {

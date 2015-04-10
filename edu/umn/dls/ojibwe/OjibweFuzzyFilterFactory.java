@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.solr.analysis.BaseTokenFilterFactory;
+import org.apache.lucene.analysis.util.TokenFilterFactory;
 import org.apache.solr.common.ResourceLoader;
 
-public class OjibweFuzzyFilterFactory extends BaseTokenFilterFactory
+public class OjibweFuzzyFilterFactory extends TokenFilterFactory
 {
     private Boolean removeHyphens = Boolean.valueOf(false);
 
