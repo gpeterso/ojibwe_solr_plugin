@@ -13,8 +13,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
-import org.apache.solr.common.ResourceLoader;
-import org.apache.solr.util.plugin.ResourceLoaderAware;
+import org.apache.lucene.analysis.util.ResourceLoader;
+import org.apache.lucene.analysis.util.ResourceLoaderAware;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -25,11 +25,15 @@ public class OjibweStemmerFilterFactory extends TokenFilterFactory
 {
     private Map<String, List<StemRule>> ruleset = null;
 
+    public OjibweStemmerFilterFactory(Map<String, String> args) {
+        super(args);
+    }
+
     public void inform(ResourceLoader loader)
     {
         try
         {
-            String rulesFileName = (String)getArgs().get("ruleset");
+            String rulesFileName = "StemRules.xml";
             this.ruleset = loadRulesFile(loader, rulesFileName);
         } catch (Exception ex) {
             Logger.getLogger(OjibweStemmerFilterFactory.class.getName()).log(Level.SEVERE, null, ex);

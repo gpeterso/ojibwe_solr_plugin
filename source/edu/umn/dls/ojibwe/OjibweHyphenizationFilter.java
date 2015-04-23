@@ -6,19 +6,19 @@ import java.util.List;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 public class OjibweHyphenizationFilter extends TokenFilter
 {
-    private final TermAttribute termAttribute;
+    private final CharTermAttribute termAttribute;
     private final PositionIncrementAttribute positionAttribute;
     private final List<String> tokensList = new ArrayList();
 
     public OjibweHyphenizationFilter(TokenStream in)
     {
         super(in);
-        this.termAttribute = ((TermAttribute)addAttribute(TermAttribute.class));
-        this.positionAttribute = ((PositionIncrementAttribute)addAttribute(PositionIncrementAttribute.class));
+        this.termAttribute = addAttribute(CharTermAttribute.class);
+        this.positionAttribute = addAttribute(PositionIncrementAttribute.class);
     }
 
     public final boolean incrementToken() throws IOException
@@ -26,15 +26,16 @@ public class OjibweHyphenizationFilter extends TokenFilter
         if (!this.tokensList.isEmpty())
         {
             this.positionAttribute.setPositionIncrement(0);
-            this.termAttribute.setTermBuffer((String)this.tokensList.remove(0));
+            this.termAttribute.copyBuffer(this.tokensList.remove(0).toCharArray(), 0, this.termAttribute.length());
             return true;
         }
 
         while (this.input.incrementToken()) {
-            hyphenate(this.termAttribute.term());
+            String token = new String(this.termAttribute.buffer());
+            hyphenate(token);
             if (!this.tokensList.isEmpty()) {
                 this.positionAttribute.setPositionIncrement(1);
-                this.termAttribute.setTermBuffer((String)this.tokensList.remove(0));
+                this.termAttribute.copyBuffer(this.tokensList.remove(0).toCharArray(), 0, this.termAttribute.length());
                 return true;
             }
         }
