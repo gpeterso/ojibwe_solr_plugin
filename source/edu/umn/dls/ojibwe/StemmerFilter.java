@@ -25,16 +25,18 @@ public class StemmerFilter extends TokenFilter
     {
         if (this.stemmer.hasNext())
         {
+            String token = this.stemmer.next().trim();
             this.positionAttribute.setPositionIncrement(0);
-            this.termAttribute.copyBuffer(this.stemmer.next().toCharArray(), 0, this.termAttribute.length());
+            this.termAttribute.setEmpty().append(token);
             return true;
         }
 
         while (this.input.incrementToken()) {
-            this.stemmer.setToken(new String(this.termAttribute.buffer()));
+            this.stemmer.setToken(new String(this.termAttribute.buffer()).trim());
             if (this.stemmer.hasNext()) {
+                String token = this.stemmer.next();
                 this.positionAttribute.setPositionIncrement(1);
-                this.termAttribute.copyBuffer(this.stemmer.next().toCharArray(),0,this.termAttribute.length());
+                this.termAttribute.setEmpty().append(token);
                 return true;
             }
         }

@@ -23,12 +23,11 @@ public class RewriteFilter extends TokenFilter
     {
         if (this.input.incrementToken()) {
             char[] tokenCharArray = this.termAttribute.buffer();
-            String token = new String(tokenCharArray);
+            String token = new String(tokenCharArray).trim();
             for (String[] pair : this.substitutions) {
                 token = token.replaceAll(pair[0], pair[1]);
             }
-            tokenCharArray = token.toCharArray();
-            this.termAttribute.copyBuffer(tokenCharArray,0,this.termAttribute.length());
+            this.termAttribute.setEmpty().append(token);
             return true;
         }
         return false;

@@ -26,16 +26,16 @@ public class OjibweHyphenizationFilter extends TokenFilter
         if (!this.tokensList.isEmpty())
         {
             this.positionAttribute.setPositionIncrement(0);
-            this.termAttribute.copyBuffer(this.tokensList.remove(0).toCharArray(), 0, this.termAttribute.length());
+            this.termAttribute.setEmpty().append(this.tokensList.remove(0).trim());
             return true;
         }
 
         while (this.input.incrementToken()) {
-            String token = new String(this.termAttribute.buffer());
+            String token = new String(this.termAttribute.buffer()).trim();
             hyphenate(token);
             if (!this.tokensList.isEmpty()) {
                 this.positionAttribute.setPositionIncrement(1);
-                this.termAttribute.copyBuffer(this.tokensList.remove(0).toCharArray(), 0, this.termAttribute.length());
+                this.termAttribute.setEmpty().append(this.tokensList.remove(0));
                 return true;
             }
         }

@@ -21,7 +21,7 @@ public class OjibweTokenizerFactory extends TokenizerFactory
     {
         try
         {
-            this.acceptHyphens = Boolean.valueOf("true".equalsIgnoreCase(this.get(this.getOriginalArgs(), "acceptHyphens")));
+            this.acceptHyphens = "true".equalsIgnoreCase(this.get(this.getOriginalArgs(), "acceptHyphens"));
         } catch (Exception ex) {
             Logger.getLogger(OjibweTokenizerFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
