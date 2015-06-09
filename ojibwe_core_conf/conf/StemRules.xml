@@ -1,0 +1,3839 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : StemRules.xml
+    Created on : March 11, 2011, 7:42 PM
+    Author     : Ben Preece
+    Description:
+
+    Noun Paradigms: (lemma -> plural)
+        Noun Class 1        consonant noun stems
+            Noun Class 1A       regular consonant noun stems: jiimaan (X -> Xag)
+            Noun Class 1B       shorter consonant noun stems: nika (X -> Xg)
+            Noun Class 1C       consonant /ny/ noun stems: awesiinh (Xnh -> Xnyag)
+            Noun Class 1D       consonant /y/ noun stems: nimaamaa (X -> Xyag)
+        Noun Class 2        long vowel-w noun stems
+            Noun Class 2A       w-loss noun stems: anishinaabe (X -> Xg)
+            Noun Class 2B       /w/ noun stems: ikwe (X -> wag)
+        Noun Class 3        short vowel-w noun stems: inini (X -> Xwag)
+        Noun Class 4        consonant-w noun stems
+            Noun Class 4A       /oo/ noun stems: mitig (X -> Xoog)
+            Noun Class 4B       /w/ noun stems: amik (X -> Xoog)
+            Noun Class 4C       shorter consonant-w noun stems: makwa (X -> Xg)
+        Noun Class 5        consonant-y noun stems
+            Noun Class 5A       regular consonant-y noun stems: asin (X -> Xiig)
+            Noun Class 5B       shorter consonant-y noun stems: aki (Xi -> Xiig)
+        Noun Class 6        special /aa/ noun stems: inzid (X -> Xag)
+
+    Verb Paradigms: (lemma -> 3s neg.)
+        VII                 intrasitive inanimate verbs
+            VII Class 1         vii long vowel stems
+            VII Class 2         vii short vowel stems
+            VII Class 2A    vii short vowel stems; no /n/
+            VII Class 2B    vii short vowel stems; some /n/
+            VII Class 2C    vii short vowel stems; always /n/
+            VII Class 3         vii consonant stems
+            VII Class 3A    vii consonant /d/ stems
+            VII Class 3B    vii consonant /n/ stems
+        VAI                 intransitive animate verbs
+            VAI Class 1         vai vowel stem
+            VAI Class 1A    vai long vowel stems
+            VAI Class 1B    vai short vowel stems
+            VAI Class 2         vai consonant stems
+            VAI Class 2A    vai consonant /n/ stems
+            VAI Class 2B    vai consonant /m/ stems
+        VAI2                vai2 /am/ stems
+        VTI                 transitive inanimate verbs
+            VTI1                vti /am/ stems
+            VTI2                vti /oo/ stems
+            VTI3                vti /i/ stems
+            VTI4                vti /aa/ stems
+        VTA                 transitive animate verbs
+            VTA Class 1     vta consonant stems
+            VTA Class 1A    vta regular consonant stems
+            VTA Class 1B    vta shorter consonant stems
+            VTA Class 2     vta changeable /N/ stems
+            VTA Class 2A    vta regular changeable /N/ stems
+            VTA Class 2B    vta shorter changeable /N/ stems
+            VTA Class 3     vta changeable /s/ stems
+            VTA Class 3A    vta regular changeable /s/ stems
+            VTA Class 3B    vta shorter changeable /s/ stems
+            VTA Class 4     vta changeable /Nn/ stems
+            VTA Class 4A    vta regular changeable /Nn/ stems
+            VTA Class 4B    vta shorter changeable /Nn/ stems
+            VTA Class 5     vta /aw/ stems
+            VTA Class 6     vta consonant-w stems
+            VTA Class 6A    vta regular consonant-w stems
+            VTA Class 6B    vta shorter consonant-w stems
+            VTA Class 7     vta glottal-w stems
+            VTA Class 8     vta irregular stems
+
+    The following doc-type describes the required format of this file.
+    Basically:
+
+        1)  The root tag is "stem-rules", which comprises zero or more
+            "rule-set" tags, which comprise zero or more "rule" tags.
+
+        2)  The stem-rules tag may optionally have a "name" attribute which
+            can be used to identify the set of stem rules.
+
+        3)  A "rule-set" is required to have a "name" attribute, which is
+            a unique identifier that the stemmer code uses to locate the
+            rule-set in the file.
+
+        4)  Each "rule" has two attributes: a "regex" and a "format".
+
+    (See the javadocs for the StemRule class for more information.)
+-->
+<!DOCTYPE stem-rules [
+    <!ELEMENT stem-rules (rule-set*)>
+    <!ELEMENT rule-set (rule*)>
+    <!ELEMENT rule (EMPTY)>
+    <!ATTLIST stem-rules name ID #IMPLIED>
+    <!ATTLIST rule-set name ID #REQUIRED>
+    <!ATTLIST rule regex CDATA #REQUIRED>
+    <!ATTLIST rule format CDATA #REQUIRED>
+]>
+
+<stem-rules name="Ojibwe-stemming-rules">
+    <!--
+        Person prefix rule:  these are used for both nouns and verbs.
+    -->
+    <rule-set name="1stPersonPrefixRules">
+        <!-- 1st person possessor prefixes -->
+        <rule regex="nind?([aei].*)" format="{1}" />
+        <rule regex="ind?([aei].*)" format="{1}" />
+        <rule regex="nd?([aei].*)" format="{1}" />
+        <rule regex="nindo(o.*)" format="{1}" />
+        <rule regex="indo(o.*)" format="{1}" />
+        <rule regex="ndo(o.*)" format="{1}" />
+        <rule regex="n(ii.*)" format="{1}" />
+        <rule regex="n(oo.*)" format="{1}" />
+        <rule regex="nim(b.*)" format="{1}" />
+        <rule regex="im(b.*)" format="{1}" />
+        <rule regex="m(b.*)" format="{1}" />
+        <rule regex="nin([dgjz'].*)" format="{1}" />
+        <rule regex="in([dgjz'].*)" format="{1}" />
+        <rule regex="n([dgjz'].*)" format="{1}" />
+        <rule regex="ni([chkmnpstwy].*)" format="{1}" />
+    </rule-set>
+    <rule-set name="2ndPersonPrefixRules">
+        <!-- 2nd person possessor prefixes -->
+        <rule regex="gid([aei].*)" format="{1}" />
+        <rule regex="gido(o.*)" format="{1}" />
+        <rule regex="g(ii.*)" format="{1}" />
+        <rule regex="g(oo.*)" format="{1}" />
+        <rule regex="gi([bcdghjkmnpstwyz'].*)" format="{1}" />
+    </rule-set>
+    <rule-set name="3rdPersonPrefixRules">
+        <!-- 3rd person possessor prefixes -->
+        <rule regex="od([aei].*)" format="{1}" />
+        <rule regex="odo(o.*)" format="{1}" />
+        <rule regex="w(ii.*)" format="{1}" />
+        <rule regex="od(oo.*)" format="{1}" />
+        <rule regex="o([bcdghjkmnpstwyz'].*)" format="{1}" />
+    </rule-set>
+
+    <!--
+        NOUN RULES:
+        +====+====+=====+=====+=====+========+=====+=====+
+        |    |    |Dimin|     |     |Poss Pl/|     |Plur/|
+        |Poss|Stem|/Cont|Theme|Pejor|Obv Poss|Pret |Obv. |
+        +====+====+=====+=====+=====+========+=====+=====+
+        | n- | -  |-Vns | -aa |-Vsh |-Vnaan  |-Vban|-Vg  |
+        | g- |    |-Vnh | -Vm |     |-Vwaa   |     |-Vn  |
+        | w- |    |     |     |     |-Vni    |     |-Vn  |
+        |    |    |     |     |     |        |     +=====+
+        |    |    |     |     |     |        |     |Loc  |
+        |    |    |     |     |     |        |     +=====+
+        |    |    |     |     |     |        |     |-Vng |
+        |    |    |     |     |     |        +===========+
+        |    |    |     |     |     |        |Voc Pl     |
+        |    |    |     |     |     |        +===========+
+        |    |    |     |     |     |        |-Vdig      |
+        |    |    |     |     |     |        |-Vdog      |
+        +====+====+=====+=====+=====+========+=====+=====+
+
+        except that for possessed nound, the pejorative ending
+        can come before the theme.
+    -->
+    <rule-set name="singularRules">
+        <!-- I,VI -->
+        <rule regex="(.*nh)" format="{1}y" />
+        <!-- II-IV -->
+        <rule regex="(.*[^wy])" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*[^wy])" format="{1}y" />
+    </rule-set>
+    <rule-set name="diminutiveRules">
+        <!-- I -->
+        <rule regex="(.*ii)ns" format="{1}" />
+        <rule regex="(.*)ens" format="{1}" />
+        <rule regex="(.*aa)ns" format="{1}nhy" />
+        <rule regex="(.*e)ns" format="{1}nhy" />
+        <rule regex="(.*ii)ns" format="{1}nhy" />
+        <rule regex="(.*oo)ns" format="{1}nhy" />
+        <!-- II -->
+        <rule regex="(.*aa)ns" format="{1}w" />
+        <rule regex="(.*e)ns" format="{1}w" />
+        <rule regex="(.*ii)ns" format="{1}w" />
+        <rule regex="(.*oo)ns" format="{1}w" />
+        <!-- III -->
+        <rule regex="(.*)aans" format="{1}aw" />
+        <rule regex="(.*)iins" format="{1}iw" />
+        <rule regex="(.*)oons" format="{1}ow" />
+        <!-- IV -->
+        <rule regex="(.*)oons" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iins" format="{1}y" />
+        <!-- VI -->
+        <rule regex="(.*)aans" format="{1}" />
+        <rule regex="(.*)aans" format="{1}an" />
+    </rule-set>
+    <rule-set name="contemptiveRules">
+        <!-- I -->
+        <rule regex="(.*)enhy?" format="{1}" />
+        <rule regex="(.*)nhy?" format="{1}nhy" />
+        <!-- II, IV -->
+        <rule regex="(.*)nhy?" format="{1}w" />
+        <!-- III -->
+        <rule regex="(.*)aanhy?" format="{1}aw" />
+        <rule regex="(.*)iinhy?" format="{1}iw" />
+        <rule regex="(.*)oonhy?" format="{1}ow" />
+        <!-- V -->
+        <rule regex="(.*)iinhy?" format="{1}y" />
+        <!-- VI -->
+        <rule regex="(.*)aanhy?" format="{1}" />
+        <rule regex="(.*)aanhy?" format="{1}an" />
+    </rule-set>
+    <rule-set name="possesssorThemeRules">
+        <!-- I, II, III, IV, V -->
+        <rule regex="(.*[aeio]m)" format="{1}" />
+        <rule regex="(.*[^imn]im)" format="{1}" />
+        <!-- VI -->
+        <rule regex="(.*)aam" format="{1}" />
+        <rule regex="(.*a)am" format="{1}" />
+    </rule-set>
+    <rule-set name="pejorativeRules">
+        <!-- I -->
+        <rule regex="(.*)ish" format="{1}" />
+        <rule regex="(.*aa)sh" format="{1}nhy" />
+        <rule regex="(.*e)sh" format="{1}nhy" />
+        <rule regex="(.*ii)sh" format="{1}nhy" />
+        <rule regex="(.*oo)sh" format="{1}nhy" />
+        <!-- II -->
+        <rule regex="(.*aa)sh" format="{1}w" />
+        <rule regex="(.*e)sh" format="{1}w" />
+        <rule regex="(.*ii)sh" format="{1}w" />
+        <rule regex="(.*oo)sh" format="{1}w" />
+        <!-- III -->
+        <rule regex="(.*[aio]w)ish" format="{1}" />
+        <!-- IV -->
+        <rule regex="(.*[^o])osh" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iish" format="{1}y" />
+        <!-- VI -->
+        <rule regex="(.*)aash" format="{1}" />
+        <rule regex="(.*)aash" format="{1}an" />
+    </rule-set>
+    <rule-set name="possesssorPluralRules">
+        <rule regex="(.*[mn])inaan" format="{1}" />
+        <rule regex="(.*[mn])iwaa" format="{1}" />
+        <rule regex="(.*[mn])anini" format="{1}" />
+    </rule-set>
+    <rule-set name="preteriteRules">
+        <!-- I,III -->
+        <rule regex="(.*)iban" format="{1}" />
+        <!-- II -->
+        <rule regex="(.*aa)ban" format="{1}w" />
+        <rule regex="(.*e)ban" format="{1}w" />
+        <rule regex="(.*ii)ban" format="{1}w" />
+        <rule regex="(.*oo)ban" format="{1}w" />
+        <!-- IV -->
+        <rule regex="(.*)oban" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iiban" format="{1}y" />
+        <!-- VI -->
+        <rule regex="(.*)aaban" format="{1}" />
+        <rule regex="(.*)aaban" format="{1}an" />
+        <!-- after possessive plural suffix -->
+        <rule regex="(.*naan)iban" format="{1}" />
+        <rule regex="(.*waa)ban" format="{1}" />
+        <rule regex="(.*ni)ban" format="{1}" />
+    </rule-set>
+    <rule-set name="pluralAndObviativeRules">
+        <!-- animate plural -->
+        <!-- I,III,IVb,VI -->
+        <rule regex="(.*[^a])ag" format="{1}" />
+        <rule regex="(.*aa)nyag" format="{1}nhy" />
+        <rule regex="(.*e)nyag" format="{1}nhy" />
+        <rule regex="(.*ii)nyag" format="{1}nhy" />
+        <rule regex="(.*oo)nyag" format="{1}nhy" />
+        <!-- II -->
+        <rule regex="(.*aa)g" format="{1}w" />
+        <rule regex="(.*e)g" format="{1}w" />
+        <rule regex="(.*ii)g" format="{1}w" />
+        <rule regex="(.*oo)g" format="{1}w" />
+        <!-- IVa -->
+        <rule regex="(.*)oog" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iig" format="{1}y" />
+        <!-- inanimate plural / obviative -->
+        <!-- I,III,IVb,VI -->
+        <rule regex="(.*ii)n" format="{1}" />
+        <rule regex="(.*[^a])an" format="{1}" />
+        <rule regex="(.*[^i])in" format="{1}" />
+        <rule regex="(.*aa)nyan" format="{1}nhy" />
+        <rule regex="(.*e)nyan" format="{1}nhy" />
+        <rule regex="(.*ii)nyan" format="{1}nhy" />
+        <rule regex="(.*oo)nyan" format="{1}nhy" />
+        <!-- II -->
+        <rule regex="(.*a)n" format="{1}w" />
+        <rule regex="(.*e)n" format="{1}w" />
+        <rule regex="(.*ii)n" format="{1}w" />
+        <rule regex="(.*oo)n" format="{1}w" />
+        <!-- IVa -->
+        <rule regex="(.*)oon" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iin" format="{1}y" />
+        <!-- plural / obviative after possessor plural suffix -->
+        <rule regex="(.*naan)i[ng]" format="{1}" />
+        <rule regex="(.*waa)[ng]" format="{1}" />
+        <rule regex="(.*ni)[ng]" format="{1}" />
+        <!-- Participles -->
+        <rule regex="(.*)jig" format="{1}d" />
+    </rule-set>
+    <rule-set name="locativeRules">
+        <!-- NX NLOCA -->
+        <!-- I -->
+        <rule regex="(.*[^i])ing" format="{1}" />
+        <rule regex="(.*aa)nying" format="{1}nhy" />
+        <rule regex="(.*e)nying" format="{1}nhy" />
+        <rule regex="(.*ii)nying" format="{1}nhy" />
+        <rule regex="(.*oo)nying" format="{1}nhy" />
+        <!-- II -->
+        <rule regex="(.*aa)ng" format="{1}w" />
+        <rule regex="(.*e)ng" format="{1}w" />
+        <rule regex="(.*ii)ng" format="{1}w" />
+        <rule regex="(.*oo)ng" format="{1}w" />
+        <!-- III -->
+        <rule regex="(.*)iing" format="{1}iw" />
+        <rule regex="(.*)aang" format="{1}aw" />
+        <!-- IV -->
+        <rule regex="(.*[^o])ong" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iing" format="{1}y" />
+        <rule regex="(.*a)ang" format="{1}y" />
+        <!-- VI -->
+        <rule regex="(.*)aang" format="{1}" />
+        <rule regex="(.*)aang" format="{1}an" />
+        <!-- after possessive plural -->
+        <rule regex="(.*naan)ing" format="{1}" />
+        <rule regex="(.*waa)ng" format="{1}" />
+        <rule regex="(.*ni)ng" format="{1}" />
+    </rule-set>
+    <rule-set name="vocativeRules">
+        <!-- I -->
+        <rule regex="(.*)id[io]g" format="{1}" />
+        <rule regex="(.*aa)d[io]g" format="{1}nhy" />
+        <rule regex="(.*e)d[io]g" format="{1}nhy" />
+        <rule regex="(.*ii)d[io]g" format="{1}nhy" />
+        <rule regex="(.*oo)d[io]g" format="{1}nhy" />
+        <!-- II -->
+        <rule regex="(.*aa)d[io]g" format="{1}w" />
+        <rule regex="(.*e)d[io]g" format="{1}w" />
+        <rule regex="(.*ii)d[io]g" format="{1}w" />
+        <rule regex="(.*oo)d[io]g" format="{1}w" />
+        <!-- III -->
+        <rule regex="(.*w)id[io]g" format="{1}w" />
+        <!-- IV -->
+        <rule regex="(.*[^o])od[io]g" format="{1}w" />
+        <!-- V -->
+        <rule regex="(.*)iid[io]g" format="{1}y" />
+        <!-- VI -->
+        <rule regex="(.*)aad[io]g" format="{1}" />
+        <!-- after possessive plural suffix -->
+        <rule regex="(.*waa)d[io]g" format="{1}w" />
+        <rule regex="(.*ni)d[io]g" format="{1}w" />
+    </rule-set>
+
+    <!--
+        VERB RULES
+    -->
+    <rule-set name="preverbRules">
+        <rule regex="aano(.*)" format="{1}" />
+        <rule regex="bwaa(.*)" format="{1}" />
+        <rule regex="de(.*)" format="{1}" />
+        <rule regex="daa(.*)" format="{1}" />
+        <rule regex="ga(.*)" format="{1}" />
+        <rule regex="gaa(.*)" format="{1}" />
+        <rule regex="gad([aeio].*)" format="{1}" />
+        <rule regex="ge(.*)" format="{1}" />
+        <rule regex="gii(.*)" format="{1}" />
+        <rule regex="ji(.*)" format="{1}" />
+        <rule regex="jibwaa(.*)" format="{1}" />
+        <rule regex="waa(.*)" format="{1}" />
+        <rule regex="wii(.*)" format="{1}" />
+    </rule-set>
+    <rule-set name="conjunctLengthRules">
+        <rule regex="e(.*)" format="a{1}" />
+        <rule regex="ayaa(.*)" format="aa{1}" />
+        <rule regex="aye(.*)" format="e{1}" />
+        <rule regex="e(.*)" format="i{1}" />
+        <rule regex="aa(.*)" format="ii{1}" />
+        <rule regex="we(.*)" format="o{1}" />
+        <rule regex="waa(.*)" format="oo{1}" />
+        <rule regex="([bdgjmnwz]|zh)e(.*)" format="{1}a{2}" />
+        <rule regex="([bdgjmnwz]|zh)ayaa(.*)" format="{1}aa{2}" />
+        <rule regex="([bdgjmnwz]|zh)aye(.*)" format="{1}e{2}" />
+        <rule regex="([bdgjmnwz]|zh)e(.*)" format="{1}i{2}" />
+        <rule regex="([bdgjmnwz]|zh)aa(.*)" format="{1}ii{2}" />
+        <rule regex="([bdgjmnwz]|zh)we(.*)" format="{1}o{2}" />
+        <rule regex="([bdgjmnwz]|zh)waa(.*)" format="{1}oo{2}" />
+        <rule regex="en(da[ansz].*)" format="{1}" />
+    </rule-set>
+    <!--
+        vaiIndependentRules
+        vowel stem: minikwe
+        consonant stem: dagoshin
+        'o' stem: inoomigo
+        'i' stem: anwebi
+        'am' stem: nisidot
+    -->
+    <rule-set name="vaiIndependentRules">
+        <!-- positive -->
+        <!-- 2s, 1s -->
+        <rule regex="(.*)" format="{1}" />
+        <rule regex="(.*[^aeio])" format="{1}i" />
+        <rule regex="(.*[^aeio])" format="{1}o" />
+        <rule regex="(.*)am" format="{1}" />
+        <!-- 2p -->
+        <rule regex="(.*[aeio])m" format="{1}" />
+        <rule regex="(.*)im" format="{1}" />
+        <rule regex="(.*)aam" format="{1}" />
+        <!-- 12, 1p -->
+        <rule regex="(.*)min" format="{1}" />
+        <rule regex="(.*)imin" format="{1}" />
+        <rule regex="(.*)amin" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*)" format="{1}" />
+        <rule regex="(.*)am" format="{1}" />
+        <!-- 3p -->
+        <rule regex="(.*)wag" format="{1}" />
+        <rule regex="(.*)og" format="{1}" />
+        <rule regex="(.*)amog" format="{1}" />
+        <!-- negative -->
+        <!-- 2s, 1s, 3s -->
+        <rule regex="(.*)siin?" format="{1}" />
+        <rule regex="(.*n)ziin?" format="{1}" />
+        <rule regex="(.*a)nziin?" format="{1}m" />
+        <rule regex="(.*)anziin?" format="{1}" />
+        <!-- 2p -->
+        <rule regex="(.*)siim" format="{1}" />
+        <rule regex="(.*n)ziim" format="{1}" />
+        <rule regex="(.*a)nziim" format="{1}m" />
+        <rule regex="(.*)anziim" format="{1}" />
+        <!-- 12, 1p -->
+        <rule regex="(.*)siimin" format="{1}" />
+        <rule regex="(.*n)ziiimin" format="{1}" />
+        <rule regex="(.*a)nziiimin" format="{1}m" />
+        <rule regex="(.*)anziimin" format="{1}" />
+        <!-- 3p -->
+        <rule regex="(.*)siiwag" format="{1}" />
+        <rule regex="(.*)wagsiiwag" format="{1}" />
+        <rule regex="(.*n)ziiwag" format="{1}" />
+        <rule regex="(.*a)nziiwag" format="{1}m" />
+        <rule regex="(.*)anziiwag" format="{1}" />
+    </rule-set>
+    <rule-set name="vaiPreteriteRules">
+        <!-- positive -->
+        <!-- 2s, 1s -->
+        <rule regex="(.*)naaban" format="{1}" />
+        <rule regex="(.*)anaaban" format="{1}" />
+        <!-- 2p -->
+        <rule regex="(.*)mwaaban" format="{1}" />
+        <rule regex="(.*)amwaaban" format="{1}" />
+        <!-- 12, 1p -->
+        <rule regex="(.*)minaaban" format="{1}" />
+        <rule regex="(.*)aminaaban" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*)ban" format="{1}" />
+        <rule regex="(.*)aban" format="{1}" />
+        <rule regex="(.*)amaban" format="{1}" />
+        <!-- 3p -->
+        <rule regex="(.*)baniig" format="{1}" />
+        <rule regex="(.*)abaniig" format="{1}" />
+        <rule regex="(.*)amabaniig" format="{1}" />
+        <!-- negative -->
+        <!-- 2s, 1s -->
+        <rule regex="(.*)siinaaban" format="{1}" />
+        <rule regex="(.*n)ziinaaban" format="{1}" />
+        <rule regex="(.*a)nziinaaban" format="{1}m" />
+        <rule regex="(.*)anziinaaban" format="{1}" />
+        <!-- 2p -->
+        <rule regex="(.*)siimwaaban" format="{1}" />
+        <rule regex="(.*n)ziimwaaban" format="{1}" />
+        <rule regex="(.*a)nziimwaaban" format="{1}m" />
+        <rule regex="(.*)anziimwaaban" format="{1}" />
+        <!-- 12, 1p -->
+        <rule regex="(.*)siiminaaban" format="{1}" />
+        <rule regex="(.*n)ziiminaaban" format="{1}" />
+        <rule regex="(.*a)nziiminaaban" format="{1}m" />
+        <rule regex="(.*)anziiminaaban" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*)siiban" format="{1}" />
+        <rule regex="(.*n)ziiban" format="{1}" />
+        <rule regex="(.*a)nziiban" format="{1}m" />
+        <rule regex="(.*)anziiban" format="{1}" />
+        <!-- 3p -->
+        <rule regex="(.*)siibaniig" format="{1}" />
+        <rule regex="(.*n)ziibaniig" format="{1}" />
+        <rule regex="(.*a)nziibaniig" format="{1}m" />
+        <rule regex="(.*)anziibaniig" format="{1}" />
+    </rule-set>
+    <rule-set name="vaiDubitativeRules">
+        <!-- positive -->
+        <!-- 2s, 1s -->
+        <rule regex="(.*)naadog" format="{1}" />
+        <rule regex="(.*)anaadog" format="{1}" />
+        <!-- 2p, 12, 1p. X, 3p, 3' -->
+        <rule regex="(.*)" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*[aeio])dog" format="{1}" />
+        <!-- negative -->
+        <!-- 2s, 1s -->
+        <rule regex="(.*)siinaadog" format="{1}" />
+        <rule regex="(.*n)ziinaadog" format="{1}" />
+        <rule regex="(.*a)nziinaadog" format="{1}m" />
+        <rule regex="(.*)siinaadog" format="{1}" />
+        <!-- 2p, 12, 1p. X, 3p, 3' -->
+        <rule regex="(.*)sii" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*[aeio])siidog" format="{1}" />
+    </rule-set>
+    <rule-set name="vaiDubitativePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)goban" format="{1}" />
+        <rule regex="(.*)nigoban" format="{1}" />
+        <rule regex="(.*)migoban" format="{1}" />
+        <rule regex="(.*)waagoban" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)siigoban" format="{1}" />
+        <rule regex="(.*sii)nigoban" format="{1}" />
+        <rule regex="(.*)siimigoban" format="{1}" />
+        <rule regex="(.*)siiwaagoban" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])agoban" format="{1}" />
+        <rule regex="(.*[mn])inigoban" format="{1}" />
+        <rule regex="(.*[mn])amigoban" format="{1}" />
+        <rule regex="(.*[mn])awaagoban" format="{1}" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)ziigoban" format="{1}" />
+        <rule regex="(.*n)ziinigoban" format="{1}" />
+        <rule regex="(.*n)ziimigoban" format="{1}" />
+        <rule regex="(.*n)ziiwaagoban" format="{1}" />
+        <rule regex="(.*)nziigoban" format="{1}m" />
+        <rule regex="(.*)nziinigoban" format="{1}m" />
+        <rule regex="(.*)nziimigoban" format="{1}m" />
+        <rule regex="(.*)nziiwaagoban" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiConjunctRules">
+        <!-- positive -->
+        <!-- 2s -->
+        <rule regex="(.*)yan" format="{1}" />
+        <rule regex="(.*)an" format="{1}" />
+        <rule regex="(.*)aman" format="{1}" />
+        <!-- 2p -->
+        <rule regex="(.*)yeg" format="{1}" />
+        <rule regex="(.*)eg" format="{1}" />
+        <rule regex="(.*)ameg" format="{1}" />
+        <!-- 12 -->
+        <rule regex="(.*)yang" format="{1}" />
+        <rule regex="(.*)ang" format="{1}" />
+        <rule regex="(.*)amang" format="{1}" />
+        <!-- 1s -->
+        <rule regex="(.*)yaan" format="{1}" />
+        <rule regex="(.*)aan" format="{1}" />
+        <rule regex="(.*)amaan" format="{1}" />
+        <!-- 1p -->
+        <rule regex="(.*)yaang" format="{1}" />
+        <rule regex="(.*)aang" format="{1}" />
+        <rule regex="(.*)amaang" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*)d" format="{1}" />
+        <rule regex="(.*n)g" format="{1}" />
+        <rule regex="(.*a)ng" format="{1}m" />
+        <rule regex="(.*)ang" format="{1}" />
+        <!-- 3p -->
+        <rule regex="(.*)waad" format="{1}" />
+        <rule regex="(.*)owaad" format="{1}" />
+        <rule regex="(.*)amowaad" format="{1}" />
+        <!-- 3' -->
+        <rule regex="(.*)nid" format="{1}" />
+        <rule regex="(.*[mn])nid" format="{1}" />
+        <rule regex="(.*)aminid" format="{1}" />
+        <!-- positive -->
+        <!-- 2s -->
+        <rule regex="(.*)siiyan" format="{1}" />
+        <rule regex="(.*n)ziiyan" format="{1}" />
+        <rule regex="(.*a)nziiyan" format="{1}m" />
+        <rule regex="(.*)anziiyan" format="{1}" />
+        <!-- 2p -->
+        <rule regex="(.*)siiyeg" format="{1}" />
+        <rule regex="(.*n)ziiyeg" format="{1}" />
+        <rule regex="(.*a)nziiyeg" format="{1}m" />
+        <rule regex="(.*)anziiyeg" format="{1}" />
+        <!-- 12 -->
+        <rule regex="(.*)siiyang" format="{1}" />
+        <rule regex="(.*n)ziiyang" format="{1}" />
+        <rule regex="(.*a)nziiyang" format="{1}m" />
+        <rule regex="(.*)anziiyang" format="{1}" />
+        <!-- 1s -->
+        <rule regex="(.*)siiyaan" format="{1}" />
+        <rule regex="(.*n)ziiyaan" format="{1}" />
+        <rule regex="(.*a)nziiyaan" format="{1}m" />
+        <rule regex="(.*)anziiyaan" format="{1}" />
+        <!-- 1p -->
+        <rule regex="(.*)siiyaang" format="{1}" />
+        <rule regex="(.*n)ziiyaang" format="{1}" />
+        <rule regex="(.*a)nziiyaang" format="{1}m" />
+        <rule regex="(.*)anziiyaang" format="{1}" />
+        <!-- 3s -->
+        <rule regex="(.*)siid" format="{1}" />
+        <rule regex="(.*n)ziid" format="{1}" />
+        <rule regex="(.*a)nziid" format="{1}m" />
+        <rule regex="(.*)anziid" format="{1}" />
+        <!-- 3p -->
+        <rule regex="(.*)siigwaa" format="{1}" />
+        <rule regex="(.*n)ziigwaa" format="{1}" />
+        <rule regex="(.*a)nziigwaa" format="{1}m" />
+        <rule regex="(.*)anziigwaa" format="{1}" />
+        <!-- 3' -->
+        <rule regex="(.*)siinid" format="{1}" />
+        <rule regex="(.*n)ziinid" format="{1}" />
+        <rule regex="(.*a)nziinid" format="{1}m" />
+        <rule regex="(.*)anziinid" format="{1}" />
+    </rule-set>
+    <rule-set name="vaiConjunctPreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)yaambaanh" format="{1}" />
+        <rule regex="(.*)yamban" format="{1}" />
+        <rule regex="(.*)pan" format="{1}" />
+        <rule regex="(.*)nipan" format="{1}" />
+        <rule regex="(.*)ngiban" format="{1}" />
+        <rule regex="(.*)yaangiban" format="{1}" />
+        <rule regex="(.*)yangiban" format="{1}" />
+        <rule regex="(.*)yegoban" format="{1}" />
+        <rule regex="(.*)waapan" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sii?waambaanh" format="{1}" />
+        <rule regex="(.*)sii?wamban" format="{1}" />
+        <rule regex="(.*)siipan" format="{1}" />
+        <rule regex="(.*)siinipan" format="{1}" />
+        <rule regex="(.*)siingiban" format="{1}" />
+        <rule regex="(.*)sii?waangiban" format="{1}" />
+        <rule regex="(.*)sii?wangiban" format="{1}" />
+        <rule regex="(.*)sii?wegoban" format="{1}" />
+        <rule regex="(.*)sii?waapan" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])aambaanh" format="{1}" />
+        <rule regex="(.*[mn])amban" format="{1}" />
+        <rule regex="(.*n)gipan" format="{1}" />
+        <rule regex="(.*)ngipan" format="{1}m" />
+        <rule regex="(.*[mn])inipan" format="{1}" />
+        <rule regex="(.*[mn])ingiban" format="{1}" />
+        <rule regex="(.*[mn])aangiban" format="{1}" />
+        <rule regex="(.*[mn])angiban" format="{1}" />
+        <rule regex="(.*[mn])egoban" format="{1}" />
+        <rule regex="(.*[mn])awaapan" format="{1}" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)zii?waambaanh" format="{1}" />
+        <rule regex="(.*n)zii?wamban" format="{1}" />
+        <rule regex="(.*n)ziipan" format="{1}" />
+        <rule regex="(.*n)ziinipan" format="{1}" />
+        <rule regex="(.*n)ziingiban" format="{1}" />
+        <rule regex="(.*n)zii?waangiban" format="{1}" />
+        <rule regex="(.*n)zii?wangiban" format="{1}" />
+        <rule regex="(.*n)zii?wegoban" format="{1}" />
+        <rule regex="(.*n)zii?waapan" format="{1}" />
+        <rule regex="(.*)nzii?waambaanh" format="{1}m" />
+        <rule regex="(.*)nzii?wamban" format="{1}m" />
+        <rule regex="(.*)nziipan" format="{1}m" />
+        <rule regex="(.*)nziinipan" format="{1}m" />
+        <rule regex="(.*)nziingiban" format="{1}m" />
+        <rule regex="(.*)nzii?waangiban" format="{1}m" />
+        <rule regex="(.*)nzii?wangiban" format="{1}m" />
+        <rule regex="(.*)nzii?wegoban" format="{1}m" />
+        <rule regex="(.*)nzii?waapan" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiConjunctDubitativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)waanen" format="{1}" />
+        <rule regex="(.*)wanen" format="{1}" />
+        <rule regex="(.*)gwenh" format="{1}" />
+        <rule regex="(.*)nigwenh" format="{1}" />
+        <rule regex="(.*)ngwenh" format="{1}" />
+        <rule regex="(.*)waangen" format="{1}" />
+        <rule regex="(.*)wangwen" format="{1}" />
+        <rule regex="(.*)wegwen" format="{1}" />
+        <rule regex="(.*)waagwenh" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sii?waanen" format="{1}" />
+        <rule regex="(.*)sii?wanen" format="{1}" />
+        <rule regex="(.*)gsii?wenh" format="{1}" />
+        <rule regex="(.*)sii?nigwenh" format="{1}" />
+        <rule regex="(.*)sii?ngwenh" format="{1}" />
+        <rule regex="(.*)sii?waangen" format="{1}" />
+        <rule regex="(.*)sii?wangwen" format="{1}" />
+        <rule regex="(.*)sii?wegwen" format="{1}" />
+        <rule regex="(.*)sii?waagwenh" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])awaanen" format="{1}" />
+        <rule regex="(.*[mn])awanen" format="{1}" />
+        <rule regex="(.*[mn])agwenh" format="{1}" />
+        <rule regex="(.*[mn])inigwenh" format="{1}" />
+        <rule regex="(.*[mn])ingwenh" format="{1}" />
+        <rule regex="(.*[mn])awaangen" format="{1}" />
+        <rule regex="(.*[mn])awangwen" format="{1}" />
+        <rule regex="(.*[mn])awegwen" format="{1}" />
+        <rule regex="(.*[mn])awaagwenh" format="{1}" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)zii?waanen" format="{1}" />
+        <rule regex="(.*n)zii?wanen" format="{1}" />
+        <rule regex="(.*n)zsii?wenh" format="{1}" />
+        <rule regex="(.*n)zii?nigwenh" format="{1}" />
+        <rule regex="(.*n)zii?ngwenh" format="{1}" />
+        <rule regex="(.*n)zii?waangen" format="{1}" />
+        <rule regex="(.*n)zii?wangwen" format="{1}" />
+        <rule regex="(.*n)zii?wegwen" format="{1}" />
+        <rule regex="(.*n)zii?waagwenh" format="{1}" />
+        <rule regex="(.*)nzii?waanen" format="{1}m" />
+        <rule regex="(.*)nzii?wanen" format="{1}m" />
+        <rule regex="(.*)nzsii?wenh" format="{1}m" />
+        <rule regex="(.*)nzii?nigwenh" format="{1}m" />
+        <rule regex="(.*)nzii?ngwenh" format="{1}m" />
+        <rule regex="(.*)nzii?waangen" format="{1}m" />
+        <rule regex="(.*)nzii?wangwen" format="{1}m" />
+        <rule regex="(.*)nzii?wegwen" format="{1}m" />
+        <rule regex="(.*)nzii?waagwenh" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiConjunctDubitativePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)waambanen" format="{1}" />
+        <rule regex="(.*)wambanen" format="{1}" />
+        <rule regex="(.*)gobanen" format="{1}" />
+        <rule regex="(.*)nigobanen" format="{1}" />
+        <rule regex="(.*)ngobanen" format="{1}" />
+        <rule regex="(.*)waangibanen" format="{1}" />
+        <rule regex="(.*)wangobann" format="{1}" />
+        <rule regex="(.*)wegobanen" format="{1}" />
+        <rule regex="(.*)waagobanen" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sii?waambanen" format="{1}" />
+        <rule regex="(.*)sii?wambanen" format="{1}" />
+        <rule regex="(.*)sii?gobanen" format="{1}" />
+        <rule regex="(.*)sii?nigobanen" format="{1}" />
+        <rule regex="(.*)sii?ngobanen" format="{1}" />
+        <rule regex="(.*)sii?waangibanen" format="{1}" />
+        <rule regex="(.*)sii?wangobann" format="{1}" />
+        <rule regex="(.*)sii?wegobanen" format="{1}" />
+        <rule regex="(.*)sii?waagobanen" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])awaambanen" format="{1}" />
+        <rule regex="(.*[mn])ambanen" format="{1}" />
+        <rule regex="(.*[mn])agobanen" format="{1}" />
+        <rule regex="(.*[mn])inigobanen" format="{1}" />
+        <rule regex="(.*[mn])angobanen" format="{1}" />
+        <rule regex="(.*[mn])awaangibanen" format="{1}" />
+        <rule regex="(.*[mn])awangobann" format="{1}" />
+        <rule regex="(.*[mn])awegobanen" format="{1}" />
+        <rule regex="(.*[mn])awaagobanen" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*n)zii?waambanen" format="{1}" />
+        <rule regex="(.*n)zii?wambanen" format="{1}" />
+        <rule regex="(.*n)zii?gobanen" format="{1}" />
+        <rule regex="(.*n)zii?nigobanen" format="{1}" />
+        <rule regex="(.*n)zii?ngibanen" format="{1}" />
+        <rule regex="(.*n)zii?waangibanen" format="{1}" />
+        <rule regex="(.*n)zii?wangobann" format="{1}" />
+        <rule regex="(.*n)zii?wegobanen" format="{1}" />
+        <rule regex="(.*n)zii?waagobanen" format="{1}" />
+        <rule regex="(.*)nzii?waambanen" format="{1}m" />
+        <rule regex="(.*)nzii?wambanen" format="{1}m" />
+        <rule regex="(.*)nzii?gobanen" format="{1}m" />
+        <rule regex="(.*)nzii?nigobanen" format="{1}m" />
+        <rule regex="(.*)nzii?ngibanen" format="{1}m" />
+        <rule regex="(.*)nzii?waangibanen" format="{1}m" />
+        <rule regex="(.*)nzii?wangobann" format="{1}m" />
+        <rule regex="(.*)nzii?wegobanen" format="{1}m" />
+        <rule regex="(.*)nzii?waagobanen" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiImperativeRules">
+        <!-- final vowel immediate -->
+        <rule regex="(.*)n" format="{1}" />
+        <rule regex="(.*)g" format="{1}" />
+        <rule regex="(.*)daa" format="{1}" />
+        <!-- final vowel delayed  -->
+        <rule regex="(.*)kan" format="{1}" />
+        <rule regex="(.*)keg" format="{1}" />
+        <!-- final vowel prohibitive  -->
+        <rule regex="(.*)ken" format="{1}" />
+        <rule regex="(.*)kegon" format="{1}" />
+        <rule regex="(.*)siidaa" format="{1}" />
+        <!-- final nasal immediate -->
+        <rule regex="(.*[mn])an" format="{1}" />
+        <rule regex="(.*[mn])og" format="{1}" />
+        <rule regex="(.*[mn])adaa" format="{1}" />
+        <!-- final nasal delayed -->
+        <rule regex="(.*[mn])ookan" format="{1}" />
+        <rule regex="(.*[mn])ookeg" format="{1}" />
+        <!-- final nasal prohibitive -->
+        <rule regex="(.*n)gen" format="{1}" />
+        <rule regex="(.*)ngen" format="{1}m" />
+        <rule regex="(.*n)gegon" format="{1}" />
+        <rule regex="(.*)ngegon" format="{1}m" />
+        <rule regex="(.*n)ziidaa" format="{1}" />
+        <rule regex="(.*)nziidaa" format="{1}m" />
+        <rule regex="(.*[mn])asiidaa" format="{1}" />
+    </rule-set>
+    <!-- Note that the iterative uses conjunct vowel lengthening -->
+    <rule-set name="vaiIterativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)waanin" format="{1}" />
+        <rule regex="(.*)wanin" format="{1}" />
+        <rule regex="(.*)jin" format="{1}" />
+        <rule regex="(.*)nijin" format="{1}" />
+        <rule regex="(.*)ngin" format="{1}" />
+        <rule regex="(.*)waangin" format="{1}" />
+        <rule regex="(.*)wangon" format="{1}" />
+        <rule regex="(.*)wegon" format="{1}" />
+        <rule regex="(.*)waajin" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)siwaanin" format="{1}" />
+        <rule regex="(.*)siwanin" format="{1}" />
+        <rule regex="(.*)sigon" format="{1}" />
+        <rule regex="(.*)siin" format="{1}" />
+        <rule regex="(.*)sinigon" format="{1}" />
+        <rule regex="(.*)singin" format="{1}" />
+        <rule regex="(.*)siwaangin" format="{1}" />
+        <rule regex="(.*)siwangon" format="{1}" />
+        <rule regex="(.*)siwegon" format="{1}" />
+        <rule regex="(.*)siwaagon" format="{1}" />
+        <rule regex="(.*)sigwaanin" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])aanin" format="{1}" />
+        <rule regex="(.*[mn])anin" format="{1}" />
+        <rule regex="(.*[mn])gin" format="{1}" />
+        <rule regex="(.*[mn])ijin" format="{1}" />
+        <rule regex="(.*)gin" format="{1}n" />
+        <rule regex="(.*)ngin" format="{1}m" />
+        <rule regex="(.*[mn])aangin" format="{1}" />
+        <rule regex="(.*[mn])angon" format="{1}" />
+        <rule regex="(.*[mn])egon" format="{1}" />
+        <rule regex="(.*[mn])owaajin" format="{1}" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)ziwaanin" format="{1}" />
+        <rule regex="(.*n)ziwanin" format="{1}" />
+        <rule regex="(.*n)zigon" format="{1}" />
+        <rule regex="(.*n)ziin" format="{1}" />
+        <rule regex="(.*n)zinigon" format="{1}" />
+        <rule regex="(.*n)zingin" format="{1}" />
+        <rule regex="(.*n)ziwaangin" format="{1}" />
+        <rule regex="(.*n)ziwangon" format="{1}" />
+        <rule regex="(.*n)ziwegon" format="{1}" />
+        <rule regex="(.*n)ziwaagon" format="{1}" />
+        <rule regex="(.*n)zigwaanin" format="{1}" />
+        <rule regex="(.*)nziwaanin" format="{1}m" />
+        <rule regex="(.*)nziwanin" format="{1}m" />
+        <rule regex="(.*)nzigon" format="{1}m" />
+        <rule regex="(.*)nziin" format="{1}m" />
+        <rule regex="(.*)nzinigon" format="{1}m" />
+        <rule regex="(.*)nzingin" format="{1}m" />
+        <rule regex="(.*)nziwaangin" format="{1}m" />
+        <rule regex="(.*)nziwangon" format="{1}m" />
+        <rule regex="(.*)nziwegon" format="{1}m" />
+        <rule regex="(.*)nziwaagon" format="{1}m" />
+        <rule regex="(.*)nzigwaanin" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiParticipleRules">
+        <!-- final vowel -->
+        <rule regex="(.*)yaanh" format="{1}" />
+        <rule regex="(.*)yan" format="{1}" />
+        <rule regex="(.*)d" format="{1}" />
+        <rule regex="(.*)nijin" format="{1}" />
+        <rule regex="(.*)ng" format="{1}" />
+        <rule regex="(.*)yaang" format="{1}" />
+        <rule regex="(.*)yang" format="{1}" />
+        <rule regex="(.*)yeg" format="{1}" />
+        <rule regex="(.*)jig" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)siwaanh" format="{1}" />
+        <rule regex="(.*)siwan" format="{1}" />
+        <rule regex="(.*)sig" format="{1}" />
+        <rule regex="(.*)sinigon" format="{1}" />
+        <rule regex="(.*)sinijin" format="{1}" />
+        <rule regex="(.*)sing" format="{1}" />
+        <rule regex="(.*)siwaang" format="{1}" />
+        <rule regex="(.*)siwang" format="{1}" />
+        <rule regex="(.*)siweg" format="{1}" />
+        <rule regex="(.*)sigog" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])aanh" format="{1}" />
+        <rule regex="(.*[mn])an" format="{1}" />
+        <rule regex="(.*n)g" format="{1}" />
+        <rule regex="(.*)ng" format="{1}m" />
+        <rule regex="(.*[mn])inijin" format="{1}" />
+        <rule regex="(.*[mn])ing" format="{1}" />
+        <rule regex="(.*[mn])aang" format="{1}" />
+        <rule regex="(.*[mn])ang" format="{1}" />
+        <rule regex="(.*[mn])eg" format="{1}" />
+        <rule regex="(.*n)gig" format="{1}" />
+        <rule regex="(.*)ngig" format="{1}m" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)ziwaanh" format="{1}" />
+        <rule regex="(.*n)ziwan" format="{1}" />
+        <rule regex="(.*n)zig" format="{1}" />
+        <rule regex="(.*n)zinigon" format="{1}" />
+        <rule regex="(.*n)zinijin" format="{1}" />
+        <rule regex="(.*n)zing" format="{1}" />
+        <rule regex="(.*n)zizwaang" format="{1}" />
+        <rule regex="(.*n)ziwang" format="{1}" />
+        <rule regex="(.*n)ziweg" format="{1}" />
+        <rule regex="(.*n)zigog" format="{1}" />
+        <rule regex="(.*)ziwaanh" format="{1}" />
+        <rule regex="(.*)nziwan" format="{1}m" />
+        <rule regex="(.*)nzig" format="{1}m" />
+        <rule regex="(.*)nzinigon" format="{1}m" />
+        <rule regex="(.*)nzinijin" format="{1}m" />
+        <rule regex="(.*)nzing" format="{1}m" />
+        <rule regex="(.*)nzizwaang" format="{1}m" />
+        <rule regex="(.*)nziwang" format="{1}m" />
+        <rule regex="(.*)nziweg" format="{1}m" />
+        <rule regex="(.*)nzigog" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiParticiplePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)yaambaanh" format="{1}" />
+        <rule regex="(.*)yamban" format="{1}" />
+        <rule regex="(.*)pan" format="{1}" />
+        <rule regex="(.*)nipaniin" format="{1}" />
+        <rule regex="(.*)ngiban" format="{1}" />
+        <rule regex="(.*)yaangiban" format="{1}" />
+        <rule regex="(.*)yangiban" format="{1}" />
+        <rule regex="(.*)yegiban" format="{1}" />
+        <rule regex="(.*)paniig" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)siwaambaanh" format="{1}" />
+        <rule regex="(.*)siwamban" format="{1}" />
+        <rule regex="(.*)sigiban" format="{1}" />
+        <rule regex="(.*)sipan" format="{1}" />
+        <rule regex="(.*)sinigibaniin" format="{1}" />
+        <rule regex="(.*)sinipaniin" format="{1}" />
+        <rule regex="(.*)singiban" format="{1}" />
+        <rule regex="(.*)siwaangiban" format="{1}" />
+        <rule regex="(.*)siwangiban" format="{1}" />
+        <rule regex="(.*)siwegiban" format="{1}" />
+        <rule regex="(.*)sigibaniig" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])aambaanh" format="{1}" />
+        <rule regex="(.*[mn])amban" format="{1}" />
+        <rule regex="(.*n)giban" format="{1}" />
+        <rule regex="(.*)ngiban" format="{1}m" />
+        <rule regex="(.*[mn])inipaniin" format="{1}" />
+        <rule regex="(.*[mn])ingiban" format="{1}" />
+        <rule regex="(.*[mn])aangiban" format="{1}" />
+        <rule regex="(.*[mn])angiban" format="{1}" />
+        <rule regex="(.*[mn])egiban" format="{1}" />
+        <rule regex="(.*n)gibaniig" format="{1}" />
+        <rule regex="(.*)ngibaniig" format="{1}m" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)ziwaambaanh" format="{1}" />
+        <rule regex="(.*n)ziwamban" format="{1}" />
+        <rule regex="(.*n)zigiban" format="{1}" />
+        <rule regex="(.*n)zipan" format="{1}" />
+        <rule regex="(.*n)zinigibaniin" format="{1}" />
+        <rule regex="(.*n)zinipaniin" format="{1}" />
+        <rule regex="(.*n)zingiban" format="{1}" />
+        <rule regex="(.*n)ziwaangiban" format="{1}" />
+        <rule regex="(.*n)ziwangiban" format="{1}" />
+        <rule regex="(.*n)ziwegiban" format="{1}" />
+        <rule regex="(.*n)zigibaniig" format="{1}" />
+        <rule regex="(.*)nziwaambaanh" format="{1}m" />
+        <rule regex="(.*)nziwamban" format="{1}m" />
+        <rule regex="(.*)nzigiban" format="{1}m" />
+        <rule regex="(.*)nzipan" format="{1}m" />
+        <rule regex="(.*)nzinigibaniin" format="{1}m" />
+        <rule regex="(.*)nzinipaniin" format="{1}m" />
+        <rule regex="(.*)nzingiban" format="{1}m" />
+        <rule regex="(.*)nziwaangiban" format="{1}m" />
+        <rule regex="(.*)nziwangiban" format="{1}m" />
+        <rule regex="(.*)nziwegiban" format="{1}m" />
+        <rule regex="(.*)nzigibaniig" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiParticipleDubitativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)waanen" format="{1}" />
+        <rule regex="(.*)wanen" format="{1}" />
+        <rule regex="(.*)gwen" format="{1}" />
+        <rule regex="(.*)nigwen" format="{1}" />
+        <rule regex="(.*)waangen" format="{1}" />
+        <rule regex="(.*)wangen" format="{1}" />
+        <rule regex="(.*)wegwen" format="{1}" />
+        <rule regex="(.*)gwenag" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)siwaanen" format="{1}" />
+        <rule regex="(.*)siwanen" format="{1}" />
+        <rule regex="(.*)siigwen" format="{1}" />
+        <rule regex="(.*)sinigwenan" format="{1}" />
+        <rule regex="(.*)singwen" format="{1}" />
+        <rule regex="(.*)siwaangwen" format="{1}" />
+        <rule regex="(.*)siwangwen" format="{1}" />
+        <rule regex="(.*)siwegwen" format="{1}" />
+        <rule regex="(.*)sigwenag" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])owaanen" format="{1}" />
+        <rule regex="(.*[mn])owanen" format="{1}" />
+        <rule regex="(.*[mn])ogwen" format="{1}" />
+        <rule regex="(.*[mn])inigwen" format="{1}" />
+        <rule regex="(.*[mn])owaangen" format="{1}" />
+        <rule regex="(.*[mn])owangen" format="{1}" />
+        <rule regex="(.*[mn])owegwen" format="{1}" />
+        <rule regex="(.*[mn])ogwenag" format="{1}" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)ziwaanen" format="{1}" />
+        <rule regex="(.*n)ziwanen" format="{1}" />
+        <rule regex="(.*n)ziigwen" format="{1}" />
+        <rule regex="(.*n)zinigwenan" format="{1}" />
+        <rule regex="(.*n)ziwaangwen" format="{1}" />
+        <rule regex="(.*n)ziwangwen" format="{1}" />
+        <rule regex="(.*n)ziwegwen" format="{1}" />
+        <rule regex="(.*n)zigwenag" format="{1}" />
+        <rule regex="(.*)nziwaanen" format="{1}m" />
+        <rule regex="(.*)nziwanen" format="{1}m" />
+        <rule regex="(.*)nziigwen" format="{1}m" />
+        <rule regex="(.*)nzinigwenan" format="{1}m" />
+        <rule regex="(.*)nziwaangwen" format="{1}m" />
+        <rule regex="(.*)nziwangwen" format="{1}m" />
+        <rule regex="(.*)nziwegwen" format="{1}m" />
+        <rule regex="(.*)nzigwenag" format="{1}m" />
+    </rule-set>
+    <rule-set name="vaiParticipleDubitativePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)waambaanen" format="{1}" />
+        <rule regex="(.*)wambanen" format="{1}" />
+        <rule regex="(.*)gobanen" format="{1}" />
+        <rule regex="(.*)nigobanen" format="{1}" />
+        <rule regex="(.*)ngobanen" format="{1}" />
+        <rule regex="(.*)waangobanen" format="{1}" />
+        <rule regex="(.*)wangobanen" format="{1}" />
+        <rule regex="(.*)wegobanen" format="{1}" />
+        <rule regex="(.*)gobanenag" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)siwaambaanen" format="{1}" />
+        <rule regex="(.*)siwambanen" format="{1}" />
+        <rule regex="(.*)siigobanen" format="{1}" />
+        <rule regex="(.*)sinigobanen" format="{1}" />
+        <rule regex="(.*)singobanen" format="{1}" />
+        <rule regex="(.*)siaangobanen" format="{1}" />
+        <rule regex="(.*)siwangobanen" format="{1}" />
+        <rule regex="(.*)siwegobanen" format="{1}" />
+        <rule regex="(.*)sigobanenag" format="{1}" />
+        <!-- final nasal -->
+        <rule regex="(.*[mn])aambaanen" format="{1}" />
+        <rule regex="(.*[mn])ambanen" format="{1}" />
+        <rule regex="(.*[mn])ogobanen" format="{1}" />
+        <rule regex="(.*[mn])inigobanen" format="{1}" />
+        <rule regex="(.*[mn])ingobanen" format="{1}" />
+        <rule regex="(.*[mn])owaangobanen" format="{1}" />
+        <rule regex="(.*[mn])owangobanen" format="{1}" />
+        <rule regex="(.*[mn])owegobanen" format="{1}" />
+        <rule regex="(.*[mn])ogobanenag" format="{1}" />
+        <!-- final nasal negative -->
+        <rule regex="(.*n)ziwaambaanen" format="{1}" />
+        <rule regex="(.*n)ziwambanen" format="{1}" />
+        <rule regex="(.*n)ziigobanen" format="{1}" />
+        <rule regex="(.*n)zinigobanen" format="{1}" />
+        <rule regex="(.*n)zingobanen" format="{1}" />
+        <rule regex="(.*n)ziwaangobanen" format="{1}" />
+        <rule regex="(.*n)ziwangobanen" format="{1}" />
+        <rule regex="(.*n)ziwegobanen" format="{1}" />
+        <rule regex="(.*n)zigobanenag" format="{1}" />
+        <rule regex="(.*)nziwaambaanen" format="{1}m" />
+        <rule regex="(.*)nziwambanen" format="{1}m" />
+        <rule regex="(.*)nziigobanen" format="{1}m" />
+        <rule regex="(.*)nzinigobanen" format="{1}m" />
+        <rule regex="(.*)nzingobanen" format="{1}m" />
+        <rule regex="(.*)nziwaangobanen" format="{1}m" />
+        <rule regex="(.*)nziwangobanen" format="{1}m" />
+        <rule regex="(.*)nziwegobanen" format="{1}m" />
+        <rule regex="(.*)nzigobanenag" format="{1}m" />
+    </rule-set>
+    <!--
+        Note that VII verbs have only 3rd person inanimate subjects, and
+        have no imperative forms.
+    -->
+    <rule-set name="viiIndependentRules">
+        <!-- final vowel -->
+        <rule regex="(.*)ni" format="{1}" />
+        <rule regex="(.*)noon" format="{1}" />
+        <rule regex="(.*)wan" format="{1}" />
+        <rule regex="(.*)niwan" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinoon" format="{1}" />
+        <rule regex="(.*)sinooni" format="{1}" />
+        <rule regex="(.*)sininiwan" format="{1}" />
+        <!-- final -n, -d -->
+        <rule regex="(.*[nd])ini" format="{1}" />
+        <rule regex="(.*[nd])oon" format="{1}" />
+        <rule regex="(.*[nd])iniwan" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinoon" format="{1}d" />
+        <rule regex="(.*)sinooni" format="{1}d" />
+        <rule regex="(.*)sininiwan" format="{1}d" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinoon" format="{1}" />
+        <rule regex="(.*n)zinooni" format="{1}" />
+        <rule regex="(.*n)zininiwan" format="{1}" />
+        <rule regex="(.*n)ziniwan" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*n)isinoon" format="{1}" />
+        <rule regex="(.*n)isinooni" format="{1}" />
+        <rule regex="(.*n)isininiwan" format="{1}" />
+        <rule regex="(.*n)isiniwan" format="{1}" />
+    </rule-set>
+    <rule-set name="viiPreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)ban" format="{1}" />
+        <rule regex="(.*)niban" format="{1}" />
+        <rule regex="(.*)baniin" format="{1}" />
+        <rule regex="(.*)nibaniin" format="{1}" />
+        <!-- final -n, -d -->
+        <rule regex="(.*[nd])aban" format="{1}" />
+        <rule regex="(.*[nd])iniwiban" format="{1}" />
+        <rule regex="(.*[nd])abaniin" format="{1}" />
+        <rule regex="(.*[nd])iniwibaniin" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinooban" format="{1}" />
+        <rule regex="(.*)sininooniwiban" format="{1}" />
+        <rule regex="(.*)baniin" format="{1}" />
+        <rule regex="(.*)nibaniin" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinooban" format="{1}d" />
+        <rule regex="(.*)sininooniwiban" format="{1}d" />
+        <rule regex="(.*)sinoobaniin" format="{1}d" />
+        <rule regex="(.*)sinooniwibaniin" format="{1}d" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinooban" format="{1}" />
+        <rule regex="(.*n)zininooniwiban" format="{1}" />
+        <rule regex="(.*n)zinoobaniin" format="{1}" />
+        <rule regex="(.*n)zinooniwibaniin" format="{1}" />
+        <!-- final -b alternate negative -->
+        <rule regex="(.*n)isinooban" format="{1}" />
+        <rule regex="(.*n)isininooniwiban" format="{1}" />
+        <rule regex="(.*n)isinoobaniin" format="{1}" />
+        <rule regex="(.*n)isinooniwibaniin" format="{1}" />
+    </rule-set>
+    <rule-set name="viiDubitativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)dig" format="{1}" />
+        <rule regex="(.*)niwidig" format="{1}" />
+        <rule regex="(.*)digenan" format="{1}" />
+        <rule regex="(.*)niwidigenan" format="{1}" />
+        <!-- final -n, -d -->
+        <rule regex="(.*[nd])adig" format="{1}" />
+        <rule regex="(.*[nd])iniwidig" format="{1}" />
+        <rule regex="(.*[nd])adigenan" format="{1}" />
+        <rule regex="(.*[nd])iniwidigenan" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinoodig" format="{1}" />
+        <rule regex="(.*)sinooniwidig" format="{1}" />
+        <rule regex="(.*)sinoodigenan" format="{1}" />
+        <rule regex="(.*)sinooniwidigenan" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinoodig" format="{1}d" />
+        <rule regex="(.*)sinooniwidig" format="{1}d" />
+        <rule regex="(.*)sinoodigenan" format="{1}d" />
+        <rule regex="(.*)sinooniwidigenan" format="{1}d" />
+        <!-- final -n negative -->
+        <rule regex="(.*nzinoodig)" format="{1}" />
+        <rule regex="(.*n)zinooniwidig" format="{1}" />
+        <rule regex="(.*n)zinoodigenan" format="{1}" />
+        <rule regex="(.*n)zinooniwidigenan" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*n)isinoodig" format="{1}" />
+        <rule regex="(.*n)isinooniwidig" format="{1}" />
+        <rule regex="(.*n)isinoodigenan" format="{1}" />
+        <rule regex="(.*n)isinooniwidigenan" format="{1}" />
+    </rule-set>
+    <rule-set name="viiDubitativePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)oban" format="{1}" />
+        <rule regex="(.*)nigoban" format="{1}" />
+        <rule regex="(.*)gobaniin" format="{1}" />
+        <rule regex="(.*)nigobaniin" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinoogoban" format="{1}" />
+        <rule regex="(.*)sinoonigoban" format="{1}" />
+        <rule regex="(.*)sinoogobaniin" format="{1}" />
+        <rule regex="(.*)sinoonigobaniin" format="{1}" />
+        <!-- final -n, -d -->
+        <rule regex="(.*[nd])ogoban" format="{1}" />
+        <rule regex="(.*[nd])inigoban" format="{1}" />
+        <rule regex="(.*[nd])ogobaniin" format="{1}" />
+        <rule regex="(.*[nd])inigobaniin" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*d)sinoogoban" format="{1}d" />
+        <rule regex="(.*d)sinoonigoban" format="{1}d" />
+        <rule regex="(.*d)sinoogobaniin" format="{1}d" />
+        <rule regex="(.*d)sinoonigobaniin" format="{1}d" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinoogoban" format="{1}" />
+        <rule regex="(.*n)zinoonigoban" format="{1}" />
+        <rule regex="(.*n)zinoogobaniin" format="{1}" />
+        <rule regex="(.*n)zinoonigobaniin" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*n)isinoogoban" format="{1}" />
+        <rule regex="(.*n)isinoonigoban" format="{1}" />
+        <rule regex="(.*n)isinoogobaniin" format="{1}" />
+        <rule regex="(.*n)isinoonigobaniin" format="{1}" />
+    </rule-set>
+    <!--
+        Note that final -n positive conjunct forms are all the
+        same as either the final vowel forms, or the final -d
+        forms.
+    -->
+    <rule-set name="viiConjunctRules">
+        <!-- final vowel -->
+        <rule regex="(.*)g" format="{1}" />
+        <rule regex="(.*)nig" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinog" format="{1}" />
+        <rule regex="(.*)sinoonig" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)k" format="{1}d" />
+        <rule regex="(.*d)inig" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinog" format="{1}d" />
+        <rule regex="(.*)sinoonig" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)g" format="{1}" />
+        <rule regex="(.*n)inig" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*[n])zinog" format="{1}" />
+        <rule regex="(.*[n])zinoonig" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*[n])isinog" format="{1}" />
+        <rule regex="(.*[n])isinoonig" format="{1}" />
+    </rule-set>
+    <rule-set name="viiConjunctPreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)giban" format="{1}" />
+        <rule regex="(.*)nigiban" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinoogiban" format="{1}" />
+        <rule regex="(.*)sinoonigiban" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)giban" format="{1}d" />
+        <rule regex="(.*d)inigiban" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinoogiban" format="{1}d" />
+        <rule regex="(.*)sinoonigiban" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)giban" format="{1}" />
+        <rule regex="(.*n)inigiban" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinoogiban" format="{1}" />
+        <rule regex="(.*n)zinoonigiban" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*n)isinoogiban" format="{1}" />
+        <rule regex="(.*n)isinoonigiban" format="{1}" />
+    </rule-set>
+    <rule-set name="viiConjunctDubitativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)gwenh" format="{1}" />
+        <rule regex="(.*)nigwenh" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinog" format="{1}" />
+        <rule regex="(.*)sinoonig" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*d)ogwenh" format="{1}" />
+        <rule regex="(.*d)inigwenh" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinoogwenh" format="{1}d" />
+        <rule regex="(.*)sinoonigwenh" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)gwenh" format="{1}" />
+        <rule regex="(.*n)inigwenh" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinoogwenh" format="{1}" />
+        <rule regex="(.*n)zinoonigwenh" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*n)isinoogwenh" format="{1}" />
+        <rule regex="(.*n)isinoonigwenh" format="{1}" />
+    </rule-set>
+    <rule-set name="viiConjunctDubitativePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)gobanen" format="{1}" />
+        <rule regex="(.*)nigobanen" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinogobanen" format="{1}" />
+        <rule regex="(.*)sinoonigobanen" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*d)ogobanen" format="{1}" />
+        <rule regex="(.*d)inigobanen" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinoogobanen" format="{1}d" />
+        <rule regex="(.*)sinoonigobanen" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)gobanen" format="{1}" />
+        <rule regex="(.*n)inigobanen" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinoogobanen" format="{1}" />
+        <rule regex="(.*n)zinoonigobanen" format="{1}" />
+        <!-- final -n alternate negative -->
+        <rule regex="(.*n)isinoogobanen" format="{1}" />
+        <rule regex="(.*n)isinoonigobanen" format="{1}" />
+    </rule-set>
+    <!-- Note that conjunct iterative show initial vowel lengthening -->
+    <rule-set name="viiConjunctIterativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)gin" format="{1}" />
+        <rule regex="(.*)nigin" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinoogin" format="{1}" />
+        <rule regex="(.*)sinoonigin" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)kin" format="{1}d" />
+        <rule regex="(.*)inigin" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinoogin" format="{1}d" />
+        <rule regex="(.*)sinoonigin" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)gin" format="{1}n" />
+        <!-- rule regex="(.*)inigin" format="{1}" / -->
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinoogin" format="{1}" />
+        <rule regex="(.*n)zinoonigin" format="{1}" />
+    </rule-set>
+    <!-- participles show initial vowel change, e.g. michaa -> mechaag -->
+    <rule-set name="viiParticipleRules">
+        <!-- final vowel -->
+        <rule regex="(.*)g" format="{1}" />
+        <rule regex="(.*)nig" format="{1}" />
+        <rule regex="(.*)gin" format="{1}" />
+        <rule regex="(.*)nigin" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinog" format="{1}" />
+        <rule regex="(.*)sinogin" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)k" format="{1}d" />
+        <rule regex="(.*)inig" format="{1}" />
+        <rule regex="(.*)kin" format="{1}d" />
+        <rule regex="(.*)inigin" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinog" format="{1}d" />
+        <rule regex="(.*)sinogin" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)g" format="{1}" />
+        <rule regex="(.*n)inig" format="{1}" />
+        <rule regex="(.*n)gin" format="{1}" />
+        <rule regex="(.*n)inigin" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinog" format="{1}" />
+        <rule regex="(.*n)zinogin" format="{1}" />
+    </rule-set>
+    <rule-set name="viiParticiplePreteriteRules">
+        <!-- final vowel -->
+        <rule regex="(.*)giban" format="{1}" />
+        <rule regex="(.*)nigiban" format="{1}" />
+        <rule regex="(.*)gibaniin" format="{1}" />
+        <rule regex="(.*)nigibaniin" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinogiban" format="{1}" />
+        <rule regex="(.*)sinogibaniin" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)kiban" format="{1}d" />
+        <!--rule regex="(.*)inigiban" format="{1}" / -->
+        <rule regex="(.*)kibaniin" format="{1}d" />
+        <!--rule regex="(.*)inigibaniin" format="{1}" / -->
+        <!-- final -d negative -->
+        <rule regex="(.*)sinogiban" format="{1}d" />
+        <rule regex="(.*)sinogibaniin" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)giban" format="{1}" />
+        <rule regex="(.*n)inigiban" format="{1}" />
+        <rule regex="(.*n)gibaniin" format="{1}" />
+        <rule regex="(.*n)inigibaniin" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinogiban" format="{1}" />
+        <rule regex="(.*n)zinogibaniin" format="{1}" />
+    </rule-set>
+    <rule-set name="viiParticipleDubitativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)gwenh" format="{1}" />
+        <rule regex="(.*)nigwenh" format="{1}" />
+        <rule regex="(.*)gwenan" format="{1}" />
+        <rule regex="(.*)nigwenan" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinog" format="{1}" />
+        <rule regex="(.*)sinogin" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)kwenh" format="{1}d" />
+        <rule regex="(.*)inigwenh" format="{1}" />
+        <rule regex="(.*)kwenan" format="{1}d" />
+        <rule regex="(.*)inigwenan" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinog" format="{1}d" />
+        <rule regex="(.*)sinogin" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*)gwenh" format="{1}" />
+        <rule regex="(.*)inigwenh" format="{1}" />
+        <rule regex="(.*)gwenan" format="{1}" />
+        <rule regex="(.*)inigwenan" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinog" format="{1}" />
+        <rule regex="(.*n)zinogin" format="{1}" />
+    </rule-set>
+    <rule-set name="viiParticiplePreteriteDubitativeRules">
+        <!-- final vowel -->
+        <rule regex="(.*)gobanen" format="{1}" />
+        <rule regex="(.*)nigobanen" format="{1}" />
+        <rule regex="(.*)gobanenan" format="{1}" />
+        <rule regex="(.*)nigobanenan" format="{1}" />
+        <!-- final vowel negative -->
+        <rule regex="(.*)sinogobanen" format="{1}" />
+        <rule regex="(.*)sinogobanenan" format="{1}" />
+        <!-- final -d -->
+        <rule regex="(.*)kobanen" format="{1}d" />
+        <rule regex="(.*)inigobanen" format="{1}" />
+        <rule regex="(.*)kobanenan" format="{1}d" />
+        <rule regex="(.*)inigobanenan" format="{1}" />
+        <!-- final -d negative -->
+        <rule regex="(.*)sinogobanen" format="{1}d" />
+        <rule regex="(.*)sinogobanenan" format="{1}d" />
+        <!-- final -n -->
+        <rule regex="(.*n)gobanen" format="{1}" />
+        <rule regex="(.*n)inigobanen" format="{1}" />
+        <rule regex="(.*n)gobanenan" format="{1}" />
+        <rule regex="(.*n)inigobanenan" format="{1}" />
+        <!-- final -n negative -->
+        <rule regex="(.*n)zinogobanen" format="{1}" />
+        <rule regex="(.*n)zinogobanenan" format="{1}" />
+    </rule-set>
+    <!--
+        vtaIndependentRules
+        am stem: waabam
+        aw stem: bizindaw
+        Cw stem: nandone'
+        N stem: biizh
+        nN stem: wiinzh
+        S stem: odiS
+    -->
+    <rule-set name="vtaIndependentRules">
+        <!-- 2s topic reflexive positive -->
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)aadiz" format="{1}aw" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        <!-- 2s topic reflexive negative -->
+        <rule regex="(.*)idizosii" format="{1}" />
+        <rule regex="(.*)ndizosii" format="{1}m" />
+        <rule regex="(.*)odizosii" format="{1}w" />
+        <rule regex="(.*)aadizosii" format="{1}aw" />
+        <rule regex="(.*)nidizosii" format="{1}N" />
+        <rule regex="(.*n)idizosii" format="{1}N" />
+        <rule regex="(.*)sidizosii" format="{1}S" />
+        <!-- 2s topic direct -->
+        <!-- 2s » 1s positive -->
+        <rule regex="(.*)" format="{1}" />
+        <rule regex="(.*)o" format="{1}w" />
+        <rule regex="(.*)zh" format="{1}N" />
+        <rule regex="(.*)sh" format="{1}S" />
+        <!-- 2s » 1s negative -->
+        <rule regex="(.*)isii" format="{1}" />
+        <rule regex="(.*)osii" format="{1}w" />
+        <rule regex="(.*)zhisii" format="{1}N" />
+        <rule regex="(.*)shisii" format="{1}S" />
+        <!-- 2s » 1p positive -->
+        <rule regex="(.*)imin" format="{1}" />
+        <rule regex="(.*)omin" format="{1}w" />
+        <rule regex="(.*)zhimin" format="{1}N" />
+        <rule regex="(.*)shimin" format="{1}S" />
+        <!-- 2s » 1p negative -->
+        <rule regex="(.*)isiimin" format="{1}" />
+        <rule regex="(.*)osiimin" format="{1}w" />
+        <rule regex="(.*)zhisiimin" format="{1}N" />
+        <rule regex="(.*)shisiimin" format="{1}S" />
+        <!-- 2s » 3s positive -->
+        <rule regex="(.*)aa" format="{1}" />
+        <rule regex="(.*)naa" format="{1}N" />
+        <rule regex="(.*n)aa" format="{1}N" />
+        <rule regex="(.*)saa" format="{1}S" />
+        <!-- 2s » 3s negative -->
+        <rule regex="(.*)aasii" format="{1}" />
+        <rule regex="(.*)naasii" format="{1}N" />
+        <rule regex="(.*n)aasii" format="{1}N" />
+        <rule regex="(.*)saasii" format="{1}S" />
+        <!-- 2s » 3p positive -->
+        <rule regex="(.*)aag" format="{1}" />
+        <rule regex="(.*)naag" format="{1}N" />
+        <rule regex="(.*n)aag" format="{1}N" />
+        <rule regex="(.*)saag" format="{1}S" />
+        <!-- 2s » 3p negative -->
+        <rule regex="(.*)aasiig" format="{1}" />
+        <rule regex="(.*)naasiig" format="{1}N" />
+        <rule regex="(.*n)aasiig" format="{1}N" />
+        <rule regex="(.*)saasiig" format="{1}S" />
+        <!-- 2s » 3' positive -->
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rule regex="(.*)simaan" format="{1}S" />
+        <!-- 2s topic inverse -->
+        <!-- 2s « 1s positive -->
+        <rule regex="(.*)in" format="{1}" />
+        <rule regex="(.*[^o])on" format="{1}w" />
+        <rule regex="(.*)oon" format="{1}aw" />
+        <rule regex="(.*)nin" format="{1}N" />
+        <rule regex="(.*n)in" format="{1}N" />
+        <rule regex="(.*)sin" format="{1}S" />
+        <!-- 2s « 1s negative -->
+        <rule regex="(.*)isiinon" format="{1}" />
+        <rule regex="(.*[^o])osiinon" format="{1}w" />
+        <rule regex="(.*)oosiinon" format="{1}aw" />
+        <rule regex="(.*)nisiinon" format="{1}N" />
+        <rule regex="(.*n)isiinon" format="{1}N" />
+        <rule regex="(.*)sisiinon" format="{1}S" />
+        <!-- 2s « 1p -->
+        <!-- 2s « X positive -->
+        <rule regex="(.*)igoo" format="{1}" />
+        <rule regex="igoo" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoo" format="{1}w" />
+        <rule regex="(.*)aagoo" format="{1}aw" />
+        <rule regex="(.*)nigoo" format="{1}N" />
+        <rule regex="(.*n)igoo" format="{1}N" />
+        <rule regex="(.*)sigoo" format="{1}S" />
+        <!-- 2s « X negative -->
+        <rule regex="(.*)igoosii" format="{1}" />
+        <rule regex="igoosii" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoosii" format="{1}w" />
+        <rule regex="(.*)aagoosii" format="{1}aw" />
+        <rule regex="(.*)nigoosii" format="{1}N" />
+        <rule regex="(.*n)igoosii" format="{1}N" />
+        <rule regex="(.*)sigoosii" format="{1}S" />
+        <!-- 2s « 3s positive -->
+        <rule regex="(.*)ig" format="{1}" />
+        <rule regex="ig" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)og" format="{1}w" />
+        <rule regex="(.*)aag" format="{1}aw" />
+        <rule regex="(.*)nig" format="{1}N" />
+        <rule regex="(.*n)ig" format="{1}N" />
+        <rule regex="(.*)sig" format="{1}S" />
+        <!-- 2s « 3s negative -->
+        <rule regex="(.*)igosii" format="{1}" />
+        <rule regex="igosii" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogosii" format="{1}w" />
+        <rule regex="(.*)aagosii" format="{1}aw" />
+        <rule regex="(.*)nigosii" format="{1}N" />
+        <rule regex="(.*n)igosii" format="{1}N" />
+        <rule regex="(.*)sigosii" format="{1}S" />
+        <!-- 2s « 3p positive -->
+        <rule regex="(.*)igoog" format="{1}" />
+        <rule regex="igoog" format="iN" /> <!-- izhi/In -->
+        <rule regex="igoog" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoog" format="{1}w" />
+        <rule regex="(.*)aagoog" format="{1}aw" />
+        <rule regex="(.*)nigoog" format="{1}N" />
+        <rule regex="(.*n)igoog" format="{1}N" />
+        <rule regex="(.*)sigoog" format="{1}S" />
+        <!-- 2s « 3p negative -->
+        <rule regex="(.*)igoosiig" format="{1}" />
+        <rule regex="igoosiig" format="iN" /> <!-- izhi/In -->
+        <rule regex="igoosiig" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoosiig" format="{1}w" />
+        <rule regex="(.*)aagoosiig" format="{1}aw" />
+        <rule regex="(.*)nigoosiig" format="{1}N" />
+        <rule regex="(.*n)igoosiig" format="{1}N" />
+        <rule regex="(.*)sigoosiig" format="{1}S" />
+        <!-- 2s « 0 positive -->
+        <rule regex="(.*)igon" format="{1}" />
+        <rule regex="igon" format="iN" /> <!-- izhi/In -->
+        <rule regex="igon" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogon" format="{1}w" />
+        <rule regex="(.*)aagon" format="{1}aw" />
+        <rule regex="(.*)nigon" format="{1}N" />
+        <rule regex="(.*n)igon" format="{1}N" />
+        <rule regex="(.*)sigon" format="{1}S" />
+        <!-- 2s « 0 negative -->
+        <!--
+        <rule regex="(.*)igon" format="{1}" />
+        <rule regex="(.*)ogon" format="{1}w" />
+        <rule regex="(.*)aagon" format="{1}aw" />
+        <rule regex="(.*)nigon" format="{1}N" />
+        <rule regex="(.*n)igon" format="{1}N" />
+        <rule regex="(.*)sigon" format="{1}S" />
+        -->
+        <!-- 2p topic reflexive positive -->
+        <rule regex="(.*)idizom" format="{1}" />
+        <rule regex="(.*)ndizom" format="{1}m" />
+        <rule regex="(.*)odizom" format="{1}w" />
+        <rule regex="(.*)aadizom" format="{1}aw" />
+        <rule regex="(.*)nidizom" format="{1}N" />
+        <rule regex="(.*n)idizom" format="{1}N" />
+        <rule regex="(.*)sidizom" format="{1}S" />
+        <!-- 2p topic reflexive negative -->
+        <rule regex="(.*)idizosiim" format="{1}" />
+        <rule regex="(.*)ndizosiim" format="{1}m" />
+        <rule regex="(.*)odizosiim" format="{1}w" />
+        <rule regex="(.*)aadizosiim" format="{1}aw" />
+        <rule regex="(.*)nidizosiim" format="{1}N" />
+        <rule regex="(.*n)idizosiim" format="{1}N" />
+        <rule regex="(.*)sidizosiim" format="{1}S" />
+        <!-- 2p topic direct -->
+        <!-- 2p » 1p positive -->
+        <rule regex="(.*)imin" format="{1}" />
+        <rule regex="(.*)omin" format="{1}w" />
+        <rule regex="(.*)aamin" format="{1}aw" />
+        <rule regex="(.*)nimin" format="{1}N" />
+        <rule regex="(.*n)imin" format="{1}N" />
+        <rule regex="(.*)simin" format="{1}S" />
+        <!-- 2p » 1p negative -->
+        <rule regex="(.*)isiimin" format="{1}" />
+        <rule regex="(.*)osiimin" format="{1}w" />
+        <rule regex="(.*)aasiimin" format="{1}aw" />
+        <rule regex="(.*)nisiimin" format="{1}N" />
+        <rule regex="(.*n)isiimin" format="{1}N" />
+        <rule regex="(.*)sisiimin" format="{1}S" />
+        <!-- 2p » 3s positive -->
+        <rule regex="(.*)aawaa" format="{1}" />
+        <rule regex="(.*)naawaa" format="{1}N" />
+        <rule regex="(.*n)aawaa" format="{1}N" />
+        <rule regex="(.*)saawaa" format="{1}S" />
+        <!-- 2p » 3s negative -->
+        <rule regex="(.*)aasiiwaa" format="{1}" />
+        <rule regex="(.*)naasiiwaa" format="{1}N" />
+        <rule regex="(.*n)aasiiwaa" format="{1}N" />
+        <rule regex="(.*)saasiiwaa" format="{1}S" />
+        <!-- 2p » 3p positive -->
+        <rule regex="(.*)aawaag" format="{1}" />
+        <rule regex="(.*)naawaag" format="{1}N" />
+        <rule regex="(.*n)aawaag" format="{1}N" />
+        <rule regex="(.*)saawaag" format="{1}S" />
+        <!-- 2p » 3p negative -->
+        <rule regex="(.*)aasiiwaag" format="{1}" />
+        <rule regex="(.*)naasiiwaag" format="{1}N" />
+        <rule regex="(.*n)aasiiwaag" format="{1}N" />
+        <rule regex="(.*)saasiiwaag" format="{1}S" />
+        <!-- 2p topic inverse -->
+        <!-- 2p « 1s positive -->
+        <rule regex="(.*)inim" format="{1}" />
+        <rule regex="(.*[^o])onim" format="{1}w" />
+        <rule regex="(.*)oonim" format="{1}aw" />
+        <rule regex="(.*)ninim" format="{1}N" />
+        <rule regex="(.*n)inim" format="{1}N" />
+        <rule regex="(.*)sinim" format="{1}S" />
+        <!-- 2p « 1s negative -->
+        <rule regex="(.*)isinoonim" format="{1}" />
+        <rule regex="(.*[^o])osinoonim" format="{1}w" />
+        <rule regex="(.*)oosinoonim" format="{1}aw" />
+        <rule regex="(.*)nisinoonim" format="{1}N" />
+        <rule regex="(.*n)isinoonim" format="{1}N" />
+        <rule regex="(.*)sisinoonim" format="{1}S" />
+        <!-- 2p « 1p positive -->
+        <!-- 2p « X positive -->
+        <rule regex="(.*)igoom" format="{1}" />
+        <rule regex="igoom" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoom" format="{1}w" />
+        <rule regex="(.*)aagoom" format="{1}aw" />
+        <rule regex="(.*)nigoom" format="{1}N" />
+        <rule regex="(.*n)igoom" format="{1}N" />
+        <rule regex="(.*)sigoom" format="{1}S" />
+        <!-- 2p « X negative -->
+        <rule regex="(.*)igoosiim" format="{1}" />
+        <rule regex="igoosiim" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoosiim" format="{1}w" />
+        <rule regex="(.*)aagoosiim" format="{1}aw" />
+        <rule regex="(.*)nigoosiim" format="{1}N" />
+        <rule regex="(.*n)igoosiim" format="{1}N" />
+        <rule regex="(.*)sigoosiim" format="{1}S" />
+        <!-- 2p « 3s positive -->
+        <rule regex="(.*)igowaa" format="{1}" />
+        <rule regex="igowaa" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogowaa" format="{1}w" />
+        <rule regex="(.*)aagowaa" format="{1}aw" />
+        <rule regex="(.*)nigowaa" format="{1}N" />
+        <rule regex="(.*n)igowaa" format="{1}N" />
+        <rule regex="(.*)sigowaa" format="{1}S" />
+        <!-- 2p « 3s negative -->
+        <rule regex="(.*)igosiiwaa" format="{1}" />
+        <rule regex="igosiiwaa" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogosiiwaa" format="{1}w" />
+        <rule regex="(.*)aagosiiwaa" format="{1}aw" />
+        <rule regex="(.*)nigosiiwaa" format="{1}N" />
+        <rule regex="(.*n)igosiiwaa" format="{1}N" />
+        <rule regex="(.*)sigosiiwaa" format="{1}S" />
+        <!-- 2p « 3p positive -->
+        <rule regex="(.*)igowaag" format="{1}" />
+        <rule regex="igowaag" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogowaag" format="{1}w" />
+        <rule regex="(.*)aagowaag" format="{1}aw" />
+        <rule regex="(.*)nigowaag" format="{1}N" />
+        <rule regex="(.*n)igowaag" format="{1}N" />
+        <rule regex="(.*)sigowaag" format="{1}S" />
+        <!-- 2p « 3p negative -->
+        <rule regex="(.*)igosiiwaag" format="{1}" />
+        <rule regex="igosiiwaag" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogosiiwaag" format="{1}w" />
+        <rule regex="(.*)aagosiiwaag" format="{1}aw" />
+        <rule regex="(.*)nigosiiwaag" format="{1}N" />
+        <rule regex="(.*n)igosiiwaag" format="{1}N" />
+        <rule regex="(.*)sigosiiwaag" format="{1}S" />
+        <!-- 12 topic reflexive positive -->
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        <!-- 12 topic reflexive negative -->
+        <rule regex="(.*)idizosiimin" format="{1}" />
+        <rule regex="(.*)ndizosiimin" format="{1}m" />
+        <rule regex="(.*)odizosiimin" format="{1}w" />
+        <rule regex="(.*)aadizosiimin" format="{1}aw" />
+        <rule regex="(.*)nidizosiimin" format="{1}N" />
+        <rule regex="(.*n)idizosiimin" format="{1}N" />
+        <rule regex="(.*)sidizosiimin" format="{1}S" />
+        <!-- 12 topic direct -->
+        <!-- 12 » 3s positive -->
+        <rule regex="(.*)aanaan" format="{1}" />
+        <rule regex="(.*)naanaan" format="{1}N" />
+        <rule regex="(.*n)aanaan" format="{1}N" />
+        <rule regex="(.*)saanaan" format="{1}S" />
+        <!-- 12 » 3s negative -->
+        <rule regex="(.*)aasiinaan" format="{1}" />
+        <rule regex="(.*)naasiinaan" format="{1}N" />
+        <rule regex="(.*n)aasiinaan" format="{1}N" />
+        <rule regex="(.*)saasiinaan" format="{1}S" />
+        <!-- 12 » 3p positive -->
+        <rule regex="(.*)aanaanig" format="{1}" />
+        <rule regex="(.*)naanaanig" format="{1}N" />
+        <rule regex="(.*n)aanaanig" format="{1}N" />
+        <rule regex="(.*)saanaanig" format="{1}S" />
+        <!-- 12 » 3p negative -->
+        <rule regex="(.*)aasiinaanig" format="{1}" />
+        <rule regex="(.*)naasiinaanig" format="{1}N" />
+        <rule regex="(.*n)aasiinaanig" format="{1}N" />
+        <rule regex="(.*)saasiinaanig" format="{1}S" />
+        <!-- 12 topic inverse -->
+        <!-- 12 « 3s positive -->
+        <rule regex="(.*)igonaan" format="{1}" />
+        <rule regex="igonaan" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogonaan" format="{1}w" />
+        <rule regex="(.*)nigonaan" format="{1}N" />
+        <rule regex="(.*n)igonaan" format="{1}N" />
+        <rule regex="(.*)sigonaan" format="{1}S" />
+        <!-- 12 « 3s negative -->
+        <rule regex="(.*)igosiinaan" format="{1}" />
+        <rule regex="igosiinaan" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogosiinaan" format="{1}w" />
+        <rule regex="(.*)nigosiinaan" format="{1}N" />
+        <rule regex="(.*n)igosiinaan" format="{1}N" />
+        <rule regex="(.*)sigosiinaan" format="{1}S" />
+        <!-- 12 « 3p positive -->
+        <rule regex="(.*)igoonaanig" format="{1}" />
+        <rule regex="igoonaanig" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoonaanig" format="{1}w" />
+        <rule regex="(.*)aagoonaanig" format="{1}aw" />
+        <rule regex="(.*)nigoonaanig" format="{1}N" />
+        <rule regex="(.*n)igoonaanig" format="{1}N" />
+        <rule regex="(.*)sigoonaanig" format="{1}S" />
+        <!-- 12 « 3p negative -->
+        <rule regex="(.*)igoosiinaanig" format="{1}" />
+        <rule regex="igoosiinaanig" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoosiinaanig" format="{1}w" />
+        <rule regex="(.*)aagoosiinaanig" format="{1}aw" />
+        <rule regex="(.*)nigoosiinaanig" format="{1}N" />
+        <rule regex="(.*n)igoosiinaanig" format="{1}N" />
+        <rule regex="(.*)sigoosiinaanig" format="{1}S" />
+        <!-- 12 « X positive -->
+        <rule regex="(.*)igoomin" format="{1}" />
+        <rule regex="igoomin" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoomin" format="{1}w" />
+        <rule regex="(.*)aagoomin" format="{1}aw" />
+        <rule regex="(.*)nigoomin" format="{1}N" />
+        <rule regex="(.*n)igoomin" format="{1}N" />
+        <rule regex="(.*)sigoomin" format="{1}S" />
+        <!-- 12 « X negative -->
+        <rule regex="(.*)igoosiimin" format="{1}" />
+        <rule regex="igoosiimin" format="iN" /> <!-- izhi/In -->
+        <rule regex="(.*)ogoosiimin" format="{1}w" />
+        <rule regex="(.*)aagoosiimin" format="{1}aw" />
+        <rule regex="(.*)nigoosiimin" format="{1}N" />
+        <rule regex="(.*n)igoosiimin" format="{1}N" />
+        <rule regex="(.*)sigoosiimin" format="{1}S" />
+        <!-- 1s reflexive positive -->
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        <!-- 1s reflexive negative -->
+        <rule regex="(.*)idizosii" format="{1}" />
+        <rule regex="(.*)ndizosii" format="{1}m" />
+        <rule regex="(.*)odizosii" format="{1}w" />
+        <rule regex="(.*)nidizosii" format="{1}N" />
+        <rule regex="(.*n)idizosii" format="{1}N" />
+        <rule regex="(.*)sidizosii" format="{1}S" />
+        <!-- 1s topic direct -->
+        <!-- 1s » 3s positive -->
+        <rule regex="(.*)aa" format="{1}" />
+        <rule regex="(.*)naa" format="{1}N" />
+        <rule regex="(.*n)aa" format="{1}N" />
+        <rule regex="(.*)saa" format="{1}S" />
+        <!-- 1s » 3s negative -->
+        <rule regex="(.*)aasii" format="{1}" />
+        <rule regex="(.*)naasii" format="{1}N" />
+        <rule regex="(.*n)aasii" format="{1}N" />
+        <rule regex="(.*)saasii" format="{1}S" />
+        <!-- 1s » 3p positive -->
+        <rule regex="(.*)aag" format="{1}" />
+        <rule regex="(.*)naag" format="{1}N" />
+        <rule regex="(.*n)aag" format="{1}N" />
+        <rule regex="(.*)saag" format="{1}S" />
+        <!-- 1s » 3p negative -->
+        <rule regex="(.*)aasiig" format="{1}" />
+        <rule regex="(.*)naasiig" format="{1}N" />
+        <rule regex="(.*n)aasiig" format="{1}N" />
+        <rule regex="(.*)saasiig" format="{1}S" />
+        <!-- 1s » 3' positive -->
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rule regex="(.*)simaan" format="{1}S" />
+        <!-- 1s » 3' negative -->
+        <!--
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rule regex="(.*)simaan" format="{1}S" />
+        -->
+        <!-- 1s topic inverse -->
+        <!-- 1s « X positive -->
+        <rule regex="(.*)igoo" format="{1}" />
+        <rule regex="(.*)ogoo" format="{1}w" />
+        <rule regex="(.*)aagoo" format="{1}aw" />
+        <rule regex="(.*)nigoo" format="{1}N" />
+        <rule regex="(.*n)igoo" format="{1}N" />
+        <rule regex="(.*)segoo" format="{1}S" />
+        <!-- 1s « X negative -->
+        <rule regex="(.*)igoosii" format="{1}" />
+        <rule regex="(.*)ogoosii" format="{1}w" />
+        <rule regex="(.*)aagoosii" format="{1}aw" />
+        <rule regex="(.*)nigoosii" format="{1}N" />
+        <rule regex="(.*n)igoosii" format="{1}N" />
+        <rule regex="(.*)segoosii" format="{1}S" />
+        <!-- 1s « 3s positive -->
+        <rule regex="(.*)ig" format="{1}" />
+        <rule regex="(.*)og" format="{1}w" />
+        <rule regex="(.*)aag" format="{1}aw" />
+        <rule regex="(.*)nig" format="{1}N" />
+        <rule regex="(.*n)ig" format="{1}N" />
+        <rule regex="(.*)sig" format="{1}S" />
+        <!-- 1s « 3s negative -->
+        <rule regex="(.*)igosii" format="{1}" />
+        <rule regex="(.*)ogosii" format="{1}w" />
+        <rule regex="(.*)aagosii" format="{1}aw" />
+        <rule regex="(.*)nigosii" format="{1}N" />
+        <rule regex="(.*n)igosii" format="{1}N" />
+        <rule regex="(.*)sigosii" format="{1}S" />
+        <!-- 1s « 3p positive -->
+        <rule regex="(.*)igoog" format="{1}" />
+        <rule regex="(.*)ogoog" format="{1}w" />
+        <rule regex="(.*)aagoog" format="{1}aw" />
+        <rule regex="(.*)nigoog" format="{1}N" />
+        <rule regex="(.*n)igoog" format="{1}N" />
+        <rule regex="(.*)sigoog" format="{1}S" />
+        <!-- 1s « 3p negative -->
+        <rule regex="(.*)igoosiig" format="{1}" />
+        <rule regex="(.*)ogoosiig" format="{1}w" />
+        <rule regex="(.*)aagoosiig" format="{1}aw" />
+        <rule regex="(.*)nigoosiig" format="{1}N" />
+        <rule regex="(.*n)igoosiig" format="{1}N" />
+        <rule regex="(.*)sigoosiig" format="{1}S" />
+        <!-- 1s « 0 positive -->
+        <rule regex="(.*)igon" format="{1}" />
+        <rule regex="(.*)ogon" format="{1}w" />
+        <rule regex="(.*)aagon" format="{1}aw" />
+        <rule regex="(.*)nigon" format="{1}N" />
+        <rule regex="(.*n)igon" format="{1}N" />
+        <rule regex="(.*)sigon" format="{1}S" />
+        <!-- 1s « 0 negative -->
+        <!--
+        <rule regex="(.*)igon" format="{1}" />
+        <rule regex="(.*)ogon" format="{1}w" />
+        <rule regex="(.*)aagon" format="{1}aw" />
+        <rule regex="(.*)nigon" format="{1}N" />
+        <rule regex="(.*n)igon" format="{1}N" />
+        <rule regex="(.*)sigon" format="{1}S" />
+        -->
+        <!-- 1p reflexive positive -->
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        <!-- 1p reflexive negative -->
+        <rule regex="(.*)idizosiimin" format="{1}" />
+        <rule regex="(.*)ndizosiimin" format="{1}m" />
+        <rule regex="(.*)odizosiimin" format="{1}w" />
+        <rule regex="(.*)aadizosiimin" format="{1}aw" />
+        <rule regex="(.*)nidizosiimin" format="{1}N" />
+        <rule regex="(.*n)idizosiimin" format="{1}N" />
+        <rule regex="(.*)sidizosiimin" format="{1}S" />
+        <!-- 1p topic direct -->
+        <!-- 1p » 3s positive -->
+        <rule regex="(.*)aanaan" format="{1}" />
+        <rule regex="(.*)naanaan" format="{1}N" />
+        <rule regex="(.*n)aanaan" format="{1}N" />
+        <rule regex="(.*)saanaan" format="{1}S" />
+        <!-- 1p » 3s negative -->
+        <rule regex="(.*)aasiinaan" format="{1}" />
+        <rule regex="(.*)naasiinaan" format="{1}N" />
+        <rule regex="(.*n)aasiinaan" format="{1}N" />
+        <rule regex="(.*)saasiinaan" format="{1}S" />
+        <!-- 1p » 3p positive -->
+        <rule regex="(.*)aanaanig" format="{1}" />
+        <rule regex="(.*)naanaanig" format="{1}N" />
+        <rule regex="(.*n)aanaanig" format="{1}N" />
+        <rule regex="(.*)saanaanig" format="{1}S" />
+        <!-- 1p » 3p negative -->
+        <rule regex="(.*)aasiinaanig" format="{1}" />
+        <rule regex="(.*)naasiinaanig" format="{1}N" />
+        <rule regex="(.*n)aasiinaanig" format="{1}N" />
+        <rule regex="(.*)saasiinaanig" format="{1}S" />
+        <!-- 1p topic inverse -->
+        <!-- 1p « X positive -->
+        <rule regex="(.*)igoomin" format="{1}" />
+        <rule regex="(.*)ogoomin" format="{1}w" />
+        <rule regex="(.*)aagoomin" format="{1}aw" />
+        <rule regex="(.*)nigoomin" format="{1}N" />
+        <rule regex="(.*n)igoomin" format="{1}N" />
+        <rule regex="(.*)sigoomin" format="{1}S" />
+        <!-- 1p « X negative -->
+        <!--
+        <rule regex="(.*)igoomin" format="{1}" />
+        <rule regex="(.*)ogoomin" format="{1}w" />
+        <rule regex="(.*)aagoomin" format="{1}aw" />
+        <rule regex="(.*)nigoomin" format="{1}N" />
+        <rule regex="(.*n)igoomin" format="{1}N" />
+        <rule regex="(.*)sigoomin" format="{1}S" />
+        -->
+        <!-- 1p « 3s positive -->
+        <rule regex="(.*)igonaan" format="{1}" />
+        <rule regex="(.*)ogonaan" format="{1}w" />
+        <rule regex="(.*)aagonaan" format="{1}aw" />
+        <rule regex="(.*)nigonaan" format="{1}N" />
+        <rule regex="(.*n)igonaan" format="{1}N" />
+        <rule regex="(.*)sigonaan" format="{1}S" />
+        <!-- 1p « 3s negative -->
+        <rule regex="(.*)igosiinaan" format="{1}" />
+        <rule regex="(.*)ogonsiiaan" format="{1}w" />
+        <rule regex="(.*)aagosiinaan" format="{1}aw" />
+        <rule regex="(.*)nigosiinaan" format="{1}N" />
+        <rule regex="(.*n)igosiinaan" format="{1}N" />
+        <rule regex="(.*)sigosiinaan" format="{1}S" />
+        <!-- 1p « 3p positive -->
+        <rule regex="(.*)igonaanig" format="{1}" />
+        <rule regex="(.*)ogonaanig" format="{1}w" />
+        <rule regex="(.*)aagonaanig" format="{1}aw" />
+        <rule regex="(.*)nigonaanig" format="{1}N" />
+        <rule regex="(.*n)igonaanig" format="{1}N" />
+        <rule regex="(.*)sigonaanig" format="{1}S" />
+        <!-- 1p « 3p negative -->
+        <rule regex="(.*)igosiinaanig" format="{1}" />
+        <rule regex="(.*)ogosiinaanig" format="{1}w" />
+        <rule regex="(.*)aagosiinaanig" format="{1}aw" />
+        <rule regex="(.*)nigosiinaanig" format="{1}N" />
+        <rule regex="(.*n)igosiinaanig" format="{1}N" />
+        <rule regex="(.*)sigosiinaanig" format="{1}S" />
+        <!-- 3s reflexive positive -->
+        <rule regex="(.*)idizo" format="{1}" />
+        <rule regex="(.*)ndizo" format="{1}M" />
+        <rule regex="(.*)odizo" format="{1}W" />
+        <rule regex="(.*)aadizo" format="{1}AW" />
+        <rule regex="(.*)nidizo" format="{1}N" />
+        <rule regex="(.*n)idizo" format="{1}N" />
+        <rule regex="(.*)sidizo" format="{1}S" />
+        <!-- 3s reflexive negative -->
+        <rule regex="(.*)idizosii" format="{1}" />
+        <rule regex="(.*)ndizosii" format="{1}M" />
+        <rule regex="(.*)odizosii" format="{1}W" />
+        <rule regex="(.*)aadizosii" format="{1}AW" />
+        <rule regex="(.*)nidizosii" format="{1}N" />
+        <rule regex="(.*n)idizosii" format="{1}N" />
+        <rule regex="(.*)sidizosii" format="{1}S" />
+        <!-- 3s topic direct -->
+        <!-- 3s » 3' positive -->
+        <rule regex="(.*)aan" format="{1}" />
+        <rule regex="(.*)naan" format="{1}N" />
+        <rule regex="(.*n)aan" format="{1}N" />
+        <rule regex="(.*)saan" format="{1}S" />
+        <!-- 3s » 3' negative -->
+        <rule regex="(.*)aasiin" format="{1}" />
+        <rule regex="(.*)naasiin" format="{1}N" />
+        <rule regex="(.*n)aasiin" format="{1}N" />
+        <rule regex="(.*)saasiin" format="{1}S" />
+        <!-- 3s topic inverse -->
+        <!-- 3s « 3' positive -->
+        <rule regex="(.*)igoon" format="{1}" />
+        <rule regex="(.*)ogoon" format="{1}w" />
+        <rule regex="(.*)aagoon" format="{1}aw" />
+        <rule regex="(.*)nigoon" format="{1}N" />
+        <rule regex="(.*n)igoon" format="{1}N" />
+        <rule regex="(.*)sigoon" format="{1}S" />
+        <!-- 3s « 3' negative -->
+        <!--
+        <rule regex="(.*)igoon" format="{1}" />
+        <rule regex="(.*)ogoon" format="{1}w" />
+        <rule regex="(.*)aagoon" format="{1}aw" />
+        <rule regex="(.*)nigoon" format="{1}N" />
+        <rule regex="(.*n)igoon" format="{1}N" />
+        <rule regex="(.*)sigoon" format="{1}S" />
+        -->
+        <!-- 3p reflexive positive -->
+        <rule regex="(.*)idizowag" format="{1}" />
+        <rule regex="(.*)ndizowag" format="{1}m" />
+        <rule regex="(.*)odizowag" format="{1}w" />
+        <rule regex="(.*)aadizowag" format="{1}aw" />
+        <rule regex="(.*)nidizowag" format="{1}N" />
+        <rule regex="(.*n)idizowag" format="{1}N" />
+        <rule regex="(.*)sidizowag" format="{1}S" />
+        <!-- 3p reflexive negative -->
+        <rule regex="(.*)idizosiiwag" format="{1}" />
+        <rule regex="(.*)ndizosiiwag" format="{1}m" />
+        <rule regex="(.*)odizosiiwag" format="{1}w" />
+        <rule regex="(.*)aadizosiiwag" format="{1}aw" />
+        <rule regex="(.*)nidizosiiwag" format="{1}N" />
+        <rule regex="(.*n)idizosiiwag" format="{1}N" />
+        <rule regex="(.*)sidizosiiwag" format="{1}S" />
+        <!-- 3p topic direct -->
+        <!-- 3p » 3' positive -->
+        <rule regex="(.*)aawaan" format="{1}" />
+        <rule regex="(.*)naawaan" format="{1}N" />
+        <rule regex="(.*n)aawaan" format="{1}N" />
+        <rule regex="(.*)saawaan" format="{1}S" />
+        <!-- 3p » 3' negative -->
+        <rule regex="(.*)aasiiwaan" format="{1}" />
+        <rule regex="(.*)naasiiwaan" format="{1}N" />
+        <rule regex="(.*n)aasiiwaan" format="{1}N" />
+        <rule regex="(.*)saasiiwaan" format="{1}S" />
+        <!-- 3p topic inverse -->
+        <!-- 3p « 3' positive -->
+        <rule regex="(.*)igowaan" format="{1}" />
+        <rule regex="(.*)ogowaan" format="{1}w" />
+        <rule regex="(.*)aagowaan" format="{1}aw" />
+        <rule regex="(.*)nigowaan" format="{1}N" />
+        <rule regex="(.*n)igowaan" format="{1}N" />
+        <rule regex="(.*)sigowaan" format="{1}S" />
+        <!-- 3p « 3' negative -->
+        <rule regex="(.*)igosiiwaan" format="{1}" />
+        <rule regex="(.*)ogosiiwaan" format="{1}w" />
+        <rule regex="(.*)aagosiiwaan" format="{1}aw" />
+        <rule regex="(.*)nigosiiwaan" format="{1}N" />
+        <rule regex="(.*n)igosiiwaan" format="{1}N" />
+        <rule regex="(.*)sigosiiwaan" format="{1}S" />
+    </rule-set>
+    <rule-set name="vtaPreteriteRules">
+        <!-- 2s topic reflexive -->
+        <!--
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)aadiz" format="{1}aw" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        -->
+        <!-- 2s topic direct -->
+        <!-- 2s » 1s -->
+        <rule regex="(.*)inaaban" format="{1}" />
+        <rule regex="(.*)onaaban" format="{1}w" />
+        <rule regex="(.*)zhinaaban" format="{1}N" />
+        <rule regex="(.*)shinaaban" format="{1}S" />
+        <!-- 2s » 1p -->
+        <rule regex="(.*)iminaaban" format="{1}" />
+        <rule regex="(.*)ominaaban" format="{1}w" />
+        <rule regex="(.*)zhiminaaban" format="{1}N" />
+        <rule regex="(.*)shiminaaban" format="{1}S" />
+        <!-- 2s » 3s -->
+        <rule regex="(.*)aaban" format="{1}" />
+        <rule regex="(.*)naaban" format="{1}N" />
+        <rule regex="(.*n)aaban" format="{1}N" />
+        <rule regex="(.*)saaban" format="{1}S" />
+        <!-- 2s » 3p -->
+        <!-- 2s » 3' -->
+        <rule regex="(.*)aabaniig" format="{1}" />
+        <rule regex="(.*)naabaniig" format="{1}N" />
+        <rule regex="(.*n)aabaniig" format="{1}N" />
+        <rule regex="(.*)saabaniig" format="{1}S" />
+        <!-- 2s topic inverse -->
+        <!-- 2s « 1s -->
+        <rule regex="(.*)ininaaban" format="{1}" />
+        <rule regex="(.*[^o])oninaaban" format="{1}w" />
+        <rule regex="(.*)ooninaaban" format="{1}aw" />
+        <rule regex="(.*)nininaaban" format="{1}N" />
+        <rule regex="(.*n)ininaaban" format="{1}N" />
+        <rule regex="(.*)sininaaban" format="{1}S" />
+        <!-- 2s « 1p -->
+        <!-- 2s « X -->
+        <rule regex="(.*)igoonaaban" format="{1}" />
+        <rule regex="(.*)ogoonaaban" format="{1}w" />
+        <rule regex="(.*)aagoonaaban" format="{1}aw" />
+        <rule regex="(.*)nigoonaaban" format="{1}N" />
+        <rule regex="(.*n)igoonaaban" format="{1}N" />
+        <rule regex="(.*)sigoonaaban" format="{1}S" />
+        <!-- 2s « 3s -->
+        <rule regex="(.*)igoban" format="{1}" />
+        <rule regex="(.*)ogoban" format="{1}w" />
+        <rule regex="(.*)aagoban" format="{1}aw" />
+        <rule regex="(.*)nigoban" format="{1}N" />
+        <rule regex="(.*n)igoban" format="{1}N" />
+        <rule regex="(.*)sigoban" format="{1}S" />
+        <!-- 2s « 3p -->
+        <rule regex="(.*)igobaniig" format="{1}" />
+        <rule regex="(.*)ogobaniig" format="{1}w" />
+        <rule regex="(.*)aagobaniig" format="{1}aw" />
+        <rule regex="(.*)nigobaniig" format="{1}N" />
+        <rule regex="(.*n)igobaniig" format="{1}N" />
+        <rule regex="(.*)sigobaniig" format="{1}S" />
+        <!-- 2s « 0 -->
+        <rule regex="(.*)igobaniin" format="{1}" />
+        <rule regex="(.*)ogobaniin" format="{1}w" />
+        <rule regex="(.*)aagobaniin" format="{1}aw" />
+        <rule regex="(.*)nigobaniin" format="{1}N" />
+        <rule regex="(.*n)igobaniin" format="{1}N" />
+        <rule regex="(.*)sigobaniin" format="{1}S" />
+        <!-- 12 topic reflexive -->
+        <!--
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        -->
+        <!-- 12 topic direct -->
+        <!-- 12 » 3s -->
+        <rule regex="(.*)aaminaaban" format="{1}" />
+        <rule regex="(.*)naaminaaban" format="{1}N" />
+        <rule regex="(.*n)aaminaaban" format="{1}N" />
+        <rule regex="(.*)saaminaaban" format="{1}S" />
+        <!-- 12 » 3p -->
+        <rule regex="(.*)aaminaabanig" format="{1}" />
+        <rule regex="(.*)naaminaabanig" format="{1}N" />
+        <rule regex="(.*n)aaminaabanig" format="{1}N" />
+        <rule regex="(.*)saaminaabanig" format="{1}S" />
+        <!-- 12 topic inverse -->
+        <!-- 12 « 3s -->
+        <rule regex="(.*)igominnaaban" format="{1}" />
+        <rule regex="(.*)ogominnaaban" format="{1}w" />
+        <rule regex="(.*)nigominnaaban" format="{1}N" />
+        <rule regex="(.*n)igominnaaban" format="{1}N" />
+        <rule regex="(.*)sigominnaaban" format="{1}S" />
+        <!-- 12 « 3p -->
+        <rule regex="(.*)igoominaabanig" format="{1}" />
+        <rule regex="(.*)ogoominaabanig" format="{1}w" />
+        <rule regex="(.*)aagoominaabanig" format="{1}aw" />
+        <rule regex="(.*)nigoominaabanig" format="{1}N" />
+        <rule regex="(.*n)igoominaabanig" format="{1}N" />
+        <rule regex="(.*)sigoominaabanig" format="{1}S" />
+        <!-- 12 « X -->
+        <rule regex="(.*)igoominaaban" format="{1}" />
+        <rule regex="(.*)ogoominaaban" format="{1}w" />
+        <rule regex="(.*)aagoominaaban" format="{1}aw" />
+        <rule regex="(.*)nigoominaaban" format="{1}N" />
+        <rule regex="(.*n)igoominaaban" format="{1}N" />
+        <rule regex="(.*)sigoominaaban" format="{1}S" />
+        <!-- 2p topic reflexive -->
+        <!--
+        <rule regex="(.*)idizom" format="{1}" />
+        <rule regex="(.*)ndizom" format="{1}m" />
+        <rule regex="(.*)odizom" format="{1}w" />
+        <rule regex="(.*)aadizom" format="{1}aw" />
+        <rule regex="(.*)nidizom" format="{1}N" />
+        <rule regex="(.*n)idizom" format="{1}N" />
+        <rule regex="(.*)sidizom" format="{1}S" />
+        -->
+        <!-- 2p topic direct -->
+        <!-- 2p » 1p -->
+        <rule regex="(.*)iminaaban" format="{1}" />
+        <rule regex="(.*)ominaaban" format="{1}w" />
+        <rule regex="(.*)aaminaaban" format="{1}aw" />
+        <rule regex="(.*)niminaaban" format="{1}N" />
+        <rule regex="(.*n)iminaaban" format="{1}N" />
+        <rule regex="(.*)siminaaban" format="{1}S" />
+        <!-- 2p » 3s -->
+        <rule regex="(.*)aawaaban" format="{1}" />
+        <rule regex="(.*)naawaaban" format="{1}N" />
+        <rule regex="(.*n)aawaaban" format="{1}N" />
+        <rule regex="(.*)saawaaban" format="{1}S" />
+        <!-- 2p » 3p -->
+        <rule regex="(.*)aawaabaniig" format="{1}" />
+        <rule regex="(.*)naawaabaniig" format="{1}N" />
+        <rule regex="(.*n)aawaabaniig" format="{1}N" />
+        <rule regex="(.*)saawaabaniig" format="{1}S" />
+        <!-- 2p topic inverse -->
+        <!-- 2p « 1s -->
+        <rule regex="(.*)inimwaaban" format="{1}" />
+        <rule regex="(.*[^o])onimwaaban" format="{1}w" />
+        <rule regex="(.*)oonimwaaban" format="{1}aw" />
+        <rule regex="(.*)ninimwaaban" format="{1}N" />
+        <rule regex="(.*n)inimwaaban" format="{1}N" />
+        <rule regex="(.*)sinimwaaban" format="{1}S" />
+        <!-- 2p « 1p -->
+        <!-- 2p « X -->
+        <rule regex="(.*)igoomwaaban" format="{1}" />
+        <rule regex="(.*)ogoomwaaban" format="{1}w" />
+        <rule regex="(.*)aagoomwaaban" format="{1}aw" />
+        <rule regex="(.*)nigoomwaaban" format="{1}N" />
+        <rule regex="(.*n)igoomwaaban" format="{1}N" />
+        <rule regex="(.*)sigoomwaaban" format="{1}S" />
+        <!-- 2p « 3s -->
+        <rule regex="(.*)igowaaban" format="{1}" />
+        <rule regex="(.*)ogowaaban" format="{1}w" />
+        <rule regex="(.*)aagowaaban" format="{1}aw" />
+        <rule regex="(.*)nigowaaban" format="{1}N" />
+        <rule regex="(.*n)igowaaban" format="{1}N" />
+        <rule regex="(.*)sigowaaban" format="{1}S" />
+        <!-- 2p « 3p -->
+        <rule regex="(.*)igowaabaniig" format="{1}" />
+        <rule regex="(.*)ogowaabaniig" format="{1}w" />
+        <rule regex="(.*)aagowaabaniig" format="{1}aw" />
+        <rule regex="(.*)nigowaabaniig" format="{1}N" />
+        <rule regex="(.*n)igowaabaniig" format="{1}N" />
+        <rule regex="(.*)sigowaabaniig" format="{1}S" />
+        <!-- 1s reflexive -->
+        <!--
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        -->
+        <!-- 1s topic direct -->
+        <!-- 1s » 3s -->
+        <rule regex="(.*)aaban" format="{1}" />
+        <rule regex="(.*)naaban" format="{1}N" />
+        <rule regex="(.*n)aaban" format="{1}N" />
+        <rule regex="(.*)saaban" format="{1}S" />
+        <!-- 1s » 3p -->
+        <rule regex="(.*)aabaniig" format="{1}" />
+        <rule regex="(.*)naabaniig" format="{1}N" />
+        <rule regex="(.*n)aabaniig" format="{1}N" />
+        <rule regex="(.*)saabaniig" format="{1}S" />
+        <!-- 1s » 3' -->
+        <rule regex="(.*)imaaban" format="{1}" />
+        <rule regex="(.*)omaaban" format="{1}w" />
+        <rule regex="(.*)nimaaban" format="{1}N" />
+        <rule regex="(.*n)imaaban" format="{1}N" />
+        <rule regex="(.*)simaaban" format="{1}S" />
+        <!-- 1s topic inverse -->
+        <!-- 1s « X -->
+        <rule regex="(.*)igoonaaban" format="{1}" />
+        <rule regex="(.*)ogoonaaban" format="{1}w" />
+        <rule regex="(.*)aagoonaaban" format="{1}aw" />
+        <rule regex="(.*)nigoonaaban" format="{1}N" />
+        <rule regex="(.*n)igoonaaban" format="{1}N" />
+        <rule regex="(.*)sigoonaaban" format="{1}S" />
+        <!-- 1s « 3s -->
+        <rule regex="(.*)igoban" format="{1}" />
+        <rule regex="(.*)ogoban" format="{1}w" />
+        <rule regex="(.*)aagoban" format="{1}aw" />
+        <rule regex="(.*)nigoban" format="{1}N" />
+        <rule regex="(.*n)igoban" format="{1}N" />
+        <rule regex="(.*)sigoban" format="{1}S" />
+        <!-- 1s « 3p -->
+        <rule regex="(.*)igobaniig" format="{1}" />
+        <rule regex="(.*)ogobaniig" format="{1}w" />
+        <rule regex="(.*)aagobaniig" format="{1}aw" />
+        <rule regex="(.*)nigobaniig" format="{1}N" />
+        <rule regex="(.*n)igobaniig" format="{1}N" />
+        <rule regex="(.*)sigobaniig" format="{1}S" />
+        <!-- 1s « 0 -->
+        <rule regex="(.*)igonaabaniin" format="{1}" />
+        <rule regex="(.*)ogonaabaniin" format="{1}w" />
+        <rule regex="(.*)aagonaabaniin" format="{1}aw" />
+        <rule regex="(.*)nigonaabaniin" format="{1}N" />
+        <rule regex="(.*n)igonaabaniin" format="{1}N" />
+        <rule regex="(.*)sigonaabaniin" format="{1}S" />
+        <!-- 1p reflexive -->
+        <!--
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        -->
+        <!-- 1p topic direct -->
+        <!-- 1p » 3s -->
+        <rule regex="(.*)aaminaaban" format="{1}" />
+        <rule regex="(.*)naaminaaban" format="{1}N" />
+        <rule regex="(.*n)aaminaaban" format="{1}N" />
+        <rule regex="(.*)saaminaaban" format="{1}S" />
+        <!-- 1p » 3p -->
+        <rule regex="(.*)aaminaabanig" format="{1}" />
+        <rule regex="(.*)naaimnaabanig" format="{1}N" />
+        <rule regex="(.*n)aaimnaabanig" format="{1}N" />
+        <rule regex="(.*)saaminaabanig" format="{1}S" />
+        <!-- 1p topic inverse -->
+        <!-- 1p « X -->
+        <rule regex="(.*)igoominaaban" format="{1}" />
+        <rule regex="(.*)ogoominaaban" format="{1}w" />
+        <rule regex="(.*)aagoominaaban" format="{1}aw" />
+        <rule regex="(.*)nigoominaaban" format="{1}N" />
+        <rule regex="(.*n)igoominaaban" format="{1}N" />
+        <rule regex="(.*)sigoominaaban" format="{1}S" />
+        <!-- 1p « 3s -->
+        <rule regex="(.*)igominaaban" format="{1}" />
+        <rule regex="(.*)oominaaban" format="{1}w" />
+        <rule regex="(.*)aagominaaban" format="{1}aw" />
+        <rule regex="(.*)nigominaaban" format="{1}N" />
+        <rule regex="(.*n)igominaaban" format="{1}N" />
+        <rule regex="(.*)sigominaaban" format="{1}S" />
+        <!-- 1p « 3p -->
+        <rule regex="(.*)igominaabanig" format="{1}" />
+        <rule regex="(.*)ogominaabanig" format="{1}w" />
+        <rule regex="(.*)aagominaabanig" format="{1}aw" />
+        <rule regex="(.*)nigominaabanig" format="{1}N" />
+        <rule regex="(.*n)igominaabanig" format="{1}N" />
+        <rule regex="(.*)sigominaabanig" format="{1}S" />
+        <!-- 3s reflexive -->
+        <!--
+        <rule regex="(.*)idizo" format="{1}" />
+        <rule regex="(.*)ndizo" format="{1}M" />
+        <rule regex="(.*)odizo" format="{1}W" />
+        <rule regex="(.*)aadizo" format="{1}AW" />
+        <rule regex="(.*)nidizo" format="{1}N" />
+        <rule regex="(.*n)idizo" format="{1}N" />
+        <rule regex="(.*)sidizo" format="{1}S" />
+        -->
+        <!-- 3s topic direct -->
+        <!-- 3s » 3' -->
+        <rule regex="(.*)aabaniin" format="{1}" />
+        <rule regex="(.*)naabaniin" format="{1}N" />
+        <rule regex="(.*n)aabaniin" format="{1}N" />
+        <rule regex="(.*)saabaniin" format="{1}S" />
+        <!-- 3s topic inverse -->
+        <!-- 3s « 3' -->
+        <rule regex="(.*)igobaniin" format="{1}" />
+        <rule regex="(.*)ogobaniin" format="{1}w" />
+        <rule regex="(.*)aagobaniin" format="{1}aw" />
+        <rule regex="(.*)nigobaniin" format="{1}N" />
+        <rule regex="(.*n)igobaniin" format="{1}N" />
+        <rule regex="(.*)sigobaniin" format="{1}S" />
+        <!-- 3p reflexive -->
+        <!--
+        <rule regex="(.*)idizowag" format="{1}" />
+        <rule regex="(.*)ndizowag" format="{1}m" />
+        <rule regex="(.*)odizowag" format="{1}w" />
+        <rule regex="(.*)aadizowag" format="{1}aw" />
+        <rule regex="(.*)nidizowag" format="{1}N" />
+        <rule regex="(.*n)idizowag" format="{1}N" />
+        <rule regex="(.*)sidizowag" format="{1}S" />
+        -->
+        <!-- 3p topic direct -->
+        <!-- 3p » 3' -->
+        <rule regex="(.*)aawaabaniin" format="{1}" />
+        <rule regex="(.*)naawaabaniin" format="{1}N" />
+        <rule regex="(.*n)aawaabaniin" format="{1}N" />
+        <rule regex="(.*)saawaabaniin" format="{1}S" />
+        <!-- 3p topic inverse -->
+        <!-- 3p « 3' -->
+        <rule regex="(.*)igowaabaniin" format="{1}" />
+        <rule regex="(.*)ogowaabaniin" format="{1}w" />
+        <rule regex="(.*)aagowaabaniin" format="{1}aw" />
+        <rule regex="(.*)nigowaabaniin" format="{1}N" />
+        <rule regex="(.*n)igowaabaniin" format="{1}N" />
+        <rule regex="(.*)sigowaabaniin" format="{1}S" />
+    </rule-set>
+    <rule-set name="vtaDubitativeRules">
+        <!-- 2s topic reflexive -->
+        <!--
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)aadiz" format="{1}aw" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        -->
+        <!-- 2s topic direct -->
+        <!-- 2s » 1s -->
+        <rule regex="(.*)inaadig" format="{1}" />
+        <rule regex="(.*)onaadig" format="{1}w" />
+        <rule regex="(.*)zhinaadig" format="{1}N" />
+        <rule regex="(.*)shinaadig" format="{1}S" />
+        <!-- 2s » 1p -->
+        <rule regex="(.*)iminaadig" format="{1}" />
+        <rule regex="(.*)ominaadig" format="{1}w" />
+        <rule regex="(.*)zhiminaadig" format="{1}N" />
+        <rule regex="(.*)shiminaadig" format="{1}S" />
+        <!-- 2s » 3s -->
+        <rule regex="(.*)aadig" format="{1}" />
+        <rule regex="(.*)naadig" format="{1}N" />
+        <rule regex="(.*n)aadig" format="{1}N" />
+        <rule regex="(.*)saadig" format="{1}S" />
+        <!-- 2s » 3p -->
+        <rule regex="(.*)aadigenag" format="{1}" />
+        <rule regex="(.*)naadigenag" format="{1}N" />
+        <rule regex="(.*n)aadigenag" format="{1}N" />
+        <rule regex="(.*)saadigenag" format="{1}S" />
+        <!-- 2s » 3' -->
+        <!--
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rule regex="(.*)simaan" format="{1}S" />
+        -->
+        <!-- 2s topic inverse -->
+        <!-- 2s « 1s -->
+        <rule regex="(.*)ininaadig" format="{1}" />
+        <rule regex="(.*[^o])oninaadig" format="{1}w" />
+        <rule regex="(.*)ooninaadig" format="{1}aw" />
+        <rule regex="(.*)nininaadig" format="{1}N" />
+        <rule regex="(.*n)ininaadig" format="{1}N" />
+        <rule regex="(.*)sininaadig" format="{1}S" />
+        <!-- 2s « 1p -->
+        <!-- 2s « X -->
+        <rule regex="(.*)igoonaadig" format="{1}" />
+        <rule regex="(.*)ogoonaadig" format="{1}w" />
+        <rule regex="(.*)aagoonaadig" format="{1}aw" />
+        <rule regex="(.*)nigoonaadig" format="{1}N" />
+        <rule regex="(.*n)igoonaadig" format="{1}N" />
+        <rule regex="(.*)sigoonaadig" format="{1}S" />
+        <!-- 2s « 3s -->
+        <rule regex="(.*)igodig" format="{1}" />
+        <rule regex="(.*)ogodig" format="{1}w" />
+        <rule regex="(.*)aagodig" format="{1}aw" />
+        <rule regex="(.*)nigodig" format="{1}N" />
+        <rule regex="(.*n)igodig" format="{1}N" />
+        <rule regex="(.*)sigodig" format="{1}S" />
+        <!-- 2s « 3p -->
+        <rule regex="(.*)igodigenag" format="{1}" />
+        <rule regex="(.*)ogodigenag" format="{1}w" />
+        <rule regex="(.*)aagodigenag" format="{1}aw" />
+        <rule regex="(.*)nigodigenag" format="{1}N" />
+        <rule regex="(.*n)igodigenag" format="{1}N" />
+        <rule regex="(.*)sigodigenag" format="{1}S" />
+        <!-- 2s « 0 -->
+        <rule regex="(.*)igonaadigenan" format="{1}" />
+        <rule regex="(.*)ogonaadigenan" format="{1}w" />
+        <rule regex="(.*)aagonaadigenan" format="{1}aw" />
+        <rule regex="(.*)nigonaadigenan" format="{1}N" />
+        <rule regex="(.*n)igonaadigenan" format="{1}N" />
+        <rule regex="(.*)sigonaadigenan" format="{1}S" />
+        <!-- 2p topic reflexive -->
+        <!--
+        <rule regex="(.*)idizom" format="{1}" />
+        <rule regex="(.*)ndizom" format="{1}m" />
+        <rule regex="(.*)odizom" format="{1}w" />
+        <rule regex="(.*)aadizom" format="{1}aw" />
+        <rule regex="(.*)nidizom" format="{1}N" />
+        <rule regex="(.*n)idizom" format="{1}N" />
+        <rule regex="(.*)sidizom" format="{1}S" />
+        -->
+        <!-- 2p topic direct -->
+        <!-- 2p » 1p -->
+        <rule regex="(.*)iminaadig" format="{1}" />
+        <rule regex="(.*)ominaadig" format="{1}w" />
+        <rule regex="(.*)aaminaadig" format="{1}aw" />
+        <rule regex="(.*)niminaadig" format="{1}N" />
+        <rule regex="(.*n)iminaadig" format="{1}N" />
+        <rule regex="(.*)siminaadig" format="{1}S" />
+        <!-- 2p » 3s -->
+        <rule regex="(.*)aawaadig" format="{1}" />
+        <rule regex="(.*)naawaadig" format="{1}N" />
+        <rule regex="(.*n)aawaadig" format="{1}N" />
+        <rule regex="(.*)saawaadig" format="{1}S" />
+        <!-- 2p » 3p -->
+        <rule regex="(.*)aawaadigenag" format="{1}" />
+        <rule regex="(.*)naawaadigenag" format="{1}N" />
+        <rule regex="(.*n)aawaadigenag" format="{1}N" />
+        <rule regex="(.*)saawaadigenag" format="{1}S" />
+        <!-- 2p topic inverse -->
+        <!-- 2p « 1s -->
+        <rule regex="(.*)inimwaadig" format="{1}" />
+        <rule regex="(.*[^o])onimwaadig" format="{1}w" />
+        <rule regex="(.*)oonimwaadig" format="{1}aw" />
+        <rule regex="(.*)ninimwaadig" format="{1}N" />
+        <rule regex="(.*n)inimwaadig" format="{1}N" />
+        <rule regex="(.*)sinimwaadig" format="{1}S" />
+        <!-- 2p « 1p -->
+        <!-- 2p « X -->
+        <rule regex="(.*)igoomwaadig" format="{1}" />
+        <rule regex="(.*)ogoomwaadig" format="{1}w" />
+        <rule regex="(.*)aagoomwaadig" format="{1}aw" />
+        <rule regex="(.*)nigoomwaadig" format="{1}N" />
+        <rule regex="(.*n)igoomwaadig" format="{1}N" />
+        <rule regex="(.*)sigoomwaadig" format="{1}S" />
+        <!-- 2p « 3s -->
+        <rule regex="(.*)igowaadig" format="{1}" />
+        <rule regex="(.*)ogowaadig" format="{1}w" />
+        <rule regex="(.*)aagowaadig" format="{1}aw" />
+        <rule regex="(.*)nigowaadig" format="{1}N" />
+        <rule regex="(.*n)igowaadig" format="{1}N" />
+        <rule regex="(.*)sigowaadig" format="{1}S" />
+        <!-- 2p « 3p -->
+        <rule regex="(.*)igonaawaadigenag" format="{1}" />
+        <rule regex="(.*)ogonaawaadigenag" format="{1}w" />
+        <rule regex="(.*)aagonaawaadigenag" format="{1}aw" />
+        <rule regex="(.*)nigonaawaadigenag" format="{1}N" />
+        <rule regex="(.*n)igonaawaadigenag" format="{1}N" />
+        <rule regex="(.*)sigonaawaadigenag" format="{1}S" />
+        <!-- 12 topic reflexive -->
+        <!--
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        -->
+        <!-- 12 topic direct -->
+        <!-- 12 » 3s -->
+        <rule regex="(.*)aaminaadig" format="{1}" />
+        <rule regex="(.*)naaminaadig" format="{1}N" />
+        <rule regex="(.*n)aaminaadig" format="{1}N" />
+        <rule regex="(.*)saaminaadig" format="{1}S" />
+        <!-- 12 » 3p -->
+        <rule regex="(.*)aaminaadigenag" format="{1}" />
+        <rule regex="(.*)naaminaadigenag" format="{1}N" />
+        <rule regex="(.*n)aaminaadigenag" format="{1}N" />
+        <rule regex="(.*)saaminaadigenag" format="{1}S" />
+        <!-- 12 topic inverse -->
+        <!-- 12 « 3s -->
+        <rule regex="(.*)igominaadig" format="{1}" />
+        <rule regex="(.*)ogominaadig" format="{1}w" />
+        <rule regex="(.*)nigominaadig" format="{1}N" />
+        <rule regex="(.*n)igominaadig" format="{1}N" />
+        <rule regex="(.*)sigominaadig" format="{1}S" />
+        <!-- 12 « 3p -->
+        <rule regex="(.*)igoominaadigenag" format="{1}" />
+        <rule regex="(.*)ogoominaadigenag" format="{1}w" />
+        <rule regex="(.*)aagoominaadigenag" format="{1}aw" />
+        <rule regex="(.*)nigoominaadigenag" format="{1}N" />
+        <rule regex="(.*n)igoominaadigenag" format="{1}N" />
+        <rule regex="(.*)sigoominaadigenag" format="{1}S" />
+        <!-- 12 « X -->
+        <rule regex="(.*)igoominaadig" format="{1}" />
+        <rule regex="(.*)ogoominaadig" format="{1}w" />
+        <rule regex="(.*)aagoominaadig" format="{1}aw" />
+        <rule regex="(.*)nigoominaadig" format="{1}N" />
+        <rule regex="(.*n)igoominaadig" format="{1}N" />
+        <rule regex="(.*)sigoominaadig" format="{1}S" />
+        <!-- 1s reflexive -->
+        <!--
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        -->
+        <!-- 1s topic direct -->
+        <!-- 1s » 3s -->
+        <rule regex="(.*)aadig" format="{1}" />
+        <rule regex="(.*)naadig" format="{1}N" />
+        <rule regex="(.*n)aadig" format="{1}N" />
+        <rule regex="(.*)saadig" format="{1}S" />
+        <!-- 1s » 3p -->
+        <rule regex="(.*)aadigenag" format="{1}" />
+        <rule regex="(.*)naadigenag" format="{1}N" />
+        <rule regex="(.*n)aadigenag" format="{1}N" />
+        <rule regex="(.*)saadigenag" format="{1}S" />
+        <!-- 1s » 3' -->
+        <!--
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rule regex="(.*)simaan" format="{1}S" />
+        -->
+        <!-- 1s topic inverse -->
+        <!-- 1s « X -->
+        <rule regex="(.*)igoonaadig" format="{1}" />
+        <rule regex="(.*)ogoonaadig" format="{1}w" />
+        <rule regex="(.*)aagoonaadig" format="{1}aw" />
+        <rule regex="(.*)nigoonaadig" format="{1}N" />
+        <rule regex="(.*n)igoonaadig" format="{1}N" />
+        <rule regex="(.*)sigoonaadig" format="{1}S" />
+        <!-- 1s « 3s -->
+        <rule regex="(.*)igodig" format="{1}" />
+        <rule regex="(.*)ogodig" format="{1}w" />
+        <rule regex="(.*)aagodig" format="{1}aw" />
+        <rule regex="(.*)nigodig" format="{1}N" />
+        <rule regex="(.*n)igodig" format="{1}N" />
+        <rule regex="(.*)sigodig" format="{1}S" />
+        <!-- 1s « 3p -->
+        <rule regex="(.*)igodigenag" format="{1}" />
+        <rule regex="(.*)ogodigenag" format="{1}w" />
+        <rule regex="(.*)aagodigenag" format="{1}aw" />
+        <rule regex="(.*)nigodigenag" format="{1}N" />
+        <rule regex="(.*n)igodigenag" format="{1}N" />
+        <rule regex="(.*)sigodigenag" format="{1}S" />
+        <!-- 1s « 0 -->
+        <rule regex="(.*)igonaadigenan" format="{1}" />
+        <rule regex="(.*)ogonaadigenan" format="{1}w" />
+        <rule regex="(.*)aagonaadigenan" format="{1}aw" />
+        <rule regex="(.*)nigonaadigenan" format="{1}N" />
+        <rule regex="(.*n)igonaadigenan" format="{1}N" />
+        <rule regex="(.*)sigonaadigenan" format="{1}S" />
+        <!-- 1p reflexive -->
+        <!--
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        -->
+        <!-- 1p topic direct -->
+        <!-- 1p » 3s -->
+        <rule regex="(.*)aaminaadig" format="{1}" />
+        <rule regex="(.*)naaminaadig" format="{1}N" />
+        <rule regex="(.*n)aaminaadig" format="{1}N" />
+        <rule regex="(.*)saaminaadig" format="{1}S" />
+        <!-- 1p » 3p -->
+        <rule regex="(.*)aaminaadigenag" format="{1}" />
+        <rule regex="(.*)naaminaadigenag" format="{1}N" />
+        <rule regex="(.*n)aaminaadigenag" format="{1}N" />
+        <rule regex="(.*)saaminaadigenag" format="{1}S" />
+        <!-- 1p topic inverse -->
+        <!-- 1p « X -->
+        <rule regex="(.*)igoominaadig" format="{1}" />
+        <rule regex="(.*)ogoominaadig" format="{1}w" />
+        <rule regex="(.*)aagoominaadig" format="{1}aw" />
+        <rule regex="(.*)nigoominaadig" format="{1}N" />
+        <rule regex="(.*n)igoominaadig" format="{1}N" />
+        <rule regex="(.*)sigoominaadig" format="{1}S" />
+        <!-- 1p « 3s -->
+        <rule regex="(.*)igominaadig" format="{1}" />
+        <rule regex="(.*)oogominaadig" format="{1}w" />
+        <rule regex="(.*)aagominaadig" format="{1}aw" />
+        <rule regex="(.*)nigominaadig" format="{1}N" />
+        <rule regex="(.*n)igominaadig" format="{1}N" />
+        <rule regex="(.*)sigominaadig" format="{1}S" />
+        <!-- 1p « 3p -->
+        <rule regex="(.*)igominaadigenag" format="{1}" />
+        <rule regex="(.*)oogominaadigenag" format="{1}w" />
+        <rule regex="(.*)aagominaadigenag" format="{1}aw" />
+        <rule regex="(.*)nigominaadigenag" format="{1}N" />
+        <rule regex="(.*n)igominaadigenag" format="{1}N" />
+        <rule regex="(.*)sigominaadigenag" format="{1}S" />
+        <!-- 3s reflexive -->
+        <!--
+        <rule regex="(.*)idizo" format="{1}" />
+        <rule regex="(.*)ndizo" format="{1}M" />
+        <rule regex="(.*)odizo" format="{1}W" />
+        <rule regex="(.*)aadizo" format="{1}AW" />
+        <rule regex="(.*)nidizo" format="{1}N" />
+        <rule regex="(.*n)idizo" format="{1}N" />
+        <rule regex="(.*)sidizo" format="{1}S" />
+        -->
+        <!-- 3s topic direct -->
+        <!-- 3s » 3' -->
+        <rule regex="(.*)aadigenan" format="{1}" />
+        <rule regex="(.*)naadigenan" format="{1}N" />
+        <rule regex="(.*n)aadigenan" format="{1}N" />
+        <rule regex="(.*)saadigenan" format="{1}S" />
+        <!-- 3s topic inverse -->
+        <!-- 3s « 3' -->
+        <rule regex="(.*)igodigenan" format="{1}" />
+        <rule regex="(.*)ogodigenan" format="{1}w" />
+        <rule regex="(.*)aagodigenan" format="{1}aw" />
+        <rule regex="(.*)nigodigenan" format="{1}N" />
+        <rule regex="(.*n)igodigenan" format="{1}N" />
+        <rule regex="(.*)sigodigenan" format="{1}S" />
+        <!-- 3p reflexive -->
+        <!--
+        <rule regex="(.*)idizowag" format="{1}" />
+        <rule regex="(.*)ndizowag" format="{1}m" />
+        <rule regex="(.*)odizowag" format="{1}w" />
+        <rule regex="(.*)aadizowag" format="{1}aw" />
+        <rule regex="(.*)nidizowag" format="{1}N" />
+        <rule regex="(.*n)idizowag" format="{1}N" />
+        <rule regex="(.*)sidizowag" format="{1}S" />
+        -->
+        <!-- 3p topic direct -->
+        <!-- 3p » 3' -->
+        <rule regex="(.*)aawaadigenan" format="{1}" />
+        <rule regex="(.*)naawaadigenan" format="{1}N" />
+        <rule regex="(.*n)aawaadigenan" format="{1}N" />
+        <rule regex="(.*)saawaadigenan" format="{1}S" />
+        <!-- 3p topic inverse -->
+        <!-- 3p « 3' -->
+        <rule regex="(.*)igowaadigenan" format="{1}" />
+        <rule regex="(.*)ogowaadigenan" format="{1}w" />
+        <rule regex="(.*)aagowaadigenan" format="{1}aw" />
+        <rule regex="(.*)nigowaadigenan" format="{1}N" />
+        <rule regex="(.*n)igowaadigenan" format="{1}N" />
+        <rule regex="(.*)sigowaadigenan" format="{1}S" />
+    </rule-set>
+    <rule-set name="vtaDubitativePreteriteRules">
+        <!-- 2s topic reflexive -->
+        <!--
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)aadiz" format="{1}aw" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        -->
+        <!-- 2s topic direct -->
+        <!-- 2s » 1s -->
+        <rule regex="(.*)iwamban" format="{1}" />
+        <rule regex="(.*)owamban" format="{1}w" />
+        <rule regex="(.*)zhiwamban" format="{1}N" />
+        <rule regex="(.*)shiwamban" format="{1}S" />
+        <!-- 2s » 1p -->
+        <rule regex="(.*)iwaangiban" format="{1}" />
+        <rule regex="(.*)owaangiban" format="{1}w" />
+        <rule regex="(.*)zhiwaangiban" format="{1}N" />
+        <rule regex="(.*)shiwaangiban" format="{1}S" />
+        <!-- 2s » 3s -->
+        <rule regex="(.*)aawaadiban" format="{1}" />
+        <rule regex="(.*)naawaadiban" format="{1}N" />
+        <rule regex="(.*n)aawaadiban" format="{1}N" />
+        <rule regex="(.*)saawaadiban" format="{1}S" />
+        <!-- 2s » 3p -->
+        <rule regex="(.*)aawadwaaban" format="{1}" />
+        <rule regex="(.*)naawadwaaban" format="{1}N" />
+        <rule regex="(.*n)aawadwaaban" format="{1}N" />
+        <rule regex="(.*)saawadwaaban" format="{1}S" />
+        <!-- 2s » 3' -->
+        <!--
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rule regex="(.*)simaan" format="{1}S" />
+        -->
+        <!-- 2s topic inverse -->
+        <!-- 2s « 1s -->
+        <rule regex="(.*)ininwaambaan" format="{1}" />
+        <rule regex="(.*[^o])oninwaambaan" format="{1}w" />
+        <rule regex="(.*)ooninwaambaan" format="{1}aw" />
+        <rule regex="(.*)nininwaambaan" format="{1}N" />
+        <rule regex="(.*n)ininwaambaan" format="{1}N" />
+        <rule regex="(.*)sininwaambaan" format="{1}S" />
+        <!-- 2s « 1p -->
+        <!-- 2s « X -->
+        <rule regex="(.*)igoowamban" format="{1}" />
+        <rule regex="(.*)ogoowamban" format="{1}w" />
+        <rule regex="(.*)aagoowamban" format="{1}aw" />
+        <rule regex="(.*)nigoowamban" format="{1}N" />
+        <rule regex="(.*n)igoowamban" format="{1}N" />
+        <rule regex="(.*)sigoowamban" format="{1}S" />
+        <!-- 2s « 3s -->
+        <rule regex="(.*)ikiban" format="{1}" />
+        <rule regex="(.*)okiban" format="{1}w" />
+        <rule regex="(.*)aakiban" format="{1}aw" />
+        <rule regex="(.*)nikiban" format="{1}N" />
+        <rule regex="(.*n)ikiban" format="{1}N" />
+        <rule regex="(.*)sikiban" format="{1}S" />
+        <!-- 2s « 3p -->
+        <rule regex="(.*)ikwaaban" format="{1}" />
+        <rule regex="(.*)okwaaban" format="{1}w" />
+        <rule regex="(.*)aakwaaban" format="{1}aw" />
+        <rule regex="(.*)nikwaaban" format="{1}N" />
+        <rule regex="(.*n)ikwaaban" format="{1}N" />
+        <rule regex="(.*)sikwaaban" format="{1}S" />
+        <!-- 2s « 0 -->
+        <rule regex="(.*)igowamban" format="{1}" />
+        <rule regex="(.*)ogowamban" format="{1}w" />
+        <rule regex="(.*)aagowamban" format="{1}aw" />
+        <rule regex="(.*)nigowamban" format="{1}N" />
+        <rule regex="(.*n)igowamban" format="{1}N" />
+        <rule regex="(.*)sigowamban" format="{1}S" />
+        <!-- 12 topic reflexive -->
+        <!--
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        -->
+        <!-- 12 topic direct -->
+        <!-- 12 » 3s -->
+        <!-- 12 » 3p -->
+        <rule regex="(.*)aawangoban" format="{1}" />
+        <rule regex="(.*)naawangoban" format="{1}N" />
+        <rule regex="(.*n)aawangoban" format="{1}N" />
+        <rule regex="(.*)saawangoban" format="{1}S" />
+        <!-- 12 topic inverse -->
+        <!-- 12 « 3s -->
+        <rule regex="(.*)ininangoban" format="{1}" />
+        <rule regex="(.*)oninangoban" format="{1}w" />
+        <rule regex="(.*)nininangoban" format="{1}N" />
+        <rule regex="(.*n)ininangoban" format="{1}N" />
+        <rule regex="(.*)sininangoban" format="{1}S" />
+        <!-- 12 « 3p -->
+        <rule regex="(.*)ininangwaaban" format="{1}" />
+        <rule regex="(.*)oninangwaaban" format="{1}w" />
+        <rule regex="(.*)aaninangwaaban" format="{1}aw" />
+        <rule regex="(.*)nininangwaaban" format="{1}N" />
+        <rule regex="(.*n)ininangwaaban" format="{1}N" />
+        <rule regex="(.*)sininangwaaban" format="{1}S" />
+        <!-- 12 « X -->
+        <rule regex="(.*)igoowangoban" format="{1}" />
+        <rule regex="(.*)ogoowangoban" format="{1}w" />
+        <rule regex="(.*)aagoowangoban" format="{1}aw" />
+        <rule regex="(.*)nigoowangoban" format="{1}N" />
+        <rule regex="(.*n)igoowangoban" format="{1}N" />
+        <rule regex="(.*)sigoowangoban" format="{1}S" />
+        <!-- 2p topic reflexive -->
+        <!--
+        <rule regex="(.*)idizom" format="{1}" />
+        <rule regex="(.*)ndizom" format="{1}m" />
+        <rule regex="(.*)odizom" format="{1}w" />
+        <rule regex="(.*)aadizom" format="{1}aw" />
+        <rule regex="(.*)nidizom" format="{1}N" />
+        <rule regex="(.*n)idizom" format="{1}N" />
+        <rule regex="(.*)sidizom" format="{1}S" />
+        -->
+        <!-- 2p topic direct -->
+        <!-- 2p » 1p -->
+        <rule regex="(.*)iwaangiban" format="{1}" />
+        <rule regex="(.*)owaangiban" format="{1}w" />
+        <rule regex="(.*)aawaangiban" format="{1}aw" />
+        <rule regex="(.*)niwaangiban" format="{1}N" />
+        <rule regex="(.*n)iwaangiban" format="{1}N" />
+        <rule regex="(.*)siwaangiban" format="{1}S" />
+        <!-- 2p » 3s -->
+        <rule regex="(.*)aawegoban" format="{1}" />
+        <rule regex="(.*)naawegoban" format="{1}N" />
+        <rule regex="(.*n)aawegoban" format="{1}N" />
+        <rule regex="(.*)saawegoban" format="{1}S" />
+        <!-- 2p » 3p -->
+        <rule regex="(.*)aawegwaaban" format="{1}" />
+        <rule regex="(.*)naawegwaaban" format="{1}N" />
+        <rule regex="(.*n)aawegwaaban" format="{1}N" />
+        <rule regex="(.*)saawegwaaban" format="{1}S" />
+        <!-- 2p topic inverse -->
+        <!-- 2p « 1s -->
+        <rule regex="(.*)ininagogoban" format="{1}" />
+        <rule regex="(.*[^o])oninagogoban" format="{1}w" />
+        <rule regex="(.*)ooninagogoban" format="{1}aw" />
+        <rule regex="(.*)nininagogoban" format="{1}N" />
+        <rule regex="(.*n)ininagogoban" format="{1}N" />
+        <rule regex="(.*)sininagogoban" format="{1}S" />
+        <!-- 2p « 1p -->
+        <!-- 2p « X -->
+        <rule regex="(.*)igoowegoban" format="{1}" />
+        <rule regex="(.*)ogoowegoban" format="{1}w" />
+        <rule regex="(.*)aagoowegoban" format="{1}aw" />
+        <rule regex="(.*)nigoowegoban" format="{1}N" />
+        <rule regex="(.*n)igoowegoban" format="{1}N" />
+        <rule regex="(.*)sigoowegoban" format="{1}S" />
+        <!-- 2p « 3s -->
+        <rule regex="(.*)ininegoban" format="{1}" />
+        <rule regex="(.*)oninegoban" format="{1}w" />
+        <rule regex="(.*)aaninegoban" format="{1}aw" />
+        <rule regex="(.*)nininegoban" format="{1}N" />
+        <rule regex="(.*n)ininegoban" format="{1}N" />
+        <rule regex="(.*)sininegoban" format="{1}S" />
+        <!-- 2p « 3p -->
+        <rule regex="(.*)ininegwaaban" format="{1}" />
+        <rule regex="(.*)oninegwaaban" format="{1}w" />
+        <rule regex="(.*)aaninegwaaban" format="{1}aw" />
+        <rule regex="(.*)nininegwaaban" format="{1}N" />
+        <rule regex="(.*n)ininegwaaban" format="{1}N" />
+        <rule regex="(.*)sininegwaaban" format="{1}S" />
+        <!-- 1s reflexive -->
+        <!--
+        <rule regex="(.*)idiz" format="{1}" />
+        <rule regex="(.*)ndiz" format="{1}m" />
+        <rule regex="(.*)odiz" format="{1}w" />
+        <rule regex="(.*)nidiz" format="{1}N" />
+        <rule regex="(.*n)idiz" format="{1}N" />
+        <rule regex="(.*)sidiz" format="{1}S" />
+        -->
+        <!-- 1s topic direct -->
+        <!-- 1s » 3s -->
+        <rule regex="(.*)aawagiban" format="{1}" />
+        <rule regex="(.*)naawagiban" format="{1}N" />
+        <rule regex="(.*n)aawagiban" format="{1}N" />
+        <rule regex="(.*)saawagiban" format="{1}S" />
+        <!-- 1s » 3p -->
+        <rule regex="(.*)aawagwaaban" format="{1}" />
+        <rule regex="(.*)naawagwaaban" format="{1}N" />
+        <rule regex="(.*n)aawagwaaban" format="{1}N" />
+        <rule regex="(.*)saawagwaaban" format="{1}S" />
+        <!-- 1s » 3' -->
+        <!--
+        <rule regex="(.*)imaan" format="{1}" />
+        <rule regex="(.*)omaan" format="{1}w" />
+        <rule regex="(.*)nimaan" format="{1}N" />
+        <rule regex="(.*n)imaan" format="{1}N" />
+        <rul regex="(.*)simaan" format="{1}S" />
+        -->
+        <!-- 1s topic inverse -->
+        <!-- 1s « X -->
+        <rule regex="(.*)igoowaambaan" format="{1}" />
+        <rule regex="(.*)ogoowaambaan" format="{1}w" />
+        <rule regex="(.*)aagoowaambaan" format="{1}aw" />
+        <rule regex="(.*)nigoowaambaan" format="{1}N" />
+        <rule regex="(.*n)igoowaambaan" format="{1}N" />
+        <rule regex="(.*)sigoowaambaan" format="{1}S" />
+        <!-- 1s « 3s -->
+        <rule regex="(.*)igoban" format="{1}" />
+        <rule regex="(.*)ogoban" format="{1}w" />
+        <rule regex="(.*)aagoban" format="{1}aw" />
+        <rule regex="(.*)nigoban" format="{1}N" />
+        <rule regex="(.*n)igoban" format="{1}N" />
+        <rule regex="(.*)sigoban" format="{1}S" />
+        <!-- 1s « 3p -->
+        <rule regex="(.*)iwaagoban" format="{1}" />
+        <rule regex="(.*)owaagoban" format="{1}w" />
+        <rule regex="(.*)aawaagoban" format="{1}aw" />
+        <rule regex="(.*)niwaagoban" format="{1}N" />
+        <rule regex="(.*n)iwaagoban" format="{1}N" />
+        <rule regex="(.*)siwaagoban" format="{1}S" />
+        <!-- 1s « 0 -->
+        <rule regex="(.*)igowaambaan" format="{1}" />
+        <rule regex="(.*)ogowaambaan" format="{1}w" />
+        <rule regex="(.*)aagowaambaan" format="{1}aw" />
+        <rule regex="(.*)nigowaambaan" format="{1}N" />
+        <rule regex="(.*n)igowaambaan" format="{1}N" />
+        <rule regex="(.*)sigowaambaan" format="{1}S" />
+        <!-- 1p reflexive -->
+        <!--
+        <rule regex="(.*)idizomin" format="{1}" />
+        <rule regex="(.*)ndizomin" format="{1}m" />
+        <rule regex="(.*)odizomin" format="{1}w" />
+        <rule regex="(.*)aadizomin" format="{1}aw" />
+        <rule regex="(.*)nidizomin" format="{1}N" />
+        <rule regex="(.*n)idizomin" format="{1}N" />
+        <rule regex="(.*)sidizomin" format="{1}S" />
+        -->
+        <!-- 1p topic direct -->
+        <!-- 1p » 3s -->
+        <rule regex="(.*)aawangidiban" format="{1}" />
+        <rule regex="(.*)naawangidiban" format="{1}N" />
+        <rule regex="(.*n)aawangidiban" format="{1}N" />
+        <rule regex="(.*)saawangidiban" format="{1}S" />
+        <!-- 1p » 3p -->
+        <rule regex="(.*)aawangidiban" format="{1}" />
+        <rule regex="(.*)naawangidiban" format="{1}N" />
+        <rule regex="(.*n)aawangidiban" format="{1}N" />
+        <rule regex="(.*)saawangidiban" format="{1}S" />
+        <!-- 1p topic inverse -->
+        <!-- 1p « X -->
+        <rule regex="(.*)igoowaangiban" format="{1}" />
+        <rule regex="(.*)ogoowaangiban" format="{1}w" />
+        <rule regex="(.*)aagoowaangiban" format="{1}aw" />
+        <rule regex="(.*)nigoowaangiban" format="{1}N" />
+        <rule regex="(.*n)igoowaangiban" format="{1}N" />
+        <rule regex="(.*)sigoowaangiban" format="{1}S" />
+        <!-- 1p « 3s -->
+        <rule regex="(.*)iwangidiban" format="{1}" />
+        <rule regex="(.*)oowangidiban" format="{1}w" />
+        <rule regex="(.*)aawangidiban" format="{1}aw" />
+        <rule regex="(.*)niwangidiban" format="{1}N" />
+        <rule regex="(.*n)iwangidiban" format="{1}N" />
+        <rule regex="(.*)siwangidiban" format="{1}S" />
+        <!-- 1p « 3p -->
+        <!--
+        <rule regex="(.*)igonaanig" format="{1}" />
+        <rule regex="(.*)oonaanig" format="{1}w" />
+        <rule regex="(.*)aagonaanig" format="{1}aw" />
+        <rule regex="(.*)nigonaanig" format="{1}N" />
+        <rule regex="(.*n)igonaanig" format="{1}N" />
+        <rule regex="(.*)sigonaanig" format="{1}S" />
+        -->
+        <!-- 3s reflexive -->
+        <!--
+        <rule regex="(.*)idizo" format="{1}" />
+        <rule regex="(.*)ndizo" format="{1}M" />
+        <rule regex="(.*)odizo" format="{1}W" />
+        <rule regex="(.*)aadizo" format="{1}AW" />
+        <rule regex="(.*)nidizo" format="{1}N" />
+        <rule regex="(.*n)idizo" format="{1}N" />
+        <rule regex="(.*)sidizo" format="{1}S" />
+        -->
+        <!-- 3s topic direct -->
+        <!-- 3s » 3' -->
+        <rule regex="(.*)aan" format="{1}" />
+        <rule regex="(.*)naan" format="{1}N" />
+        <rule regex="(.*n)aan" format="{1}N" />
+        <rule regex="(.*)saan" format="{1}S" />
+        <!-- 3s topic inverse -->
+        <!-- 3s « 3' -->
+        <rule regex="(.*)aagogban" format="{1}" />
+        <rule regex="(.*)naagogban" format="{1}N" />
+        <rule regex="(.*n)aagogban" format="{1}N" />
+        <rule regex="(.*)saagogban" format="{1}S" />
+        <!-- 3p reflexive -->
+        <!--
+        <rule regex="(.*)idizowag" format="{1}" />
+        <rule regex="(.*)ndizowag" format="{1}m" />
+        <rule regex="(.*)odizowag" format="{1}w" />
+        <rule regex="(.*)aadizowag" format="{1}aw" />
+        <rule regex="(.*)nidizowag" format="{1}N" />
+        <rule regex="(.*n)idizowag" format="{1}N" />
+        <rule regex="(.*)sidizowag" format="{1}S" />
+        -->
+        <!-- 3p topic direct -->
+        <!-- 3p » 3' -->
+        <rule regex="(.*)aawaagoban" format="{1}" />
+        <rule regex="(.*)naawaagoban" format="{1}N" />
+        <rule regex="(.*n)aawaagoban" format="{1}N" />
+        <rule regex="(.*)saawaagoban" format="{1}S" />
+        <!-- 3p topic inverse -->
+        <!-- 3p « 3' -->
+        <rule regex="(.*)igowaagoban" format="{1}" />
+        <rule regex="(.*)ogowaagoban" format="{1}w" />
+        <rule regex="(.*)aagowaagoban" format="{1}aw" />
+        <rule regex="(.*)nigowaagoban" format="{1}N" />
+        <rule regex="(.*n)igowaagoban" format="{1}N" />
+        <rule regex="(.*)sigowaagoban" format="{1}S" />
+    </rule-set>
+    <rule-set name="vtaConjunctRules">
+        <!-- 2s topic reflexive -->
+        <rule regex="(.*)idizoyan" format="{1}" />
+        <rule regex="(.*)ndizoyan" format="{1}m" />
+        <rule regex="(.*)odizoyan" format="{1}w" />
+        <rule regex="(.*)aadizoyan" format="{1}aw" />
+        <rule regex="(.*)nidizoyan" format="{1}N" />
+        <rule regex="(.*n)idizoyan" format="{1}N" />
+        <rule regex="(.*)sidizoyan" format="{1}S" />
+        <!-- 2s topic direct -->
+        <!-- 2s » 1s -->
+        <rule regex="(.*)iyan" format="{1}" />
+        <rule regex="(.*)oyan" format="{1}w" />
+        <rule regex="(.*)zhiyan" format="{1}N" />
+        <rule regex="(.*)shiyan" format="{1}S" />
+        <!-- 2s » 1p -->
+        <rule regex="(.*)iyaang" format="{1}" />
+        <rule regex="(.*)oyaang" format="{1}w" />
+        <rule regex="(.*)zhiyaang" format="{1}N" />
+        <rule regex="(.*)shiyaang" format="{1}S" />
+        <!-- 2s » 3s -->
+        <rule regex="(.*)ad" format="{1}" />
+        <rule regex="(.*)nad" format="{1}N" />
+        <rule regex="(.*n)ad" format="{1}N" />
+        <rule regex="(.*)sad" format="{1}S" />
+        <!-- 2s » 3p -->
+        <rule regex="(.*)adwaa" format="{1}" />
+        <rule regex="(.*)odwaa" format="{1}w" />
+        <rule regex="(.*)nadwaa" format="{1}N" />
+        <rule regex="(.*n)adwaa" format="{1}N" />
+        <rule regex="(.*)sadwaa" format="{1}S" />
+        <!-- 2s » 3' -->
+        <rule regex="(.*)imad" format="{1}" />
+        <rule regex="(.*)omad" format="{1}w" />
+        <rule regex="(.*)nimad" format="{1}N" />
+        <rule regex="(.*n)imad" format="{1}N" />
+        <rule regex="(.*)simad" format="{1}S" />
+        <!-- 2s topic inverse -->
+        <!-- 2s « 1s -->
+        <rule regex="(.*)inaan" format="{1}" />
+        <rule regex="(.*[^o])onaan" format="{1}w" />
+        <rule regex="(.*)oonaan" format="{1}aw" />
+        <rule regex="(.*)ninaan" format="{1}N" />
+        <rule regex="(.*n)inaan" format="{1}N" />
+        <rule regex="(.*)sinaan" format="{1}S" />
+        <!-- 2s « 1p -->
+        <!-- 2s « X -->
+        <rule regex="(.*)igooyan" format="{1}" />
+        <rule regex="(.*)ogooyan" format="{1}w" />
+        <rule regex="(.*)aagooyan" format="{1}aw" />
+        <rule regex="(.*)nigooyan" format="{1}N" />
+        <rule regex="(.*n)igooyan" format="{1}N" />
+        <rule regex="(.*)sigooyan" format="{1}S" />
+        <!-- 2s « 3s -->
+        <rule regex="(.*)ik" format="{1}" />
+        <rule regex="(.*)ok" format="{1}w" />
+        <rule regex="(.*)nik" format="{1}N" />
+        <rule regex="(.*n)ik" format="{1}N" />
+        <rule regex="(.*)sik" format="{1}S" />
+        <!-- 2s « 3p -->
+        <rule regex="(.*)ikwaa" format="{1}" />
+        <rule regex="(.*)okwaa" format="{1}w" />
+        <rule regex="(.*)aakwaa" format="{1}aw" />
+        <rule regex="(.*)nikwaa" format="{1}N" />
+        <rule regex="(.*n)ikwaa" format="{1}N" />
+        <rule regex="(.*)sikwaa" format="{1}S" />
+        <!-- 2s « 0 -->
+        <rule regex="(.*)igoyan" format="{1}" />
+        <rule regex="(.*)ogoyan" format="{1}w" />
+        <rule regex="(.*)aagoyan" format="{1}aw" />
+        <rule regex="(.*)nigoyan" format="{1}N" />
+        <rule regex="(.*n)igoyan" format="{1}N" />
+        <rule regex="(.*)sigoyan" format="{1}S" />
+        <!-- 12 topic reflexive -->
+        <rule regex="(.*)idizoyang" format="{1}" />
+        <rule regex="(.*)ndizoyang" format="{1}m" />
+        <rule regex="(.*)odizoyang" format="{1}w" />
+        <rule regex="(.*)aadizoyang" format="{1}aw" />
+        <rule regex="(.*)nidizoyang" format="{1}N" />
+        <rule regex="(.*n)idizoyang" format="{1}N" />
+        <rule regex="(.*)sidizoyang" format="{1}S" />
+        <!-- 12 topic direct -->
+        <!-- 12 » 3s -->
+        <rule regex="(.*)ang" format="{1}" />
+        <rule regex="(.*)nang" format="{1}N" />
+        <rule regex="(.*n)ang" format="{1}N" />
+        <rule regex="(.*)sang" format="{1}S" />
+        <!-- 12 » 3p -->
+        <rule regex="(.*)angwaa" format="{1}" />
+        <rule regex="(.*)nangwaa" format="{1}N" />
+        <rule regex="(.*n)angwaa" format="{1}N" />
+        <rule regex="(.*)sangwaa" format="{1}S" />
+        <!-- 12 topic inverse -->
+        <!-- 12 « 3s -->
+        <rule regex="(.*)inang" format="{1}" />
+        <rule regex="(.*[^o])onang" format="{1}w" />
+        <rule regex="(.*)oonang" format="{1}aw" />
+        <rule regex="(.*)ninang" format="{1}N" />
+        <rule regex="(.*n)inang" format="{1}N" />
+        <rule regex="(.*)sinang" format="{1}S" />
+        <!-- 12 « 3p -->
+        <rule regex="(.*)inangwaa" format="{1}" />
+        <rule regex="(.*[^o])onangwaa" format="{1}w" />
+        <rule regex="(.*)oonangwaa" format="{1}aw" />
+        <rule regex="(.*)ninangwaa" format="{1}N" />
+        <rule regex="(.*n)inangwaa" format="{1}N" />
+        <rule regex="(.*)sinangwaa" format="{1}S" />
+        <!-- 12 « X -->
+        <rule regex="(.*)igooyang" format="{1}" />
+        <rule regex="(.*)ogooyang" format="{1}w" />
+        <rule regex="(.*)aagooyang" format="{1}aw" />
+        <rule regex="(.*)nigooyang" format="{1}N" />
+        <rule regex="(.*n)igooyang" format="{1}N" />
+        <rule regex="(.*)sigooyang" format="{1}S" />
+        <!-- 2p topic reflexive -->
+        <rule regex="(.*)idizoyeg" format="{1}" />
+        <rule regex="(.*)ndizoyeg" format="{1}m" />
+        <rule regex="(.*)odizoyeg" format="{1}w" />
+        <rule regex="(.*)aadizoyeg" format="{1}aw" />
+        <rule regex="(.*)nidizoyeg" format="{1}N" />
+        <rule regex="(.*n)idizoyeg" format="{1}N" />
+        <rule regex="(.*)sidizoyeg" format="{1}S" />
+        <!-- 2p topic direct -->
+        <!-- 2p » 1p -->
+        <rule regex="(.*)iyaang" format="{1}" />
+        <rule regex="(.*)oyaang" format="{1}w" />
+        <rule regex="(.*)aayaang" format="{1}aw" />
+        <rule regex="(.*)niyaang" format="{1}N" />
+        <rule regex="(.*n)iyaang" format="{1}N" />
+        <rule regex="(.*)siyaang" format="{1}S" />
+        <!-- 2p » 3s -->
+        <rule regex="(.*)eg" format="{1}" />
+        <rule regex="(.*)neg" format="{1}N" />
+        <rule regex="(.*n)eg" format="{1}N" />
+        <rule regex="(.*)seg" format="{1}S" />
+        <!-- 2p » 3p -->
+        <rule regex="(.*)egwaa" format="{1}" />
+        <rule regex="(.*)negwaa" format="{1}N" />
+        <rule regex="(.*n)egwaa" format="{1}N" />
+        <rule regex="(.*)segwaa" format="{1}S" />
+        <!-- 2p topic inverse -->
+        <!-- 2p « 1s -->
+        <rule regex="(.*)inanog" format="{1}" />
+        <rule regex="(.*[^o])onanog" format="{1}w" />
+        <rule regex="(.*)oonanog" format="{1}aw" />
+        <rule regex="(.*)ninanog" format="{1}N" />
+        <rule regex="(.*n)inanog" format="{1}N" />
+        <rule regex="(.*)sinanog" format="{1}S" />\
+        <!-- 2p « 1p -->
+        <!-- 2p « X -->
+        <rule regex="(.*)igooyeg" format="{1}" />
+        <rule regex="(.*)ogooyeg" format="{1}w" />
+        <rule regex="(.*)aagooyeg" format="{1}aw" />
+        <rule regex="(.*)nigooyeg" format="{1}N" />
+        <rule regex="(.*n)igooyeg" format="{1}N" />
+        <rule regex="(.*)sigooyeg" format="{1}S" />
+        <!-- 2p « 3s -->
+        <rule regex="(.*)neg" format="{1}" />
+        <rule regex="(.*)oneg" format="{1}w" />
+        <rule regex="(.*)aaneg" format="{1}aw" />
+        <rule regex="(.*)nineg" format="{1}N" />
+        <rule regex="(.*n)ineg" format="{1}N" />
+        <rule regex="(.*)sineg" format="{1}S" />
+        <!-- 2p « 3p -->
+        <rule regex="(.*)inegwaa" format="{1}" />
+        <rule regex="(.*[^o])onegwaa" format="{1}w" />
+        <rule regex="(.*)oonegwaa" format="{1}w" />
+        <rule regex="(.*)ninegwaa" format="{1}N" />
+        <rule regex="(.*n)inegwaa" format="{1}N" />
+        <rule regex="(.*)sinegwaa" format="{1}S" />
+        <!-- 1s reflexive -->
+        <rule regex="(.*)idizoyaan" format="{1}" />
+        <rule regex="(.*)ndizoyaan" format="{1}m" />
+        <rule regex="(.*)odizoyaan" format="{1}w" />
+        <rule regex="(.*)nidizoyaan" format="{1}N" />
+        <rule regex="(.*n)idizoyaan" format="{1}N" />
+        <rule regex="(.*)sidizoyaan" format="{1}S" />
+        <!-- 1s topic direct -->
+        <!-- 1s » 3s -->
+        <rule regex="(.*)ag" format="{1}" />
+        <rule regex="(.*)nag" format="{1}N" />
+        <rule regex="(.*n)ag" format="{1}N" />
+        <rule regex="(.*)sag" format="{1}S" />
+        <!-- 1s » 3p -->
+        <rule regex="(.*)agwaa" format="{1}" />
+        <rule regex="(.*)nagwaa" format="{1}N" />
+        <rule regex="(.*n)agwaa" format="{1}N" />
+        <rule regex="(.*)sagwaa" format="{1}S" />
+        <!-- 1s » 3' -->
+        <rule regex="(.*)imag" format="{1}" />
+        <rule regex="(.*)omag" format="{1}w" />
+        <rule regex="(.*)nimag" format="{1}N" />
+        <rule regex="(.*n)imag" format="{1}N" />
+        <rule regex="(.*)simag" format="{1}S" />
+        <!-- 1s topic inverse -->
+        <!-- 1s « X -->
+        <rule regex="(.*)igooyaan" format="{1}" />
+        <rule regex="(.*)ogooyaan" format="{1}w" />
+        <rule regex="(.*)aagooyaan" format="{1}aw" />
+        <rule regex="(.*)nigooyaan" format="{1}N" />
+        <rule regex="(.*n)igooyaan" format="{1}N" />
+        <rule regex="(.*)segooyaan" format="{1}S" />
+        <!-- 1s « 3s -->
+        <rule regex="(.*)id" format="{1}" />
+        <rule regex="(.*)od" format="{1}w" />
+        <rule regex="(.*)zhid" format="{1}N" />
+        <rule regex="(.*)shid" format="{1}S" />
+        <!-- 1s « 3p -->
+        <rule regex="(.*)iwaad" format="{1}" />
+        <rule regex="(.*)owaad" format="{1}w" />
+        <rule regex="(.*)niwaad" format="{1}N" />
+        <rule regex="(.*n)iwaad" format="{1}N" />
+        <rule regex="(.*)siwaad" format="{1}S" />
+        <!-- 1s « 0 -->
+        <rule regex="(.*)igoyaan" format="{1}" />
+        <rule regex="(.*)ogoyaan" format="{1}w" />
+        <rule regex="(.*)aagoyaan" format="{1}aw" />
+        <rule regex="(.*)nigoyaan" format="{1}N" />
+        <rule regex="(.*n)igoyaan" format="{1}N" />
+        <rule regex="(.*)sigoyaan" format="{1}S" />
+        <!-- 1p reflexive -->
+        <rule regex="(.*)idizoyaang" format="{1}" />
+        <rule regex="(.*)ndizoyaang" format="{1}m" />
+        <rule regex="(.*)odizoyaang" format="{1}w" />
+        <rule regex="(.*)aadizoyaang" format="{1}aw" />
+        <rule regex="(.*)nidizoyaang" format="{1}N" />
+        <rule regex="(.*n)idizoyaang" format="{1}N" />
+        <rule regex="(.*)sidizoyaang" format="{1}S" />
+        <!-- 1p topic direct -->
+        <!-- 1p » 3s -->
+        <rule regex="(.*)angid" format="{1}" />
+        <rule regex="(.*)nangid" format="{1}N" />
+        <rule regex="(.*n)angid" format="{1}N" />
+        <rule regex="(.*)sangid" format="{1}S" />
+        <!-- 1p » 3p -->
+        <rule regex="(.*)angidwaa" format="{1}" />
+        <rule regex="(.*)nangidwaa" format="{1}N" />
+        <rule regex="(.*n)angidwaa" format="{1}N" />
+        <rule regex="(.*)sangidwaa" format="{1}S" />
+        <!-- 1p topic inverse -->
+        <!-- 1p « X -->
+        <rule regex="(.*)igooyaang" format="{1}" />
+        <rule regex="(.*)ogooyaang" format="{1}w" />
+        <rule regex="(.*)aagooyaang" format="{1}aw" />
+        <rule regex="(.*)nigooyaang" format="{1}N" />
+        <rule regex="(.*n)igooyaang" format="{1}N" />
+        <rule regex="(.*)sigooyaang" format="{1}S" />
+        <!-- 1p « 3s -->
+        <rule regex="(.*)iyangid" format="{1}" />
+        <rule regex="(.*)oyangid" format="{1}" />
+        <rule regex="(.*)zhiyangid" format="{1}N" />
+        <rule regex="(.*)shiyangid" format="{1}S" />
+        <!-- 1p « 3p -->
+        <rule regex="(.*)iyangidwaa" format="{1}" />
+        <rule regex="(.*)oyangidwaa" format="{1}" />
+        <rule regex="(.*)zhiyangidwaa" format="{1}N" />
+        <rule regex="(.*)shiyangidwaa" format="{1}S" />
+        <!-- 3s topic direct -->
+        <!-- 3s » 3' -->
+        <rule regex="(.*)aad" format="{1}" />
+        <rule regex="(.*)naad" format="{1}N" />
+        <rule regex="(.*n)aad" format="{1}N" />
+        <rule regex="(.*)saad" format="{1}S" />
+        <!-- 3s topic inverse -->
+        <!-- 3s « 3' -->
+        <rule regex="(.*)igod" format="{1}" />
+        <rule regex="(.*)ogod" format="{1}w" />
+        <rule regex="(.*)aagod" format="{1}aw" />
+        <rule regex="(.*)nigod" format="{1}N" />
+        <rule regex="(.*n)igod" format="{1}N" />
+        <rule regex="(.*)sigod" format="{1}S" />
+        <!-- 3p reflexive -->
+        <rule regex="(.*)idizowaad" format="{1}" />
+        <rule regex="(.*)ndizowaad" format="{1}m" />
+        <rule regex="(.*)odizowaad" format="{1}w" />
+        <rule regex="(.*)aadizowaad" format="{1}aw" />
+        <rule regex="(.*)nidizowaad" format="{1}N" />
+        <rule regex="(.*n)idizowaad" format="{1}N" />
+        <rule regex="(.*)sidizowaad" format="{1}S" />
+        <!-- 3p topic direct -->
+        <!-- 3p » 3' -->
+        <rule regex="(.*)aawaad" format="{1}" />
+        <rule regex="(.*)naawaad" format="{1}N" />
+        <rule regex="(.*n)aawaad" format="{1}N" />
+        <rule regex="(.*)saawaad" format="{1}S" />
+        <!-- 3p topic inverse -->
+        <!-- 3p « 3' -->
+        <rule regex="(.*)igowaad" format="{1}" />
+        <rule regex="(.*)ogowaad" format="{1}w" />
+        <rule regex="(.*)aagowaad" format="{1}aw" />
+        <rule regex="(.*)nigowaad" format="{1}N" />
+        <rule regex="(.*n)igowaad" format="{1}N" />
+        <rule regex="(.*)sigowaad" format="{1}S" />
+    </rule-set>
+    <rule-set name="vtaParticipleRules">
+        <rule regex="(.*)a[dg]" format="{1}" />
+        <rule regex="(.*)na[dg]" format="{1}N" />
+        <rule regex="(.*n)a[dg]" format="{1}N" />
+        <rule regex="(.*)sa[dg]" format="{1}S" />
+        <rule regex="(.*)i[dk]" format="{1}" />
+        <rule regex="(.*)aa(?:ni)jin" format="{1}" />
+        <rule regex="(.*)igojin" format="{1}" />
+        <rule regex="(.*)igoyaanh" format="{1}" />
+        <rule regex="(.*)igoyin" format="{1}" />
+        <rule regex="(.*)igod" format="{1}" />
+        <rule regex="(.*)ijig" format="{1}" />
+        <rule regex="(.*)igoyinig" format="{1}" />
+        <rule regex="(.*)aa(?:waa)ji[gn]" format="{1}" />
+        <rule regex="(.*)igoyaanin" format="{1}" />
+        <rule regex="(.*)igoyinin" format="{1}" />
+        <rule regex="(.*)igojin" format="{1}" />
+        <rule regex="(.*)iminjin" format="{1}" />
+        <rule regex="(.*)a[gj]ig" format="{1}" />
+        <rule regex="(.*)gojin" format="{1}" />
+        <rule regex="(.*)igoyaa?ngi[gn]" format="{1}" />
+        <rule regex="(.*)igoyego[gn]" format="{1}" />
+        <rule regex="(.*)igowaajin" format="{1}" />
+    </rule-set>
+    <rule-set name="vtaImperativeRules">
+        <!-- immediate -->
+        <!-- 2s reflexive -->
+        <rule regex="(.*)idizon" format="{1}" />
+        <rule regex="(.*)odizon" format="{1}w" />
+        <rule regex="(.*)zhidizon" format="{1}N" />
+        <rule regex="(.*)shidizon" format="{1}S" />
+        <!-- 2s » 1s -->
+        <rule regex="(.*)ishin" format="{1}" />
+        <rule regex="(.*)oshin" format="{1}w" />
+        <rule regex="(.*)zhishin" format="{1}N" />
+        <rule regex="(.*)shishin" format="{1}S" />
+        <!-- 2s » 1p -->
+        <!-- 2p » 1p -->
+        <rule regex="(.*)ishinaam" format="{1}" />
+        <rule regex="(.*)oshinaam" format="{1}w" />
+        <rule regex="(.*)zhishinaam" format="{1}N" />
+        <rule regex="(.*)shishinaam" format="{1}S" />
+        <!-- 2s » 3s -->
+        <!-- 2s » 3p -->
+        <rule regex="(.*)" format="{1}" />
+        <rule regex="(.*)" format="{1}w" />
+        <rule regex="(.*)zh" format="{1}N" />
+        <rule regex="(.*)sh" format="{1}S" />
+        <!-- 2p reflexive -->
+        <rule regex="(.*)idizog" format="{1}" />
+        <rule regex="(.*)odizog" format="{1}w" />
+        <rule regex="(.*)aadizog" format="{1}aw" />
+        <rule regex="(.*)zhidizog" format="{1}N" />
+        <rule regex="(.*)shidizog" format="{1}S" />
+        <!-- 2p reciprocal -->
+        <rule regex="(.*)idig" format="{1}" />
+        <rule regex="(.*)odig" format="{1}w" />
+        <rule regex="(.*)zhidig" format="{1}N" />
+        <rule regex="(.*)shidig" format="{1}S" />
+        <!-- 2p » 1s -->
+        <rule regex="(.*)ishig" format="{1}" />
+        <rule regex="(.*)oshig" format="{1}w" />
+        <rule regex="(.*)zhishig" format="{1}N" />
+        <rule regex="(.*)shishig" format="{1}S" />
+        <!-- 2p » 3s -->
+        <!-- 2p » 3p -->
+        <rule regex="(.*)ig" format="{1}" />
+        <rule regex="(.*)og" format="{1}w" />
+        <rule regex="(.*)zhig" format="{1}N" />
+        <rule regex="(.*)shig" format="{1}S" />
+        <!-- 12 reflexive -->
+        <rule regex="(.*)idizodaa" format="{1}" />
+        <rule regex="(.*)odizodaa" format="{1}w" />
+        <rule regex="(.*)aadizodaa" format="{1}aw" />
+        <rule regex="(.*)zhidizodaa" format="{1}N" />
+        <rule regex="(.*)shidizodaa" format="{1}S" />
+        <!-- 12 reciprocal -->
+        <rule regex="(.*)ididaa" format="{1}" />
+        <rule regex="(.*)odidaa" format="{1}w" />
+        <rule regex="(.*)aadidaa" format="{1}aw" />
+        <rule regex="(.*)zhididaa" format="{1}N" />
+        <rule regex="(.*)shididaa" format="{1}S" />
+        <!-- 12 » 3s -->
+        <rule regex="(.*)aadaa" format="{1}" />
+        <rule regex="(.*)naadaa" format="{1}N" />
+        <rule regex="(.*n)aadaa" format="{1}N" />
+        <rule regex="(.*)saadaa" format="{1}S" />
+        <!-- 12 » 3p -->
+        <rule regex="(.*)aadaanig" format="{1}" />
+        <rule regex="(.*)naadaanig" format="{1}N" />
+        <rule regex="(.*n)aadaanig" format="{1}N" />
+        <rule regex="(.*)saadaanig" format="{1}S" />
+        <!-- prohibitive -->
+        <!-- 2s reflexive -->
+        <rule regex="(.*)idiziken" format="{1}" />
+        <rule regex="(.*)odiziken" format="{1}w" />
+        <rule regex="(.*)zhidiziken" format="{1}N" />
+        <rule regex="(.*)shidiziken" format="{1}S" />
+        <!-- 2s » 1s -->
+        <rule regex="(.*)ishiken" format="{1}" />
+        <rule regex="(.*)oshiken" format="{1}w" />
+        <rule regex="(.*)zhishiken" format="{1}N" />
+        <rule regex="(.*)shishiken" format="{1}S" />
+        <!-- 2s » 1p -->
+        <!-- 2p » 1p -->
+        <rule regex="(.*)ishikangen" format="{1}" />
+        <rule regex="(.*)oshikangen" format="{1}w" />
+        <rule regex="(.*)zhishikangen" format="{1}N" />
+        <rule regex="(.*)shishikangen" format="{1}S" />
+        <!-- 2s » 3s -->
+        <!-- 2s » 3p -->
+        <rule regex="(.*)aaken" format="{1}" />
+        <rule regex="(.*)naaken" format="{1}N" />
+        <rule regex="(.*n)aaken" format="{1}N" />
+        <rule regex="(.*)saaken" format="{1}S" />
+        <!-- 2p reflexive -->
+        <rule regex="(.*)idizikegon" format="{1}" />
+        <rule regex="(.*)odizikegon" format="{1}w" />
+        <rule regex="(.*)aadizikegon" format="{1}aw" />
+        <rule regex="(.*)zhidizikegon" format="{1}N" />
+        <rule regex="(.*)shidizikegon" format="{1}S" />
+        <!-- 2p reciprocal -->
+        <!--
+        <rule regex="(.*)idig" format="{1}" />
+        <rule regex="(.*)odig" format="{1}w" />
+        <rule regex="(.*)zhidig" format="{1}N" />
+        <rule regex="(.*)shidig" format="{1}S" />
+        -->
+        <!-- 2p » 1s -->
+        <rule regex="(.*)ishig" format="{1}" />
+        <rule regex="(.*)oshig" format="{1}w" />
+        <rule regex="(.*)zhishig" format="{1}N" />
+        <rule regex="(.*)shishig" format="{1}S" />
+        <!-- 2p » 3s -->
+        <!-- 2p » 3p -->
+        <rule regex="(.*)ishikegon" format="{1}" />
+        <rule regex="(.*)oshikegon" format="{1}w" />
+        <rule regex="(.*)zhishikegon" format="{1}N" />
+        <rule regex="(.*)shishikegon" format="{1}S" />
+        <!-- 12 reflexive -->
+        <rule regex="(.*)idizosidaa" format="{1}" />
+        <rule regex="(.*)odizosidaa" format="{1}w" />
+        <rule regex="(.*)aadizosidaa" format="{1}aw" />
+        <rule regex="(.*)zhidizosidaa" format="{1}N" />
+        <rule regex="(.*)shidizosidaa" format="{1}S" />
+        <!-- 12 reciprocal -->
+        <rule regex="(.*)idisidaa" format="{1}" />
+        <rule regex="(.*)odisidaa" format="{1}w" />
+        <rule regex="(.*)aadisidaa" format="{1}aw" />
+        <rule regex="(.*)zhidisidaa" format="{1}N" />
+        <rule regex="(.*)shidisidaa" format="{1}S" />
+        <!-- 12 » 3s -->
+        <rule regex="(.*)aasidaa" format="{1}" />
+        <rule regex="(.*)naasidaa" format="{1}N" />
+        <rule regex="(.*n)aasidaa" format="{1}N" />
+        <rule regex="(.*)saasidaa" format="{1}S" />
+        <!-- 12 » 3p -->
+        <rule regex="(.*)aasidaanig" format="{1}" />
+        <rule regex="(.*)naasidaanig" format="{1}N" />
+        <rule regex="(.*n)aasidaanig" format="{1}N" />
+        <rule regex="(.*)saasidaanig" format="{1}S" />
+    </rule-set>
+    <!--
+        vtiIndependentRules
+        oo stem: biidoon
+        am stem: waabandan
+        i stem: miijin
+        aa stem: ayaan
+    -->
+    <rule-set name="vtiIndependentRules">
+        <!-- positive -->
+        <!-- 2s » 0s -->
+        <!-- 1s » 0s -->
+        <!-- 3s » 0s -->
+        <rule regex="(.*)oon" format="{1}" />
+        <rule regex="(.*)aan" format="{1}" />
+        <rule regex="(.*a)an" format="{1}" />
+        <rule regex="(.*i)n" format="{1}" />
+        <rule regex="(.*aa)n" format="{1}" />
+        <!-- 2s » 0p -->
+        <!-- 1s » 0p -->
+        <!-- 3s » 0p -->
+        <rule regex="(.*)oonan" format="{1}" />
+        <rule regex="(.*)aanan" format="{1}" />
+        <rule regex="(.*a)anan" format="{1}" />
+        <rule regex="(.*i)nan" format="{1}" />
+        <rule regex="(.*aa)nan" format="{1}" />
+        <!-- 12 » 0 -->
+        <!-- 1p » 0 -->
+        <rule regex="(.*)oomin" format="{1}" />
+        <rule regex="(.*)aamin" format="{1}" />
+        <rule regex="(.*a)amin" format="{1}" />
+        <rule regex="(.*i)min" format="{1}" />
+        <rule regex="(.*aa)min" format="{1}" />
+        <!-- 2p » 0s -->
+        <rule regex="(.*)oonaaawaa" format="{1}" />
+        <rule regex="(.*)aanaaawaa" format="{1}" />
+        <rule regex="(.*a)anaaawaa" format="{1}" />
+        <rule regex="(.*i)naaawaa" format="{1}" />
+        <rule regex="(.*aa)naaawaa" format="{1}" />
+        <!-- 2p » 0p -->
+        <rule regex="(.*)oonaaawaan" format="{1}" />
+        <rule regex="(.*)aanaaawaan" format="{1}" />
+        <rule regex="(.*a)anaaawaan" format="{1}" />
+        <rule regex="(.*i)naaawaan" format="{1}" />
+        <rule regex="(.*aa)naaawaan" format="{1}" />
+        <!-- X » 0 -->
+        <rule regex="(.*)oom" format="{1}" />
+        <rule regex="(.*)aam" format="{1}" />
+        <rule regex="(.*a)am" format="{1}" />
+        <rule regex="(.*i)m" format="{1}" />
+        <rule regex="(.*aa)m" format="{1}" />
+        <!-- 3' » 0 -->
+        <rule regex="(.*)ooni(?:ni)" format="{1}" />
+        <rule regex="(.*)amini(?:ni)" format="{1}" />
+        <rule regex="(.*a)a[mn]ini" format="{1}" />
+        <rule regex="(.*i)ni(?:ni)" format="{1}" />
+        <rule regex="(.*aa)[mn]ini" format="{1}" />
+        <!-- negative -->
+        <!-- 2s » 0s -->
+        <!-- 1s » 0s -->
+        <!-- 3s » 0s -->
+        <rule regex="(.*)oosiin" format="{1}" />
+        <rule regex="(.*)anziin" format="{1}" />
+        <rule regex="(.*a)anziin" format="{1}" />
+        <rule regex="(.*i)n?siin" format="{1}" />
+        <rule regex="(.*aa)nziin" format="{1}" />
+        <!-- 2s » 0p -->
+        <!-- 1s » 0p -->
+        <!-- 3s » 0p -->
+        <rule regex="(.*)oosiinan" format="{1}" />
+        <rule regex="(.*)anziinan" format="{1}" />
+        <rule regex="(.*a)anziinan" format="{1}" />
+        <rule regex="(.*i)n?siinan" format="{1}" />
+        <rule regex="(.*aa)nziinan" format="{1}" />
+        <!-- 2p » 0s -->
+        <rule regex="(.*)oosiinaaawaa" format="{1}" />
+        <rule regex="(.*)aanziinaaawaa" format="{1}" />
+        <rule regex="(.*a)anziinaaawaa" format="{1}" />
+        <rule regex="(.*i)n?siinaaawaa" format="{1}" />
+        <rule regex="(.*aa)nziinaaawaa" format="{1}" />
+        <!-- 2p » 0p -->
+        <rule regex="(.*)oosiinaaawaan" format="{1}" />
+        <rule regex="(.*)aanziinaaawaan" format="{1}" />
+        <rule regex="(.*a)anziinaaawaan" format="{1}" />
+        <rule regex="(.*i)n?siinaaawaan" format="{1}" />
+        <rule regex="(.*aa)nziinaaawaan" format="{1}" />
+        <!-- 12 » 0 -->
+        <!-- 1p » 0 -->
+        <rule regex="(.*)oosiimin" format="{1}" />
+        <rule regex="(.*)aanziimin" format="{1}" />
+        <rule regex="(.*a)anziimin" format="{1}" />
+        <rule regex="(.*i)n?siimin" format="{1}" />
+        <rule regex="(.*aa)nziimin" format="{1}" />
+        <!-- X » 0 -->
+        <rule regex="(.*)oosiin" format="{1}" />
+        <rule regex="(.*)aasiin" format="{1}" />
+        <rule regex="(.*a)asiin" format="{1}" />
+        <rule regex="(.*i)n?siin" format="{1}" />
+        <rule regex="(.*aa)siin" format="{1}" />
+        <!-- 3' » 0 -->
+        <rule regex="(.*)oosiinini" format="{1}" />
+        <rule regex="(.*)anziinini" format="{1}" />
+        <rule regex="(.*a)anziinini" format="{1}" />
+        <rule regex="(.*i)n?siinini" format="{1}" />
+        <rule regex="(.*aa)nziinini" format="{1}" />
+    </rule-set>
+    <!--
+        vtiConjunctRules
+    -->
+    <rule-set name="vtiConjunctRules">
+        <!-- positive -->
+        <!-- 2s » 0 -->
+        <rule regex="(.*)ooyan" format="{1}" />
+        <rule regex="(.*)aman" format="{1}" />
+        <rule regex="(.*a)aman" format="{1}" />
+        <rule regex="(.*i)yan" format="{1}" />
+        <rule regex="(.*aa)man" format="{1}" />
+        <!-- 2p » 0 -->
+        <rule regex="(.*)ooyeg" format="{1}" />
+        <rule regex="(.*)ameg" format="{1}" />
+        <rule regex="(.*a)ameg" format="{1}" />
+        <rule regex="(.*i)yeg" format="{1}" />
+        <rule regex="(.*aa)meg" format="{1}" />
+        <!-- 12 » 0 -->
+        <rule regex="(.*)ooyaang" format="{1}" />
+        <rule regex="(.*)amaang" format="{1}" />
+        <rule regex="(.*a)amaang" format="{1}" />
+        <rule regex="(.*i)yaang" format="{1}" />
+        <rule regex="(.*aa)maang" format="{1}" />
+        <!-- 1s » 0 -->
+        <rule regex="(.*)ooyaan" format="{1}" />
+        <rule regex="(.*)amaan" format="{1}" />
+        <rule regex="(.*a)amaan" format="{1}" />
+        <rule regex="(.*i)yaan" format="{1}" />
+        <rule regex="(.*aa)maan" format="{1}" />
+        <!-- 1p » 0 -->
+        <rule regex="(.*)ooyang" format="{1}" />
+        <rule regex="(.*)amang" format="{1}" />
+        <rule regex="(.*a)amang" format="{1}" />
+        <rule regex="(.*i)yang" format="{1}" />
+        <rule regex="(.*aa)mang" format="{1}" />
+        <!-- 3s » 0 -->
+        <rule regex="(.*)ood" format="{1}" />
+        <rule regex="(.*)ang" format="{1}" />
+        <rule regex="(.*a)ang" format="{1}" />
+        <rule regex="(.*i)d" format="{1}" />
+        <rule regex="(.*aa)ng" format="{1}" />
+        <!-- 3p » 0 -->
+        <rule regex="(.*)oowaad" format="{1}" />
+        <rule regex="(.*)amowaad" format="{1}" />
+        <rule regex="(.*a)amowaad" format="{1}" />
+        <rule regex="(.*i)waad" format="{1}" />
+        <rule regex="(.*aa)mowaad" format="{1}" />
+        <!-- 3' » 0 -->
+        <rule regex="(.*)oonid" format="{1}" />
+        <rule regex="(.*)aminid" format="{1}" />
+        <rule regex="(.*a)aminid" format="{1}" />
+        <rule regex="(.*i)nid" format="{1}" />
+        <rule regex="(.*aa)minid" format="{1}" />
+        <!-- negative -->
+        <!-- 2s » 0 -->
+        <rule regex="(.*)oosiwan" format="{1}" />
+        <rule regex="(.*)anziwan" format="{1}" />
+        <rule regex="(.*a)anziwan" format="{1}" />
+        <rule regex="(.*i)siwan" format="{1}" />
+        <rule regex="(.*aa)nziwan" format="{1}" />
+        <!-- 2p » 0 -->
+        <rule regex="(.*)oosiweg" format="{1}" />
+        <rule regex="(.*)anziweg" format="{1}" />
+        <rule regex="(.*a)anziweg" format="{1}" />
+        <rule regex="(.*i)siweg" format="{1}" />
+        <rule regex="(.*aa)nziweg" format="{1}" />
+        <!-- 12 » 0 -->
+        <rule regex="(.*)oosiwaang" format="{1}" />
+        <rule regex="(.*)anziwaang" format="{1}" />
+        <rule regex="(.*a)anziwaang" format="{1}" />
+        <rule regex="(.*i)siwaang" format="{1}" />
+        <rule regex="(.*aa)nziwaang" format="{1}" />
+        <!-- 1s » 0 -->
+        <rule regex="(.*)oosiwaan" format="{1}" />
+        <rule regex="(.*)anziwaan" format="{1}" />
+        <rule regex="(.*a)anziwaan" format="{1}" />
+        <rule regex="(.*i)siwaan" format="{1}" />
+        <rule regex="(.*aa)nziwaan" format="{1}" />
+        <!-- 1p » 0 -->
+        <rule regex="(.*)oosiwang" format="{1}" />
+        <rule regex="(.*)anziwang" format="{1}" />
+        <rule regex="(.*a)anziwang" format="{1}" />
+        <rule regex="(.*i)siwang" format="{1}" />
+        <rule regex="(.*aa)nziwang" format="{1}" />
+        <!-- 3s » 0 -->
+        <rule regex="(.*)oosig" format="{1}" />
+        <rule regex="(.*)anzig" format="{1}" />
+        <rule regex="(.*a)ang" format="{1}" />
+        <rule regex="(.*i)sig" format="{1}" />
+        <rule regex="(.*aa)ng" format="{1}" />
+        <!-- 3p » 0 -->
+        <rule regex="(.*)oosigwaa" format="{1}" />
+        <rule regex="(.*)anzigwaa" format="{1}" />
+        <rule regex="(.*a)anzigwaa" format="{1}" />
+        <rule regex="(.*i)sigwaa" format="{1}" />
+        <rule regex="(.*aa)nzigwaa" format="{1}" />
+        <!-- 3' » 0 -->
+        <rule regex="(.*)oosig" format="{1}" />
+        <rule regex="(.*)anzig" format="{1}" />
+        <rule regex="(.*a)anzig" format="{1}" />
+        <rule regex="(.*i)sig" format="{1}" />
+        <rule regex="(.*aa)nzig" format="{1}" />
+    </rule-set>
+    <!--
+        vtiConjunctPreteriteRules
+    -->
+    <rule-set name="vtiConjunctPreteriteRules">
+        <!-- positive -->
+        <!-- 2s » 0 -->
+        <rule regex="(.*)ooyamban" format="{1}" />
+        <rule regex="(.*)amamban" format="{1}" />
+        <rule regex="(.*a)amamban" format="{1}" />
+        <rule regex="(.*i)yamban" format="{1}" />
+        <rule regex="(.*aa)mamban" format="{1}" />
+        <!-- 2p » 0 -->
+        <rule regex="(.*)ooyegiban" format="{1}" />
+        <rule regex="(.*)amegiban" format="{1}" />
+        <rule regex="(.*a)amegiban" format="{1}" />
+        <rule regex="(.*i)yegiban" format="{1}" />
+        <rule regex="(.*aa)megiban" format="{1}" />
+        <!-- 12 » 0 -->
+        <rule regex="(.*)ooyangiban" format="{1}" />
+        <rule regex="(.*)amangiban" format="{1}" />
+        <rule regex="(.*a)amangiban" format="{1}" />
+        <rule regex="(.*i)yangiban" format="{1}" />
+        <rule regex="(.*aa)mangiban" format="{1}" />
+        <!-- 1s » 0 -->
+        <rule regex="(.*)ooyaamban" format="{1}" />
+        <rule regex="(.*)amaambaan" format="{1}" />
+        <rule regex="(.*a)amaambaan" format="{1}" />
+        <rule regex="(.*i)yaamban" format="{1}" />
+        <rule regex="(.*aa)maambaan" format="{1}" />
+        <!-- 1p » 0 -->
+        <rule regex="(.*)ooyaangiban" format="{1}" />
+        <rule regex="(.*)amaangiban" format="{1}" />
+        <rule regex="(.*a)amaangiban" format="{1}" />
+        <rule regex="(.*i)yaangiban" format="{1}" />
+        <rule regex="(.*aa)maangiban" format="{1}" />
+        <!-- X » 0 -->
+        <rule regex="(.*)oowingiban" format="{1}" />
+        <rule regex="(.*)amingiban" format="{1}" />
+        <rule regex="(.*a)amingiban" format="{1}" />
+        <rule regex="(.*i)wingiban" format="{1}" />
+        <rule regex="(.*aa)mingiban" format="{1}" />
+        <!-- 3s » 0 -->
+        <rule regex="(.*)ooyangiban" format="{1}" />
+        <rule regex="(.*)amangiban" format="{1}" />
+        <rule regex="(.*a)amangiban" format="{1}" />
+        <rule regex="(.*i)yangiban" format="{1}" />
+        <rule regex="(.*aa)mangiban" format="{1}" />
+        <!-- 3p » 0 -->
+        <rule regex="(.*)oowaapan" format="{1}" />
+        <rule regex="(.*)amowaapan" format="{1}" />
+        <rule regex="(.*a)amowaapan" format="{1}" />
+        <rule regex="(.*i)waapan" format="{1}" />
+        <rule regex="(.*aa)mowaapan" format="{1}" />
+        <!-- 3' » 0 -->
+        <rule regex="(.*)ooyanipan" format="{1}" />
+        <rule regex="(.*)amanipan" format="{1}" />
+        <rule regex="(.*a)amanipan" format="{1}" />
+        <rule regex="(.*i)yanipan" format="{1}" />
+        <rule regex="(.*aa)manipan" format="{1}" />
+    </rule-set>
+    <!--
+        vtiImperativeRules
+    -->
+    <rule-set name="vtiImperativeRules">
+        <!-- immediate -->
+        <rule regex="(.*)oon" format="{1}" />
+        <rule regex="(.*)an" format="{1}" />
+        <rule regex="(.*a)an" format="{1}" />
+        <rule regex="(.*i)n" format="{1}" />
+        <rule regex="(.*aa)n" format="{1}" />
+
+        <rule regex="(.*)ooyok" format="{1}" />
+        <rule regex="(.*)amok" format="{1}" />
+        <rule regex="(.*a)amok" format="{1}" />
+        <rule regex="(.*i)yok" format="{1}" />
+        <rule regex="(.*aa)mok" format="{1}" />
+
+        <rule regex="(.*)oodaa" format="{1}" />
+        <rule regex="(.*)andaa" format="{1}" />
+        <rule regex="(.*a)andaa" format="{1}" />
+        <rule regex="(.*i)daa" format="{1}" />
+        <rule regex="(.*aa)ndaa" format="{1}" />
+        <!-- prohibitive -->
+        <rule regex="(.*)ooken" format="{1}" />
+        <rule regex="(.*)angen" format="{1}" />
+        <rule regex="(.*a)angen" format="{1}" />
+        <rule regex="(.*i)ken" format="{1}" />
+        <rule regex="(.*aa)ngen" format="{1}" />
+
+        <rule regex="(.*)ookegon" format="{1}" />
+        <rule regex="(.*)angegon" format="{1}" />
+        <rule regex="(.*a)angegon" format="{1}" />
+        <rule regex="(.*i)kegon" format="{1}" />
+        <rule regex="(.*aa)ngegon" format="{1}" />
+
+        <rule regex="(.*)oosidaa" format="{1}" />
+        <rule regex="(.*)anzidaa" format="{1}" />
+        <rule regex="(.*a)anzidaa" format="{1}" />
+        <rule regex="(.*i)sidaa" format="{1}" />
+        <rule regex="(.*aa)nzidaa" format="{1}" />
+    </rule-set>
+    <!--
+        vtiConjunctParticipleRules
+        includes lengthening of first vowel
+    -->
+    <rule-set name="vtiConjunctParticipleRules">
+        <rule regex="(.*)ooyaan" format="{1}" />
+        <rule regex="(.*)amaan" format="{1}" />
+        <rule regex="(.*a)amaan" format="{1}" />
+        <rule regex="(.*i)yaan" format="{1}" />
+        <rule regex="(.*aa)maan" format="{1}" />
+
+        <rule regex="(.*)ooyan" format="{1}" />
+        <rule regex="(.*)aman" format="{1}" />
+        <rule regex="(.*a)aman" format="{1}" />
+        <rule regex="(.*i)yan" format="{1}" />
+        <rule regex="(.*aa)man" format="{1}" />
+
+        <rule regex="(.*)ood" format="{1}" />
+        <rule regex="(.*)ang" format="{1}" />
+        <rule regex="(.*a)ang" format="{1}" />
+        <rule regex="(.*i)d" format="{1}" />
+        <rule regex="(.*aa)ng" format="{1}" />
+
+        <rule regex="(.*)oonijin" format="{1}" />
+        <rule regex="(.*)aminijin" format="{1}" />
+        <rule regex="(.*a)aminijin" format="{1}" />
+        <rule regex="(.*i)nijin" format="{1}" />
+        <rule regex="(.*aa)minijin" format="{1}" />
+
+        <rule regex="(.*)ooyaang" format="{1}" />
+        <rule regex="(.*)amaang" format="{1}" />
+        <rule regex="(.*a)amaang" format="{1}" />
+        <rule regex="(.*i)yaang" format="{1}" />
+        <rule regex="(.*aa)maang" format="{1}" />
+
+        <rule regex="(.*)ooyang" format="{1}" />
+        <rule regex="(.*)amang" format="{1}" />
+        <rule regex="(.*a)amang" format="{1}" />
+        <rule regex="(.*i)yang" format="{1}" />
+        <rule regex="(.*aa)mang" format="{1}" />
+
+        <rule regex="(.*)ooyeg" format="{1}" />
+        <rule regex="(.*)ameg" format="{1}" />
+        <rule regex="(.*a)ameg" format="{1}" />
+        <rule regex="(.*i)yeg" format="{1}" />
+        <rule regex="(.*aa)meg" format="{1}" />
+
+        <rule regex="(.*)oojig" format="{1}" />
+        <rule regex="(.*)angig" format="{1}" />
+        <rule regex="(.*a)angig" format="{1}" />
+        <rule regex="(.*i)jig" format="{1}" />
+        <rule regex="(.*aa)ngig" format="{1}" />
+    </rule-set>
+</stem-rules>
