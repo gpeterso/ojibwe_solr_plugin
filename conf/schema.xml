@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema name="Hydra" version="1.5">
+<schema name="ojibwe-drupal" version="0.1">
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SchemaXml,
      as well as the default schema file included with Solr -->
@@ -7,177 +7,22 @@
   <uniqueKey>id</uniqueKey>
 
   <fields>
-
    <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
          or Solr won't start. _version_ and update log are required for SolrCloud
     -->
     <field name="_version_" type="long" indexed="true" stored="true"/>
     <field name="id" type="string" stored="true" indexed="true" multiValued="false" required="true"/>
     <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
-    <field name="lat" type="tdouble" stored="true" indexed="true" multiValued="false"/>
-    <field name="lng" type="tdouble" stored="true" indexed="true" multiValued="false"/>
-
-    <!--these fields are hard coded in places in hydra-head -->
-    <field name="active_fedora_model_s" type="string" stored="true" indexed="true"/>
-    <field name="object_profile_display" type="string" stored="true" indexed="true"/>
-    <field name="has_model_s" type="string" stored="true" indexed="true"/>
-    <field name="is_governed_by_s" type="string" stored="true" indexed="true"/>
-
-
-    <!-- NOTE:  not all possible Solr field types are represented in the dynamic fields -->
-
-    <!-- text (_t...) -->
-    <dynamicField name="*_ti" type="text" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_tim" type="text" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_ts" type="text" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_tsm" type="text" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_tsi" type="text" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_tsim" type="text" stored="true" indexed="true" multiValued="true"/>
-    <dynamicField name="*_tiv" type="text" stored="false" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_timv" type="text" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_tsiv" type="text" stored="true" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_tsimv" type="text" stored="true" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
-
-    <!-- English text (_te...) -->
-    <dynamicField name="*_tei" type="text_en" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_teim" type="text_en" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_tes" type="text_en" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_tesm" type="text_en" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_tesi" type="text_en" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_tesim" type="text_en" stored="true" indexed="true" multiValued="true"/>
-    <dynamicField name="*_teiv" type="text_en" stored="false" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_teimv" type="text_en" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_tesiv" type="text_en" stored="true" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_tesimv" type="text_en" stored="true" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
-
-    <!-- string (_s...) -->
-    <dynamicField name="*_si" type="string" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_sim" type="string" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_ss" type="string" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_ssm" type="string" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_ssi" type="string" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true"/>
-    <dynamicField name="*_ssort" type="alphaSort" stored="false" indexed="true" multiValued="false"/>
-
-    <!-- integer (_i...) -->
-    <dynamicField name="*_ii" type="int" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_iim" type="int" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_is" type="int" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_ism" type="int" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_isi" type="int" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_isim" type="int" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- trie integer (_it...) (for faster range queries) -->
-    <dynamicField name="*_iti" type="tint" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_itim" type="tint" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_its" type="tint" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_itsm" type="tint" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_itsi" type="tint" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_itsim" type="tint" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- date (_dt...) -->
-    <!-- The format for this date field is of the form 1995-12-31T23:59:59Z
-         Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z -->
-    <dynamicField name="*_dti" type="date" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dtim" type="date" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_dts" type="date" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_dtsm" type="date" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_dtsi" type="date" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dtsim" type="date" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- trie date (_dtt...) (for faster range queries) -->
-    <dynamicField name="*_dtti" type="tdate" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dttim" type="tdate" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_dtts" type="tdate" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_dttsm" type="tdate" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_dttsi" type="tdate" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dttsim" type="tdate" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- long (_l...) -->
-    <dynamicField name="*_li" type="long" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_lim" type="long" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_ls" type="long" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_lsm" type="long" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_lsi" type="long" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_lsim" type="long" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- trie long (_lt...) (for faster range queries) -->
-    <dynamicField name="*_lti" type="tlong" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_ltim" type="tlong" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_lts" type="tlong" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_ltsm" type="tlong" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_ltsi" type="tlong" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_ltsim" type="tlong" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- double (_db...) -->
-    <dynamicField name="*_dbi" type="double" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dbim" type="double" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_dbs" type="double" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_dbsm" type="double" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_dbsi" type="double" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dbsim" type="double" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- trie double (_dbt...) (for faster range queries) -->
-    <dynamicField name="*_dbti" type="tdouble" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dbtim" type="tdouble" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_dbts" type="tdouble" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_dbtsm" type="tdouble" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_dbtsi" type="tdouble" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_dbtsim" type="tdouble" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- float (_f...) -->
-    <dynamicField name="*_fi" type="float" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_fim" type="float" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_fs" type="float" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_fsm" type="float" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_fsi" type="float" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_fsim" type="float" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- trie float (_ft...) (for faster range queries) -->
-    <dynamicField name="*_fti" type="tfloat" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_ftim" type="tfloat" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_fts" type="tfloat" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_ftsm" type="tfloat" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_ftsi" type="tfloat" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_ftsim" type="tfloat" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- boolean (_b...) -->
-    <dynamicField name="*_bi" type="boolean" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_bs" type="boolean" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_bsi" type="boolean" stored="true" indexed="true" multiValued="false"/>
-
-    <!-- Type used to index the lat and lon components for the "location" FieldType -->
-    <dynamicField name="*_coordinate" type="tdouble" indexed="true"  stored="false" />
-
-    <!-- location (_ll...) -->
-    <dynamicField name="*_lli" type="location" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_llim" type="location" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_lls" type="location" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_llsm" type="location" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_llsi" type="location" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_llsim" type="location" stored="true" indexed="true" multiValued="true"/>
-
-    <!-- you must define copyField source and dest fields explicity or schemaBrowser doesn't work -->
-    <field name="all_text_timv" type="text" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
-    <field name="title_stemmed" type="text_en" stored="false" indexed="true" multiValued="false"/>
-    <field name="subject_stemmed" type="text_en" stored="false" indexed="true" multiValued="true"/>
-    <field name="creator_stemmed" type="text_en" stored="false" indexed="true" multiValued="true"/>
-    <copyField source="title_ssi" dest="title_stemmed"/>
-    <copyField source="subject_ssim" dest="subject_stemmed"/>
-    <copyField source="creator_ssim" dest="creator_stemmed"/>
-
-    <!-- Fields for the OJIBWE Dictionary -->
+  
+  <!-- Fields for the OJIBWE Dictionary -->
 
     <dynamicField name="ss_*"  type="string"    indexed="true"  stored="true" multiValued="false"/>
     <dynamicField name="ts_*"  type="text"    indexed="true"  stored="true" multiValued="false" termVectors="true"/>
     <dynamicField name="tm_*"  type="text"    indexed="true"  stored="true" multiValued="true" termVectors="true"/>
 
-   <dynamicField name="soj_*" type="string_ojibwe"
-  indexed="true"  stored="true" multiValued="true"/>
-   <dynamicField name="toj_*" type="text_ojibwe"
-  indexed="true"  stored="true" multiValued="true" termVectors="true"/>
-   <dynamicField name="xoj_*" type="exact_ojibwe"
-  indexed="true"  stored="true" multiValued="true" termVectors="true"/>
+   <dynamicField name="soj_*" type="string_ojibwe" indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="toj_*" type="text_ojibwe" indexed="true"  stored="true" multiValued="true" termVectors="true"/>
+   <dynamicField name="xoj_*" type="exact_ojibwe" indexed="true"  stored="true" multiValued="true" termVectors="true"/>
 
    <!-- stored for debugging; remove this before putting into production -->
    <field name="sort_ss_field_lemma" type="sortString"
@@ -185,73 +30,50 @@
 
    <!-- Fields that ARE NOT stemmed on indexing -->
 
-   <copyField source="ss_cck_field_compounding_form"
-          dest="soj_field_compounding_form" />
-   <copyField source="ss_cck_field_plural_suffix"
-          dest="soj_field_plural_suffix" />
-   <copyField source="ss_cck_field_word_stem"
-          dest="soj_field_word_stem" />
-   <copyField source="soj_field_word_family"
-          dest="toj_field_word_family" />
+   <copyField source="ss_cck_field_compounding_form" dest="soj_field_compounding_form" />
+   <copyField source="ss_cck_field_plural_suffix" dest="soj_field_plural_suffix" />
+   <copyField source="ss_cck_field_word_stem" dest="soj_field_word_stem" />
+   <copyField source="soj_field_word_family" dest="toj_field_word_family" />
 
    <!-- Fields that ARE stemmed on indexing -->
 
-   <field name="soj_field_lemma" type="text_ojibwe"
-          indexed="true" stored="true" multiValued="false" />
-   <copyField source="ss_cck_field_lemma"
-          dest="soj_field_lemma" />
-   <copyField source="ts_cck_field_keyword"
-          dest="ss_cck_field_keyword" />
+   <field name="soj_field_lemma" type="text_ojibwe" indexed="true" stored="true" multiValued="false" />
+   <copyField source="ss_cck_field_lemma" dest="soj_field_lemma" />
+   <copyField source="ts_cck_field_keyword" dest="ss_cck_field_keyword" />
 
    <!-- Copyfields that are provide a more user-friendly name
         for users doing an advanced search -->
 
-   <field name="lemma" type="text_ojibwe"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="lemma" type="text_ojibwe" indexed="true" stored="true" multiValued="false" />
    <copyField source="soj_field_lemma" dest="lemma" />
-   <field name="word_stem" type="string_ojibwe"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="word_stem" type="string_ojibwe" indexed="true" stored="true" multiValued="false" />
    <copyField source="ss_cck_field_word_stem" dest="word_stem" />
-   <field name="pos_ojibwe" type="string"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="pos_ojibwe" type="string" indexed="true" stored="true" multiValued="false" />
    <copyField source="ts_field_pos_ojibwe" dest="pos_ojibwe" />
-   <field name="gloss" type="text"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="gloss" type="text" indexed="true" stored="true" multiValued="false" />
    <copyField source="ts_field_gloss" dest="gloss" />
-   <field name="word_family" type="exact_ojibwe"
-          indexed="true" stored="true" multiValued="true" />
+   <field name="word_family" type="exact_ojibwe" indexed="true" stored="true" multiValued="true" />
    <copyField source="xoj_field_word_family" dest="word_family" />
-   <field name="main_entries" type="text_ojibwe"
-          indexed="true" stored="true" multiValued="true" />
+   <field name="main_entries" type="text_ojibwe" indexed="true" stored="true" multiValued="true" />
    <copyField source="toj_field_main_entries" dest="main_entries" />
-   <field name="keywords" type="text"
-          indexed="true" stored="true" multiValued="true" />
+   <field name="keywords" type="text" indexed="true" stored="true" multiValued="true" />
    <copyField source="tm_field_keywords" dest="keywords" />
-   <field name="subject" type="text"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="subject" type="text" indexed="true" stored="true" multiValued="false" />
    <copyField source="ss_field_subject" dest="subject" />
-   <field name="object" type="text"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="object" type="text" indexed="true" stored="true" multiValued="false" />
    <copyField source="ss_field_object" dest="object" />
-   <field name="audio_form" type="string_ojibwe"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="audio_form" type="string_ojibwe" indexed="true" stored="true" multiValued="false" />
    <copyField source="soj_field_audio_form" dest="audio_form" />
-   <field name="audio_word" type="text_ojibwe"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="audio_word" type="text_ojibwe" indexed="true" stored="true" multiValued="false" />
    <copyField source="soj_field_audio_word" dest="audio_word" />
-   <field name="speaker_name" type="string"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="speaker_name" type="string" indexed="true" stored="true" multiValued="false" />
    <copyField source="ss_field_speaker_name" dest="speaker_name" />
-   <field name="speaker_initials" type="string"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="speaker_initials" type="string" indexed="true" stored="true" multiValued="false" />
    <copyField source="ss_field_speaker_initials" dest="speaker_initials" />
-   <field name="speaker_community" type="string"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="speaker_community" type="string" indexed="true" stored="true" multiValued="false" />
    <copyField source="ss_field_speaker_community" dest="speaker_community" />
-   <field name="translation" type="text"
-          indexed="true" stored="true" multiValued="false" />
+   <field name="translation" type="text" indexed="true" stored="true" multiValued="false" />
    <copyField source="ts_cck_field_translation" dest="translation" />
-
 </fields>
 
   <types>
