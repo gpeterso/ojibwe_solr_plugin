@@ -1,5 +1,0 @@
-name = "OPD API"
-description = "A simple API to return batches of OPD nodes serialized into JSON."
-dependencies[] = content
-package = U of M Libraries
-core = "6.x"
