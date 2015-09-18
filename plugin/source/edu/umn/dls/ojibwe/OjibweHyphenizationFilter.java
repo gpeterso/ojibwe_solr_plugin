@@ -36,8 +36,8 @@ public class OjibweHyphenizationFilter extends TokenFilter
         while (this.input.incrementToken()) {
             String token = new String(
                     this.termAttribute.buffer(),
-                    this.offSetAttribute.startOffset(),
-                    this.offSetAttribute.endOffset() - this.offSetAttribute.startOffset() + 1
+                    0,
+                    this.offSetAttribute.endOffset() - this.offSetAttribute.startOffset() - 1
             );
             hyphenate(token);
             if (!this.tokensList.isEmpty()) {
