@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
@@ -12,6 +13,7 @@ public class OjibweHyphenizationFilter extends TokenFilter
 {
     private final CharTermAttribute termAttribute;
     private final PositionIncrementAttribute positionAttribute;
+    private OffsetAttribute offSetAttribute;
     private final List<String> tokensList = new ArrayList();
 
     public OjibweHyphenizationFilter(TokenStream in)
@@ -19,6 +21,7 @@ public class OjibweHyphenizationFilter extends TokenFilter
         super(in);
         this.termAttribute = addAttribute(CharTermAttribute.class);
         this.positionAttribute = addAttribute(PositionIncrementAttribute.class);
+        this.offSetAttribute = (addAttribute(OffsetAttribute.class));
     }
 
     public final boolean incrementToken() throws IOException
@@ -31,7 +34,11 @@ public class OjibweHyphenizationFilter extends TokenFilter
         }
 
         while (this.input.incrementToken()) {
-            String token = new String(this.termAttribute.buffer()).trim();
+            String token = new String(
+                    this.termAttribute.buffer(),
+                    this.offSetAttribute.startOffset(),
+                    this.offSetAttribute.endOffset() - this.offSetAttribute.startOffset() + 1
+            );
             hyphenate(token);
             if (!this.tokensList.isEmpty()) {
                 this.positionAttribute.setPositionIncrement(1);
