@@ -39,7 +39,7 @@ public class StemmerFilter extends TokenFilter
             this.stemmer.setToken(new String(
                 this.termAttribute.buffer(),
                 0,
-                (this.offSetAttribute.endOffset() - this.offSetAttribute.startOffset() - 1)
+                (this.offSetAttribute.endOffset() - this.offSetAttribute.startOffset())
             ));
             if (this.stemmer.hasNext()) {
                 String token = this.stemmer.next();
