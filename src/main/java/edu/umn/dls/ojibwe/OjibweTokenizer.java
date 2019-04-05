@@ -7,14 +7,14 @@ public class OjibweTokenizer extends CharTokenizer
 {
     private Boolean acceptHyphens = Boolean.valueOf(true);
 
-    public OjibweTokenizer(Reader reader)
+    public OjibweTokenizer()
     {
-        this(reader, Boolean.valueOf(false));
+        this(Boolean.valueOf(false));
     }
 
-    public OjibweTokenizer(Reader reader, Boolean acceptHyphens)
+    public OjibweTokenizer(Boolean acceptHyphens)
     {
-        super(reader);
+        super();
         this.acceptHyphens = acceptHyphens;
     }
 

@@ -27,8 +27,9 @@ public class OjibweTokenizerFactory extends TokenizerFactory
         }
     }
 
-    public OjibweTokenizer create(AttributeFactory var1, Reader input)
+    public OjibweTokenizer create(AttributeFactory attributeFactory)
     {
-        return new OjibweTokenizer(input, this.acceptHyphens);
+        // TODO: Consider replacing this with CharTokenizer.fromTokenCharPredicate(...)
+        return new OjibweTokenizer(this.acceptHyphens);
     }
 }
