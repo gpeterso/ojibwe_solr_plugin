@@ -1,0 +1,15 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.apache.lucene:lucene-core:4.10.3'
+    implementation 'org.apache.lucene:lucene-analyzers-common:4.10.3'
+    implementation 'org.apache.solr:solr-core:4.10.3'
+
+    testImplementation 'junit:junit:4.12'
+}
